@@ -1,0 +1,69 @@
+com.example.glicose.app-lifecycle-livedata-2.6.2-0 C:\Users\2306214\.gradle\caches\transforms-3\07694bc5c944582ebd6f084ede763d82\transformed\lifecycle-livedata-2.6.2\res
+com.example.glicose.app-jetified-ui-unit-release-1 C:\Users\2306214\.gradle\caches\transforms-3\0878aa4e740b43cac44f01b169296b2f\transformed\jetified-ui-unit-release\res
+com.example.glicose.app-fragment-1.3.6-2 C:\Users\2306214\.gradle\caches\transforms-3\0e62e0d565e261d781d4750e0c188678\transformed\fragment-1.3.6\res
+com.example.glicose.app-jetified-animation-core-release-3 C:\Users\2306214\.gradle\caches\transforms-3\0e91011afa86f16e274fc0fb9fdd3d79\transformed\jetified-animation-core-release\res
+com.example.glicose.app-jetified-appcompat-resources-1.6.1-4 C:\Users\2306214\.gradle\caches\transforms-3\10284f7c0feb43d84ac650a5d32c454f\transformed\jetified-appcompat-resources-1.6.1\res
+com.example.glicose.app-jetified-ui-test-manifest-1.5.1-5 C:\Users\2306214\.gradle\caches\transforms-3\156c3e6dd17c038c36b810ed0e15fe70\transformed\jetified-ui-test-manifest-1.5.1\res
+com.example.glicose.app-jetified-runtime-release-6 C:\Users\2306214\.gradle\caches\transforms-3\17ab0020b5efdba621787c826c5ee76b\transformed\jetified-runtime-release\res
+com.example.glicose.app-jetified-ui-tooling-preview-release-7 C:\Users\2306214\.gradle\caches\transforms-3\1b82bb713d6c1b1ff0336f65e228adb6\transformed\jetified-ui-tooling-preview-release\res
+com.example.glicose.app-jetified-viewpager2-1.0.0-8 C:\Users\2306214\.gradle\caches\transforms-3\1e82a9cf7e7684c34e9dea0d1b411e3d\transformed\jetified-viewpager2-1.0.0\res
+com.example.glicose.app-jetified-annotation-experimental-1.3.0-9 C:\Users\2306214\.gradle\caches\transforms-3\1f6aea17c6fac40fe6a8a47185d8fbde\transformed\jetified-annotation-experimental-1.3.0\res
+com.example.glicose.app-jetified-foundation-release-10 C:\Users\2306214\.gradle\caches\transforms-3\25b7157b67916397eba831b542cd3cd7\transformed\jetified-foundation-release\res
+com.example.glicose.app-jetified-startup-runtime-1.1.1-11 C:\Users\2306214\.gradle\caches\transforms-3\346e72d16e8799e5b644374baf2008e2\transformed\jetified-startup-runtime-1.1.1\res
+com.example.glicose.app-jetified-runtime-saveable-release-12 C:\Users\2306214\.gradle\caches\transforms-3\3502413439c00dd8d6bb2cb137271cb4\transformed\jetified-runtime-saveable-release\res
+com.example.glicose.app-navigation-runtime-ktx-2.7.4-13 C:\Users\2306214\.gradle\caches\transforms-3\3b9f3faede2d52fce5fb1f3cfb05b7ad\transformed\navigation-runtime-ktx-2.7.4\res
+com.example.glicose.app-jetified-material3-1.1.1-14 C:\Users\2306214\.gradle\caches\transforms-3\40c6bac25a009611ed407a2c93bfae3b\transformed\jetified-material3-1.1.1\res
+com.example.glicose.app-jetified-activity-compose-1.8.0-15 C:\Users\2306214\.gradle\caches\transforms-3\446adb5772b2fa55b1f8754b9e5a0946\transformed\jetified-activity-compose-1.8.0\res
+com.example.glicose.app-jetified-ui-util-release-16 C:\Users\2306214\.gradle\caches\transforms-3\50bc2ffa05cc3073ab28432acf2c6bbf\transformed\jetified-ui-util-release\res
+com.example.glicose.app-recyclerview-1.1.0-17 C:\Users\2306214\.gradle\caches\transforms-3\53c2df899be9185f8ded4f9ec83345cd\transformed\recyclerview-1.1.0\res
+com.example.glicose.app-jetified-emoji2-views-helper-1.4.0-18 C:\Users\2306214\.gradle\caches\transforms-3\568881eac5c971dc1e9fd3ae01986ef1\transformed\jetified-emoji2-views-helper-1.4.0\res
+com.example.glicose.app-jetified-profileinstaller-1.3.0-19 C:\Users\2306214\.gradle\caches\transforms-3\57a4862474108185741ea7c585ea20b2\transformed\jetified-profileinstaller-1.3.0\res
+com.example.glicose.app-core-runtime-2.2.0-20 C:\Users\2306214\.gradle\caches\transforms-3\5d8f26d59d6d66a6811a397d9f2d2606\transformed\core-runtime-2.2.0\res
+com.example.glicose.app-navigation-common-ktx-2.7.4-21 C:\Users\2306214\.gradle\caches\transforms-3\60ef6563f1df58f282a7254632aba5c9\transformed\navigation-common-ktx-2.7.4\res
+com.example.glicose.app-sqlite-framework-2.4.0-22 C:\Users\2306214\.gradle\caches\transforms-3\6949b6db0231430e75fa8c5f74383f63\transformed\sqlite-framework-2.4.0\res
+com.example.glicose.app-sqlite-2.4.0-23 C:\Users\2306214\.gradle\caches\transforms-3\69b67cacc04429c56a35d25284f99a35\transformed\sqlite-2.4.0\res
+com.example.glicose.app-jetified-navigation-compose-2.7.4-24 C:\Users\2306214\.gradle\caches\transforms-3\6c91ea14aa0f5c7e44387aef50224481\transformed\jetified-navigation-compose-2.7.4\res
+com.example.glicose.app-lifecycle-viewmodel-2.6.2-25 C:\Users\2306214\.gradle\caches\transforms-3\6cd37c1e00e6042c805452be5e52c392\transformed\lifecycle-viewmodel-2.6.2\res
+com.example.glicose.app-jetified-lifecycle-runtime-ktx-2.6.2-26 C:\Users\2306214\.gradle\caches\transforms-3\6e57760cbdd08246b024f5d441309d0a\transformed\jetified-lifecycle-runtime-ktx-2.6.2\res
+com.example.glicose.app-jetified-lifecycle-viewmodel-ktx-2.6.2-27 C:\Users\2306214\.gradle\caches\transforms-3\6f51d8f6e4aab7edd9966f9c6493c92d\transformed\jetified-lifecycle-viewmodel-ktx-2.6.2\res
+com.example.glicose.app-constraintlayout-2.0.1-28 C:\Users\2306214\.gradle\caches\transforms-3\6fe092a40c6b2fb19e24f48fcb6d34e0\transformed\constraintlayout-2.0.1\res
+com.example.glicose.app-jetified-emoji2-1.4.0-29 C:\Users\2306214\.gradle\caches\transforms-3\741a0251d5622e1e7b81598528dc1c65\transformed\jetified-emoji2-1.4.0\res
+com.example.glicose.app-core-1.12.0-30 C:\Users\2306214\.gradle\caches\transforms-3\76bce0805041f7acc7caf9713b00dcce\transformed\core-1.12.0\res
+com.example.glicose.app-navigation-runtime-2.7.4-31 C:\Users\2306214\.gradle\caches\transforms-3\790f8e6afc5320640d3bfa4d0b42d9af\transformed\navigation-runtime-2.7.4\res
+com.example.glicose.app-jetified-ui-tooling-release-32 C:\Users\2306214\.gradle\caches\transforms-3\7eb04009a15c4975842d266c23ce2b17\transformed\jetified-ui-tooling-release\res
+com.example.glicose.app-cardview-1.0.0-33 C:\Users\2306214\.gradle\caches\transforms-3\80d4fe2ddacb536057b6c03a61dd16ad\transformed\cardview-1.0.0\res
+com.example.glicose.app-coordinatorlayout-1.1.0-34 C:\Users\2306214\.gradle\caches\transforms-3\840b87c1062f966b64babca50c69611f\transformed\coordinatorlayout-1.1.0\res
+com.example.glicose.app-jetified-lifecycle-viewmodel-compose-2.6.2-35 C:\Users\2306214\.gradle\caches\transforms-3\8601333364edbf9cbdac4a1f73dc38fe\transformed\jetified-lifecycle-viewmodel-compose-2.6.2\res
+com.example.glicose.app-material-1.10.0-36 C:\Users\2306214\.gradle\caches\transforms-3\8b90f0d6a6560a24856e6770dabeea89\transformed\material-1.10.0\res
+com.example.glicose.app-jetified-ui-text-release-37 C:\Users\2306214\.gradle\caches\transforms-3\8bdc3359b5061eb32a8f9a31c12e995c\transformed\jetified-ui-text-release\res
+com.example.glicose.app-jetified-lifecycle-viewmodel-savedstate-2.6.2-38 C:\Users\2306214\.gradle\caches\transforms-3\8e80398f11f1986a097339d9b81cf19e\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.2\res
+com.example.glicose.app-jetified-savedstate-1.2.1-39 C:\Users\2306214\.gradle\caches\transforms-3\92ec1caa7e0b63baa2715832b71c3a52\transformed\jetified-savedstate-1.2.1\res
+com.example.glicose.app-jetified-ui-graphics-release-40 C:\Users\2306214\.gradle\caches\transforms-3\978cbcdb27c00c7c1a9baa7f7c4ee111\transformed\jetified-ui-graphics-release\res
+com.example.glicose.app-jetified-room-ktx-2.6.0-41 C:\Users\2306214\.gradle\caches\transforms-3\9d73147ab1a9539122f6f8af7220e458\transformed\jetified-room-ktx-2.6.0\res
+com.example.glicose.app-jetified-animation-release-42 C:\Users\2306214\.gradle\caches\transforms-3\a0f909de412804efe8b76b15d5b8b6e3\transformed\jetified-animation-release\res
+com.example.glicose.app-room-runtime-2.6.0-43 C:\Users\2306214\.gradle\caches\transforms-3\a17347ba5af9b72bee8d7478e859b5f5\transformed\room-runtime-2.6.0\res
+com.example.glicose.app-lifecycle-livedata-core-2.6.2-44 C:\Users\2306214\.gradle\caches\transforms-3\ad0251a01985ce0f8b4378f7c7d98374\transformed\lifecycle-livedata-core-2.6.2\res
+com.example.glicose.app-jetified-activity-ktx-1.8.0-45 C:\Users\2306214\.gradle\caches\transforms-3\b0ae75e3a54b495e9d7432ff5e27c7ef\transformed\jetified-activity-ktx-1.8.0\res
+com.example.glicose.app-lifecycle-runtime-2.6.2-46 C:\Users\2306214\.gradle\caches\transforms-3\b19542dd20e31efe8256398caef65641\transformed\lifecycle-runtime-2.6.2\res
+com.example.glicose.app-jetified-core-ktx-1.12.0-47 C:\Users\2306214\.gradle\caches\transforms-3\c3cabe2457ac4e55dcd4cedaa2805ff3\transformed\jetified-core-ktx-1.12.0\res
+com.example.glicose.app-jetified-activity-1.8.0-48 C:\Users\2306214\.gradle\caches\transforms-3\cd7e5f52dd942d02603d989b0699b052\transformed\jetified-activity-1.8.0\res
+com.example.glicose.app-jetified-savedstate-ktx-1.2.1-49 C:\Users\2306214\.gradle\caches\transforms-3\ce3343ec533fa22f823db7efa4e4c424\transformed\jetified-savedstate-ktx-1.2.1\res
+com.example.glicose.app-transition-1.2.0-50 C:\Users\2306214\.gradle\caches\transforms-3\cea66aba668a234cea4fe151cc549d0f\transformed\transition-1.2.0\res
+com.example.glicose.app-jetified-material-ripple-release-51 C:\Users\2306214\.gradle\caches\transforms-3\cf4bf802fbbe6611062c9af0bfdc7043\transformed\jetified-material-ripple-release\res
+com.example.glicose.app-jetified-lifecycle-process-2.6.2-52 C:\Users\2306214\.gradle\caches\transforms-3\e6a662164e554a735076c7b2fc9d6250\transformed\jetified-lifecycle-process-2.6.2\res
+com.example.glicose.app-jetified-material-icons-core-release-53 C:\Users\2306214\.gradle\caches\transforms-3\e7febe76b7c2b3f3a5931f2718955225\transformed\jetified-material-icons-core-release\res
+com.example.glicose.app-jetified-ui-tooling-data-release-54 C:\Users\2306214\.gradle\caches\transforms-3\ead1b4900f7201c9d50df1c040b473e1\transformed\jetified-ui-tooling-data-release\res
+com.example.glicose.app-jetified-ui-release-55 C:\Users\2306214\.gradle\caches\transforms-3\ec31aeb41c55020a3bcbe7fe064dc791\transformed\jetified-ui-release\res
+com.example.glicose.app-jetified-customview-poolingcontainer-1.0.0-56 C:\Users\2306214\.gradle\caches\transforms-3\ec9f38ba6c698ec06667ab822e29075a\transformed\jetified-customview-poolingcontainer-1.0.0\res
+com.example.glicose.app-drawerlayout-1.1.1-57 C:\Users\2306214\.gradle\caches\transforms-3\ed5418b31005d40e3fd707e66ec893b1\transformed\drawerlayout-1.1.1\res
+com.example.glicose.app-jetified-ui-geometry-release-58 C:\Users\2306214\.gradle\caches\transforms-3\f3fae3e8a56b975f5c2ae569b1d8d004\transformed\jetified-ui-geometry-release\res
+com.example.glicose.app-navigation-common-2.7.4-59 C:\Users\2306214\.gradle\caches\transforms-3\f5575ecd2e90070a529b45253c049479\transformed\navigation-common-2.7.4\res
+com.example.glicose.app-jetified-foundation-layout-release-60 C:\Users\2306214\.gradle\caches\transforms-3\f78bb541964e091343fa72541afd266f\transformed\jetified-foundation-layout-release\res
+com.example.glicose.app-jetified-material-release-61 C:\Users\2306214\.gradle\caches\transforms-3\f846b04992f7767f6791142a1f7d468f\transformed\jetified-material-release\res
+com.example.glicose.app-appcompat-1.6.1-62 C:\Users\2306214\.gradle\caches\transforms-3\f87ec07eb3d9f170f998da15214d3ed2\transformed\appcompat-1.6.1\res
+com.example.glicose.app-resValues-63 D:\Documentos\Android Projects\RegistroGlicose\app\build\generated\res\resValues\debug
+com.example.glicose.app-packageDebugResources-64 D:\Documentos\Android Projects\RegistroGlicose\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.glicose.app-packageDebugResources-65 D:\Documentos\Android Projects\RegistroGlicose\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.glicose.app-merged_res-66 D:\Documentos\Android Projects\RegistroGlicose\app\build\intermediates\merged_res\debug
+com.example.glicose.app-debug-67 D:\Documentos\Android Projects\RegistroGlicose\app\src\debug\res
+com.example.glicose.app-main-68 D:\Documentos\Android Projects\RegistroGlicose\app\src\main\res

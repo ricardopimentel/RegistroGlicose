@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.glicose.app-mergeDebugResources-65:/values-v25/values-v25.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\2306214\\.gradle\\caches\\transforms-3\\f87ec07eb3d9f170f998da15214d3ed2\\transformed\\appcompat-1.6.1\\res\\values-v25\\values-v25.xml",
+                    "from": {
+                        "startLines": "2,3,4,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,126,209,308",
+                        "endLines": "2,3,5,7",
+                        "endColumns": "70,82,12,12",
+                        "endOffsets": "121,204,303,414"
+                    }
+                }
+            ]
+        }
+    ]
+}

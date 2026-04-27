@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#0f172a</color>
+    <string name="app_name">Registro de Glicose</string>
+    <style name="Theme.Glicose" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        <item name="colorPrimary">#8b5cf6</item>
+        <item name="android:statusBarColor">#0f172a</item>
+        <item name="android:navigationBarColor">#0f172a</item>
+    </style>
+</resources>

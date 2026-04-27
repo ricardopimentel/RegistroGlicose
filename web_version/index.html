@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
+    <title>Controle de Glicose</title>
+    <link rel="stylesheet" href="./src/css/index.css">
+    <link rel="manifest" href="./public/manifest.webmanifest">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header style="padding: 24px 20px 10px 20px;">
+            <h2 id="view-title">Dashboard</h2>
+            <h1 class="text-gradient">Olá!</h1>
+        </header>
+
+        <!-- Dashboard View -->
+        <main id="view-dashboard" class="view">
+            <section class="glass-card animate-up" style="text-align: center; padding: 40px 20px;">
+                <p style="color: var(--text-secondary); margin-bottom: 10px;">Última Medição</p>
+                <div id="latest-value" style="font-size: 3.5rem; font-weight: 800; margin-bottom: 5px;">--</div>
+                <p style="color: var(--text-secondary);">mg/dL</p>
+                <p id="latest-time" style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">Nenhum registro ainda</p>
+            </section>
+
+            <section class="glass-card animate-up" style="padding: 15px;">
+                <h3 style="margin-bottom: 15px; font-size: 1rem;">Evolução Semanal</h3>
+                <canvas id="glucoseChart" style="max-height: 200px;"></canvas>
+            </section>
+        </main>
+
+        <!-- History View -->
+        <main id="view-history" class="view" style="display: none; padding: 0 20px;">
+            <div id="history-list" class="animate-up">
+                <!-- Items will be injected here -->
+            </div>
+            <div id="empty-history" style="text-align: center; padding: 100px 20px; color: var(--text-secondary); display: none;">
+                <i data-lucide="clipboard-list" style="width: 48px; height: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                <p>Nenhum registro encontrado</p>
+            </div>
+        </main>
+
+        <!-- Settings View -->
+        <main id="view-settings" class="view" style="display: none; padding: 0 20px;">
+            <section class="glass-card animate-up">
+                <h3 style="margin-bottom: 15px;">Lembretes</h3>
+                <div id="reminders-list">
+                    <!-- Reminders will be injected here -->
+                </div>
+                <button id="add-reminder-btn" class="btn btn-primary" style="width: 100%; margin-top: 15px;">
+                    <i data-lucide="plus" style="width: 18px;"></i> Novo Lembrete
+                </button>
+            </section>
+
+            <section class="glass-card animate-up" style="margin-top: 20px;">
+                <h3 style="margin-bottom: 15px;">Exportar Dados</h3>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px;">
+                    Gere uma planilha CSV com todos os seus registros para compartilhar com seu médico.
+                </p>
+                <button id="export-btn" class="btn btn-primary" style="width: 100%; background: linear-gradient(135deg, var(--secondary), #22d3ee);">
+                    <i data-lucide="share-2" style="width: 18px;"></i> Exportar e Compartilhar
+                </button>
+            </section>
+        </main>
+
+        <!-- Floating Action Button -->
+        <button id="fab" class="btn btn-primary btn-floating">
+            <i data-lucide="plus" style="width: 32px; height: 32px;"></i>
+        </button>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-view="dashboard">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Início</span>
+            </a>
+            <a href="#" class="nav-item" data-view="history">
+                <i data-lucide="history"></i>
+                <span>Histórico</span>
+            </a>
+            <a href="#" class="nav-item" data-view="settings">
+                <i data-lucide="settings"></i>
+                <span>Ajustes</span>
+            </a>
+        </nav>
+
+        <!-- Entry Modal -->
+        <div id="entry-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;">
+            <div class="glass-card" style="width: 90%; max-width: 400px; position: relative;">
+                <h2 style="margin-bottom: 20px;">Nova Medição</h2>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Valor (mg/dL)</label>
+                    <input type="number" id="input-value" placeholder="000" autofocus inputmode="numeric">
+                </div>
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Nota (opcional)</label>
+                    <input type="text" id="input-note" placeholder="Ex: Em jejum, após almoço">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="cancel-entry" class="btn" style="flex: 1; background: rgba(255,255,255,0.1);">Cancelar</button>
+                    <button id="save-entry" class="btn btn-primary" style="flex: 2;">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="./src/js/main.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./public/sw.js');
+        }
+        
+        // Request Notification Permission
+        if ('Notification' in window) {
+            Notification.requestPermission();
+        }
+    </script>
+</body>
+</html>
