@@ -45,6 +45,10 @@ public final class GlucoseDao_Impl implements GlucoseDao {
 
   private final SharedSQLiteStatement __preparedStmtOfUpdateReminderStatus;
 
+  private final SharedSQLiteStatement __preparedStmtOfDeleteAllForUser;
+
+  private final SharedSQLiteStatement __preparedStmtOfDeleteAllRemindersForUser;
+
   public GlucoseDao_Impl(@NonNull final RoomDatabase __db) {
     this.__db = __db;
     this.__insertionAdapterOfGlucoseRecord = new EntityInsertionAdapter<GlucoseRecord>(__db) {
@@ -130,6 +134,22 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       @NonNull
       public String createQuery() {
         final String _query = "UPDATE reminders SET enabled = ? WHERE id = ?";
+        return _query;
+      }
+    };
+    this.__preparedStmtOfDeleteAllForUser = new SharedSQLiteStatement(__db) {
+      @Override
+      @NonNull
+      public String createQuery() {
+        final String _query = "DELETE FROM glucose_records WHERE userId = ?";
+        return _query;
+      }
+    };
+    this.__preparedStmtOfDeleteAllRemindersForUser = new SharedSQLiteStatement(__db) {
+      @Override
+      @NonNull
+      public String createQuery() {
+        final String _query = "DELETE FROM reminders WHERE userId = ?";
         return _query;
       }
     };
@@ -252,6 +272,58 @@ public final class GlucoseDao_Impl implements GlucoseDao {
           }
         } finally {
           __preparedStmtOfUpdateReminderStatus.release(_stmt);
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object deleteAllForUser(final String userId,
+      final Continuation<? super Unit> $completion) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      @NonNull
+      public Unit call() throws Exception {
+        final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteAllForUser.acquire();
+        int _argIndex = 1;
+        _stmt.bindString(_argIndex, userId);
+        try {
+          __db.beginTransaction();
+          try {
+            _stmt.executeUpdateDelete();
+            __db.setTransactionSuccessful();
+            return Unit.INSTANCE;
+          } finally {
+            __db.endTransaction();
+          }
+        } finally {
+          __preparedStmtOfDeleteAllForUser.release(_stmt);
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object deleteAllRemindersForUser(final String userId,
+      final Continuation<? super Unit> $completion) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      @NonNull
+      public Unit call() throws Exception {
+        final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteAllRemindersForUser.acquire();
+        int _argIndex = 1;
+        _stmt.bindString(_argIndex, userId);
+        try {
+          __db.beginTransaction();
+          try {
+            _stmt.executeUpdateDelete();
+            __db.setTransactionSuccessful();
+            return Unit.INSTANCE;
+          } finally {
+            __db.endTransaction();
+          }
+        } finally {
+          __preparedStmtOfDeleteAllRemindersForUser.release(_stmt);
         }
       }
     }, $completion);

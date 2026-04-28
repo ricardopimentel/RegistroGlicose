@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#0f172a</color>
+    <string name="app_name">Registro de Glicose</string>
+    <string name="default_web_client_id" translatable="false">38287660070-9k5ki0vt71tk48as592lmrlosphqlg19.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">38287660070</string>
+    <string name="google_api_key" translatable="false">AIzaSyClsCa4kHNajddT2CD6L5q9zfMMB5t4yy4</string>
+    <string name="google_app_id" translatable="false">1:38287660070:android:5751333472cf9b847e02e7</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyClsCa4kHNajddT2CD6L5q9zfMMB5t4yy4</string>
+    <string name="google_storage_bucket" translatable="false">registoglicose.firebasestorage.app</string>
+    <string name="project_id" translatable="false">registoglicose</string>
+    <style name="Theme.Glicose" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        <item name="colorPrimary">#8b5cf6</item>
+        <item name="android:statusBarColor">#0f172a</item>
+        <item name="android:navigationBarColor">#0f172a</item>
+    </style>
+</resources>

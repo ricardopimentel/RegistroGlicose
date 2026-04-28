@@ -39,4 +39,10 @@ interface GlucoseDao {
 
     @Query("UPDATE reminders SET enabled = :enabled WHERE id = :id")
     suspend fun updateReminderStatus(id: Int, enabled: Boolean)
+
+    @Query("DELETE FROM glucose_records WHERE userId = :userId")
+    suspend fun deleteAllForUser(userId: String)
+
+    @Query("DELETE FROM reminders WHERE userId = :userId")
+    suspend fun deleteAllRemindersForUser(userId: String)
 }

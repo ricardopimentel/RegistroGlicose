@@ -1188,7 +1188,38 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
             Spacer(Modifier.height(12.dp))
 
             // ── Seção: Conta ──────────────────────────────────────────────────
+            var showClearDataDialog by remember { mutableStateOf(false) }
+            
+            if (showClearDataDialog) {
+                AlertDialog(
+                    onDismissRequest = { showClearDataDialog = false },
+                    icon = { Icon(Icons.Default.DeleteForever, null, tint = MaterialTheme.colorScheme.error) },
+                    title = { Text("Limpar Todos os Dados?") },
+                    text = { Text("Isso removerá permanentemente todos os registros deste dispositivo E da nuvem. Esta ação não pode ser desfeita.") },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                viewModel.clearAllData()
+                                showClearDataDialog = false
+                                Toast.makeText(context, "Todos os dados foram apagados!", Toast.LENGTH_SHORT).show()
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                        ) { Text("Apagar Tudo") }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showClearDataDialog = false }) { Text("Cancelar") }
+                    }
+                )
+            }
+
             SettingsSection(title = "Conta", icon = Icons.Default.AccountCircle) {
+                SettingsNavItem(
+                    icon = Icons.Default.DeleteSweep,
+                    label = "Limpar Todos os Dados",
+                    description = "Apagar registros do celular e da nuvem",
+                    tint = MaterialTheme.colorScheme.error
+                ) { showClearDataDialog = true }
+                Divider(Modifier.padding(vertical = 4.dp))
                 SettingsNavItem(
                     icon = Icons.Default.Logout,
                     label = "Sair da Conta",

@@ -361,4 +361,25 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             onComplete()
         }
     }
+
+    fun clearAllData() {
+        val uid = auth.currentUser?.uid ?: return
+        viewModelScope.launch {
+            // 1. Clear local
+            dao.deleteAllForUser(uid)
+            dao.deleteAllRemindersForUser(uid)
+            
+            // 2. Clear Cloud (Firestore)
+            firestore.collection("glucose_records")
+                .whereEqualTo("userId", uid)
+                .get()
+                .addOnSuccessListener { snapshot ->
+                    val batch = firestore.batch()
+                    snapshot.documents.forEach { doc ->
+                        batch.delete(doc.reference)
+                    }
+                    batch.commit()
+                }
+        }
+    }
 }
