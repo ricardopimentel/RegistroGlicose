@@ -8,5 +8,6 @@ data class GlucoseRecord(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val value: Float,
     val note: String,
-    val timestamp: Long = System.currentTimeMillis()
+    val timestamp: Long = System.currentTimeMillis(),
+    val userId: String = ""
 )

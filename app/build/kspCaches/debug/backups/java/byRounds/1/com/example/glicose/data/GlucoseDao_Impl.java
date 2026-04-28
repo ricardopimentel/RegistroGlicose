@@ -1,6 +1,7 @@
 package com.example.glicose.data;
 
 import android.database.Cursor;
+import android.os.CancellationSignal;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.CoroutinesRoom;
@@ -34,6 +35,8 @@ public final class GlucoseDao_Impl implements GlucoseDao {
 
   private final EntityInsertionAdapter<GlucoseRecord> __insertionAdapterOfGlucoseRecord;
 
+  private final EntityInsertionAdapter<GlucoseRecord> __insertionAdapterOfGlucoseRecord_1;
+
   private final EntityInsertionAdapter<Reminder> __insertionAdapterOfReminder;
 
   private final EntityDeletionOrUpdateAdapter<GlucoseRecord> __deletionAdapterOfGlucoseRecord;
@@ -48,7 +51,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `glucose_records` (`id`,`value`,`note`,`timestamp`) VALUES (nullif(?, 0),?,?,?)";
+        return "INSERT OR ABORT INTO `glucose_records` (`id`,`value`,`note`,`timestamp`,`userId`) VALUES (nullif(?, 0),?,?,?,?)";
       }
 
       @Override
@@ -58,13 +61,31 @@ public final class GlucoseDao_Impl implements GlucoseDao {
         statement.bindDouble(2, entity.getValue());
         statement.bindString(3, entity.getNote());
         statement.bindLong(4, entity.getTimestamp());
+        statement.bindString(5, entity.getUserId());
+      }
+    };
+    this.__insertionAdapterOfGlucoseRecord_1 = new EntityInsertionAdapter<GlucoseRecord>(__db) {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "INSERT OR IGNORE INTO `glucose_records` (`id`,`value`,`note`,`timestamp`,`userId`) VALUES (nullif(?, 0),?,?,?,?)";
+      }
+
+      @Override
+      protected void bind(@NonNull final SupportSQLiteStatement statement,
+          @NonNull final GlucoseRecord entity) {
+        statement.bindLong(1, entity.getId());
+        statement.bindDouble(2, entity.getValue());
+        statement.bindString(3, entity.getNote());
+        statement.bindLong(4, entity.getTimestamp());
+        statement.bindString(5, entity.getUserId());
       }
     };
     this.__insertionAdapterOfReminder = new EntityInsertionAdapter<Reminder>(__db) {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `reminders` (`id`,`hour`,`minute`,`enabled`) VALUES (nullif(?, 0),?,?,?)";
+        return "INSERT OR ABORT INTO `reminders` (`id`,`hour`,`minute`,`enabled`,`userId`) VALUES (nullif(?, 0),?,?,?,?)";
       }
 
       @Override
@@ -75,6 +96,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
         statement.bindLong(3, entity.getMinute());
         final int _tmp = entity.getEnabled() ? 1 : 0;
         statement.bindLong(4, _tmp);
+        statement.bindString(5, entity.getUserId());
       }
     };
     this.__deletionAdapterOfGlucoseRecord = new EntityDeletionOrUpdateAdapter<GlucoseRecord>(__db) {
@@ -122,6 +144,25 @@ public final class GlucoseDao_Impl implements GlucoseDao {
         __db.beginTransaction();
         try {
           __insertionAdapterOfGlucoseRecord.insert(record);
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object insertIgnore(final GlucoseRecord record,
+      final Continuation<? super Unit> $completion) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      @NonNull
+      public Unit call() throws Exception {
+        __db.beginTransaction();
+        try {
+          __insertionAdapterOfGlucoseRecord_1.insert(record);
           __db.setTransactionSuccessful();
           return Unit.INSTANCE;
         } finally {
@@ -217,9 +258,11 @@ public final class GlucoseDao_Impl implements GlucoseDao {
   }
 
   @Override
-  public Flow<List<GlucoseRecord>> getAll() {
-    final String _sql = "SELECT * FROM glucose_records ORDER BY timestamp DESC";
-    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+  public Flow<List<GlucoseRecord>> getAll(final String userId) {
+    final String _sql = "SELECT * FROM glucose_records WHERE userId = ? ORDER BY timestamp DESC";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    _statement.bindString(_argIndex, userId);
     return CoroutinesRoom.createFlow(__db, false, new String[] {"glucose_records"}, new Callable<List<GlucoseRecord>>() {
       @Override
       @NonNull
@@ -230,6 +273,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "value");
           final int _cursorIndexOfNote = CursorUtil.getColumnIndexOrThrow(_cursor, "note");
           final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
+          final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
           final List<GlucoseRecord> _result = new ArrayList<GlucoseRecord>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final GlucoseRecord _item;
@@ -241,7 +285,9 @@ public final class GlucoseDao_Impl implements GlucoseDao {
             _tmpNote = _cursor.getString(_cursorIndexOfNote);
             final long _tmpTimestamp;
             _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
-            _item = new GlucoseRecord(_tmpId,_tmpValue,_tmpNote,_tmpTimestamp);
+            final String _tmpUserId;
+            _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
+            _item = new GlucoseRecord(_tmpId,_tmpValue,_tmpNote,_tmpTimestamp,_tmpUserId);
             _result.add(_item);
           }
           return _result;
@@ -258,9 +304,55 @@ public final class GlucoseDao_Impl implements GlucoseDao {
   }
 
   @Override
-  public Flow<GlucoseRecord> getLatest() {
-    final String _sql = "SELECT * FROM glucose_records ORDER BY timestamp DESC LIMIT 1";
-    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+  public Object getAllSync(final String userId,
+      final Continuation<? super List<GlucoseRecord>> $completion) {
+    final String _sql = "SELECT * FROM glucose_records WHERE userId = ? ORDER BY timestamp DESC";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    _statement.bindString(_argIndex, userId);
+    final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
+    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<GlucoseRecord>>() {
+      @Override
+      @NonNull
+      public List<GlucoseRecord> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "value");
+          final int _cursorIndexOfNote = CursorUtil.getColumnIndexOrThrow(_cursor, "note");
+          final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
+          final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
+          final List<GlucoseRecord> _result = new ArrayList<GlucoseRecord>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final GlucoseRecord _item;
+            final long _tmpId;
+            _tmpId = _cursor.getLong(_cursorIndexOfId);
+            final float _tmpValue;
+            _tmpValue = _cursor.getFloat(_cursorIndexOfValue);
+            final String _tmpNote;
+            _tmpNote = _cursor.getString(_cursorIndexOfNote);
+            final long _tmpTimestamp;
+            _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
+            final String _tmpUserId;
+            _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
+            _item = new GlucoseRecord(_tmpId,_tmpValue,_tmpNote,_tmpTimestamp,_tmpUserId);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+          _statement.release();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Flow<GlucoseRecord> getLatest(final String userId) {
+    final String _sql = "SELECT * FROM glucose_records WHERE userId = ? ORDER BY timestamp DESC LIMIT 1";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    _statement.bindString(_argIndex, userId);
     return CoroutinesRoom.createFlow(__db, false, new String[] {"glucose_records"}, new Callable<GlucoseRecord>() {
       @Override
       @Nullable
@@ -271,6 +363,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "value");
           final int _cursorIndexOfNote = CursorUtil.getColumnIndexOrThrow(_cursor, "note");
           final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
+          final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
           final GlucoseRecord _result;
           if (_cursor.moveToFirst()) {
             final long _tmpId;
@@ -281,7 +374,9 @@ public final class GlucoseDao_Impl implements GlucoseDao {
             _tmpNote = _cursor.getString(_cursorIndexOfNote);
             final long _tmpTimestamp;
             _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
-            _result = new GlucoseRecord(_tmpId,_tmpValue,_tmpNote,_tmpTimestamp);
+            final String _tmpUserId;
+            _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
+            _result = new GlucoseRecord(_tmpId,_tmpValue,_tmpNote,_tmpTimestamp,_tmpUserId);
           } else {
             _result = null;
           }
@@ -299,9 +394,11 @@ public final class GlucoseDao_Impl implements GlucoseDao {
   }
 
   @Override
-  public Flow<List<Reminder>> getAllReminders() {
-    final String _sql = "SELECT * FROM reminders ORDER BY hour, minute";
-    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+  public Flow<List<Reminder>> getAllReminders(final String userId) {
+    final String _sql = "SELECT * FROM reminders WHERE userId = ? ORDER BY hour, minute";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    _statement.bindString(_argIndex, userId);
     return CoroutinesRoom.createFlow(__db, false, new String[] {"reminders"}, new Callable<List<Reminder>>() {
       @Override
       @NonNull
@@ -312,6 +409,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
           final int _cursorIndexOfHour = CursorUtil.getColumnIndexOrThrow(_cursor, "hour");
           final int _cursorIndexOfMinute = CursorUtil.getColumnIndexOrThrow(_cursor, "minute");
           final int _cursorIndexOfEnabled = CursorUtil.getColumnIndexOrThrow(_cursor, "enabled");
+          final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
           final List<Reminder> _result = new ArrayList<Reminder>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final Reminder _item;
@@ -325,7 +423,9 @@ public final class GlucoseDao_Impl implements GlucoseDao {
             final int _tmp;
             _tmp = _cursor.getInt(_cursorIndexOfEnabled);
             _tmpEnabled = _tmp != 0;
-            _item = new Reminder(_tmpId,_tmpHour,_tmpMinute,_tmpEnabled);
+            final String _tmpUserId;
+            _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
+            _item = new Reminder(_tmpId,_tmpHour,_tmpMinute,_tmpEnabled,_tmpUserId);
             _result.add(_item);
           }
           return _result;

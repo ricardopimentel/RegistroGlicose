@@ -4,7 +4,7 @@
     "type": "COMPATIBLE_SCREEN_MANIFEST",
     "kind": "Directory"
   },
-  "applicationId": "com.example.glicose",
+  "applicationId": "com.ricardo.glicose",
   "variantName": "debug",
   "elements": []
 }

@@ -8,5 +8,6 @@ data class Reminder(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val hour: Int,
     val minute: Int,
-    val enabled: Boolean = true
+    val enabled: Boolean = true,
+    val userId: String = ""
 )

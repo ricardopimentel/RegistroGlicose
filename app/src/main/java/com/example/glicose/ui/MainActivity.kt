@@ -12,6 +12,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.firebase.auth.FirebaseAuth
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -36,7 +37,24 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.navigation.compose.*
+import coil.compose.AsyncImage
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.qrcode.QRCodeWriter
+import android.graphics.Bitmap
+import android.graphics.Color as AndroidColor
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
+import androidx.camera.view.PreviewView
+import androidx.camera.core.*
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.compose.ui.viewinterop.AndroidView
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
+import androidx.core.content.ContextCompat
+import java.util.concurrent.Executors
 import com.example.glicose.data.Reminder
 import com.example.glicose.notifications.ReminderReceiver
 import com.example.glicose.utils.CsvExporter
@@ -65,6 +83,7 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
     val currentRoute = navBackStackEntry?.destination?.route
     val context = androidx.compose.ui.platform.LocalContext.current
     val activity = context as? MainActivity
+    val auth = FirebaseAuth.getInstance()
     
     // Permission Handling
     PermissionHandler(context)
@@ -75,35 +94,41 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Home, null) },
-                    label = { Text("Início") },
-                    selected = currentRoute == "dashboard",
-                    onClick = { navController.navigate("dashboard") }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.List, null) },
-                    label = { Text("Relatórios") },
-                    selected = currentRoute == "reports",
-                    onClick = { navController.navigate("reports") }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Notifications, null) },
-                    label = { Text("Lembretes") },
-                    selected = currentRoute == "reminders",
-                    onClick = { navController.navigate("reminders") }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Settings, null) },
-                    label = { Text("Ajustes") },
-                    selected = currentRoute == "settings",
-                    onClick = { navController.navigate("settings") }
-                )
+            if (currentRoute != "login") {
+                NavigationBar {
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Home, null) },
+                        label = { Text("Início") },
+                        selected = currentRoute == "dashboard",
+                        onClick = { navController.navigate("dashboard") { popUpTo(0) } }
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.List, null) },
+                        label = { Text("Relatórios") },
+                        selected = currentRoute == "reports",
+                        onClick = { navController.navigate("reports") { popUpTo(0) } }
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Notifications, null) },
+                        label = { Text("Lembretes") },
+                        selected = currentRoute == "reminders",
+                        onClick = { navController.navigate("reminders") { popUpTo(0) } }
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Settings, null) },
+                        label = { Text("Ajustes") },
+                        selected = currentRoute == "settings",
+                        onClick = { navController.navigate("settings") { popUpTo(0) } }
+                    )
+                }
             }
         },
         floatingActionButton = {
-            if (currentRoute == "dashboard" || currentRoute == "reports") {
+            val currentViewUid by viewModel.currentUserId.collectAsState()
+            val myUid = auth.currentUser?.uid ?: ""
+            
+            if (currentRoute != "login" && currentViewUid == myUid) {
+                if (currentRoute == "dashboard" || currentRoute == "reports") {
                 FloatingActionButton(onClick = { showAddDialogFromNotification = true }) {
                     Icon(Icons.Default.Add, "Adicionar Medição")
                 }
@@ -117,27 +142,57 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
                         },
                         8, 0, android.text.format.DateFormat.is24HourFormat(context)
                     ).show()
-                }) {
-                    Icon(Icons.Default.Notifications, "Adicionar Lembrete")
+                    }) {
+                        Icon(Icons.Default.Notifications, "Adicionar Lembrete")
+                    }
                 }
             }
         }
     ) { innerPadding ->
-        NavHost(navController, startDestination = "dashboard", Modifier.padding(innerPadding)) {
+        val startDestination = if (auth.currentUser != null) "dashboard" else "login"
+        NavHost(navController, startDestination = startDestination, Modifier.padding(innerPadding)) {
+            composable("login") { 
+                LoginScreen(onLoginSuccess = { 
+                    viewModel.setCurrentUserId(auth.currentUser?.uid ?: "")
+                    navController.navigate("dashboard") { 
+                        popUpTo("login") { inclusive = true } 
+                    } 
+                }) 
+            }
             composable("dashboard") { DashboardScreen(viewModel) }
             composable("reports") { ReportsScreen(viewModel) }
             composable("reminders") { RemindersScreen(viewModel) }
-            composable("settings") { SettingsScreen(viewModel) }
+            composable("settings") { 
+                SettingsScreen(viewModel, navController) {
+                    auth.signOut()
+                    
+                    // Also sign out from Google to allow selecting a different account
+                    val webClientId = context.resources.getString(
+                        context.resources.getIdentifier("default_web_client_id", "string", context.packageName)
+                    )
+                    val gso = com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder(com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(webClientId)
+                        .requestEmail()
+                        .build()
+                    com.google.android.gms.auth.api.signin.GoogleSignIn.getClient(context, gso).signOut()
+                    
+                    navController.navigate("login") { 
+                        popUpTo(0) 
+                    }
+                } 
+            }
+            composable("manage_following") { ManageFollowingScreen(viewModel, navController) }
+            composable("manage_followers") { ManageFollowersScreen(viewModel, navController) }
         }
 
-        if (showAddDialogFromNotification) {
+        if (showAddDialogFromNotification && auth.currentUser != null) {
             AddRecordDialog(
                 onDismiss = { 
                     showAddDialogFromNotification = false 
                     activity?.intent?.removeExtra("OPEN_ADD_DIALOG")
                 },
-                onSave = { value, note ->
-                    viewModel.addRecord(value.toFloat(), note)
+                onSave = { value, note, timestamp ->
+                    viewModel.addRecord(value.toFloat(), note, timestamp)
                     showAddDialogFromNotification = false
                     activity?.intent?.removeExtra("OPEN_ADD_DIALOG")
                 }
@@ -161,8 +216,51 @@ fun DashboardScreen(viewModel: GlucoseViewModel) {
     
     val latestOfDay = dayRecords.firstOrNull() // Records are sorted by timestamp DESC
 
+    val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
+    val currentViewUid by viewModel.currentUserId.collectAsState()
+    val followedUsers by viewModel.followedUsers.collectAsState()
+    
+    val myName = auth.currentUser?.displayName?.split(" ")?.firstOrNull() ?: "Eu"
+    val myUid = auth.currentUser?.uid ?: ""
+    
+    val currentViewName = if (currentViewUid == myUid) "Olá, $myName!" 
+                         else followedUsers.find { it.second == currentViewUid }?.first ?: "Paciente"
+
     Column(Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
-        Text("Olá!", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold)
+        var showProfileMenu by remember { mutableStateOf(false) }
+        
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(currentViewName, style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+            
+            if (followedUsers.isNotEmpty()) {
+                Box {
+                    IconButton(onClick = { showProfileMenu = true }) {
+                        Icon(Icons.Default.KeyboardArrowDown, null)
+                    }
+                    DropdownMenu(expanded = showProfileMenu, onDismissRequest = { showProfileMenu = false }) {
+                        DropdownMenuItem(
+                            text = { Text("Meu Perfil ($myName)") },
+                            onClick = { 
+                                viewModel.setCurrentUserId(myUid)
+                                showProfileMenu = false
+                            },
+                            leadingIcon = { Icon(Icons.Default.Person, null) }
+                        )
+                        followedUsers.forEach { (name, uid) ->
+                            DropdownMenuItem(
+                                text = { Text(name) },
+                                onClick = { 
+                                    viewModel.setCurrentUserId(uid)
+                                    showProfileMenu = false
+                                },
+                                leadingIcon = { Icon(Icons.Default.AccountCircle, null) }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        
         Spacer(Modifier.height(16.dp))
 
         Card(
@@ -411,12 +509,13 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
     editingRecord?.let { record ->
         AddRecordDialog(
             onDismiss = { editingRecord = null },
-            onSave = { value, note ->
+            onSave = { value, note, timestamp ->
                 viewModel.updateRecord(record, value.toFloat(), note)
                 editingRecord = null
             },
             initialValue = record.value.toInt().toString(),
-            initialNote = record.note
+            initialNote = record.note,
+            initialTimestamp = record.timestamp
         )
     }
 }
@@ -658,16 +757,230 @@ fun ReminderCard(
 }
 
 @Composable
-fun SettingsScreen(viewModel: GlucoseViewModel) {
+fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigation.NavController, onLogout: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val records by viewModel.allRecords.collectAsState()
+    val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
+    val user = auth.currentUser
     
     var vibrationEnabled by remember { mutableStateOf(true) }
     var notificationVolume by remember { mutableStateOf(0.7f) }
 
+    // Camera Permission Request
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (!isGranted) {
+            Toast.makeText(context, "Permissão de câmera negada", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     Column(Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
         Text("Ajustes", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(24.dp))
+
+        // Perfil do Usuário
+        if (user != null) {
+            val userCode = user.uid.take(6).uppercase()
+            var showQrCodeDialog by remember { mutableStateOf(false) }
+            val clipboardManager = LocalClipboardManager.current
+            
+            Spacer(Modifier.height(40.dp)) // Espaço para a imagem sair metade pra fora
+
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+                Card(
+                    modifier = Modifier.fillMaxWidth().padding(top = 40.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                ) {
+                    Column(
+                        Modifier.padding(top = 50.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(user.displayName ?: "Sem nome", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                        Text(user.email ?: "Sem e-mail", style = MaterialTheme.typography.bodyMedium)
+                        
+                        Spacer(Modifier.height(24.dp))
+                        
+                        Text("Seu Código de Compartilhamento:", style = MaterialTheme.typography.labelMedium)
+                        
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(userCode, style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                            Spacer(Modifier.width(8.dp))
+                            IconButton(onClick = { 
+                                clipboardManager.setText(AnnotatedString(userCode))
+                                Toast.makeText(context, "Código copiado!", Toast.LENGTH_SHORT).show()
+                            }) {
+                                Icon(Icons.Default.ContentCopy, "Copiar", tint = MaterialTheme.colorScheme.primary)
+                            }
+                            IconButton(onClick = { showQrCodeDialog = true }) {
+                                Icon(Icons.Default.QrCode, "QR Code", tint = MaterialTheme.colorScheme.primary)
+                            }
+                        }
+
+                        Spacer(Modifier.height(16.dp))
+                        var isSyncing by remember { mutableStateOf(false) }
+                        Button(
+                            onClick = { 
+                                isSyncing = true
+                                viewModel.syncLocalDataToCloud {
+                                    isSyncing = false
+                                    Toast.makeText(context, "Sincronização concluída!", Toast.LENGTH_SHORT).show()
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = !isSyncing,
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                        ) {
+                            if (isSyncing) {
+                                CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.White)
+                            } else {
+                                Icon(Icons.Default.Sync, null)
+                                Spacer(Modifier.width(8.dp))
+                                Text("Sincronizar Dados com Nuvem")
+                            }
+                        }
+
+                        Spacer(Modifier.height(8.dp))
+                        Button(
+                            onClick = onLogout,
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                        ) {
+                            Text("Sair da Conta")
+                        }
+                    }
+                }
+
+                // Imagem de Perfil Redonda e Centralizada (Metade pra fora)
+                Surface(
+                    modifier = Modifier.size(80.dp),
+                    shape = CircleShape,
+                    border = BorderStroke(4.dp, MaterialTheme.colorScheme.surface),
+                    shadowElevation = 8.dp
+                ) {
+                    AsyncImage(
+                        model = user.photoUrl ?: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
+                        contentDescription = "Foto de Perfil",
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+            
+            if (showQrCodeDialog) {
+                QrCodeDialog(code = userCode, onDismiss = { showQrCodeDialog = false })
+            }
+            Spacer(Modifier.height(16.dp))
+        }
+
+        // Acompanhamento
+        var showFollowDialog by remember { mutableStateOf(false) }
+        var showScanner by remember { mutableStateOf(false) }
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column(Modifier.padding(16.dp)) {
+                Text("Compartilhamento", style = MaterialTheme.typography.titleMedium)
+                Spacer(Modifier.height(8.dp))
+                Text("Acompanhe os dados de glicose de um paciente ou familiar usando o código dele.", style = MaterialTheme.typography.bodySmall)
+                Spacer(Modifier.height(16.dp))
+                
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = { showFollowDialog = true },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(Icons.Default.PersonAdd, null)
+                        Spacer(Modifier.width(8.dp))
+                        Text("Adicionar")
+                    }
+                    Spacer(Modifier.width(8.dp))
+                    FilledIconButton(
+                        onClick = { 
+                            if (androidx.core.content.ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                                showScanner = true 
+                            } else {
+                                cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+                            }
+                        },
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(Icons.Default.QrCodeScanner, "Escanear QR Code")
+                    }
+                }
+            }
+        }
+
+        if (showFollowDialog) {
+            FollowPatientDialog(
+                onDismiss = { showFollowDialog = false },
+                onFollow = { code ->
+                    viewModel.followUser(
+                        code = code,
+                        onSuccess = { showFollowDialog = false },
+                        onError = { error ->
+                            Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+                        }
+                    )
+                }
+            )
+        }
+        
+        if (showScanner) {
+            QrScannerDialog(
+                onDismiss = { showScanner = false },
+                onCodeScanned = { code ->
+                    showScanner = false
+                    viewModel.followUser(
+                        code = code,
+                        onSuccess = { },
+                        onError = { error ->
+                            Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+                        }
+                    )
+                }
+            )
+        }
+
+        Spacer(Modifier.height(16.dp))
+
+        // Gerenciamento de Conexões
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column(Modifier.padding(16.dp)) {
+                Text("Gerenciar Conexões", style = MaterialTheme.typography.titleMedium)
+                Spacer(Modifier.height(16.dp))
+
+                OutlinedButton(
+                    onClick = { navController.navigate("manage_following") },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.Group, null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Pessoas que eu sigo")
+                }
+
+                Spacer(Modifier.height(8.dp))
+
+                OutlinedButton(
+                    onClick = { navController.navigate("manage_followers") },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.GroupAdd, null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Quem vê meus dados")
+                }
+            }
+        }
+
+        Spacer(Modifier.height(16.dp))
 
         // Notificações Card
         Card(
@@ -710,14 +1023,39 @@ fun SettingsScreen(viewModel: GlucoseViewModel) {
 
         Spacer(Modifier.height(16.dp))
 
+        // Backup Card
+        val importCsvLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent()
+        ) { uri ->
+            if (uri != null) {
+                try {
+                    val uid = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: return@rememberLauncherForActivityResult
+                    context.contentResolver.openInputStream(uri)?.bufferedReader()?.useLines { lines ->
+                        lines.drop(1).forEach { line ->
+                            val parts = line.split(",")
+                            if (parts.size >= 2) {
+                                val value = parts[0].trim().toFloatOrNull() ?: return@forEach
+                                val note = parts.getOrElse(1) { "" }.trim()
+                                val timestamp = parts.getOrElse(2) { "" }.trim().toLongOrNull() ?: System.currentTimeMillis()
+                                viewModel.addRecord(value, note, timestamp)
+                            }
+                        }
+                    }
+                    Toast.makeText(context, "Importação concluída!", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(context, "Erro na importação: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
             Column(Modifier.padding(16.dp)) {
-                Text("Exportação", style = MaterialTheme.typography.titleMedium)
+                Text("Backup de Dados", style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(8.dp))
-                Text("Exporte seus dados para uma planilha CSV e compartilhe com seu médico.", style = MaterialTheme.typography.bodySmall)
+                Text("Exporte ou importe seus registros em formato CSV.", style = MaterialTheme.typography.bodySmall)
                 Spacer(Modifier.height(16.dp))
                 Button(
                     onClick = { CsvExporter.exportAndHandle(context, records) },
@@ -726,7 +1064,96 @@ fun SettingsScreen(viewModel: GlucoseViewModel) {
                 ) {
                     Icon(Icons.Default.Share, null)
                     Spacer(Modifier.width(8.dp))
-                    Text("Exportar e Compartilhar CSV")
+                    Text("Exportar CSV")
+                }
+                Spacer(Modifier.height(8.dp))
+                OutlinedButton(
+                    onClick = { importCsvLauncher.launch("text/*") },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.FileUpload, null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Importar CSV")
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ManageFollowingScreen(viewModel: GlucoseViewModel, navController: androidx.navigation.NavController) {
+    val following by viewModel.followedUsers.collectAsState()
+    
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Pessoas que sigo") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, null)
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        if (following.isEmpty()) {
+            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
+                Text("Você não está seguindo ninguém.", color = Color.Gray)
+            }
+        } else {
+            LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
+                items(following) { (name, uid) ->
+                    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.AccountCircle, null, modifier = Modifier.size(40.dp))
+                            Spacer(Modifier.width(16.dp))
+                            Text(name, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+                            IconButton(onClick = { viewModel.unfollow(uid) }) {
+                                Icon(Icons.Default.Delete, "Remover", tint = MaterialTheme.colorScheme.error)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ManageFollowersScreen(viewModel: GlucoseViewModel, navController: androidx.navigation.NavController) {
+    val followers by viewModel.followers.collectAsState()
+    
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Quem vê meus dados") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, null)
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        if (followers.isEmpty()) {
+            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
+                Text("Ninguém está vendo seus dados.", color = Color.Gray)
+            }
+        } else {
+            LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
+                items(followers) { (name, uid) ->
+                    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.AccountCircle, null, modifier = Modifier.size(40.dp))
+                            Spacer(Modifier.width(16.dp))
+                            Text(name, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+                            IconButton(onClick = { viewModel.removeFollower(uid) }) {
+                                Icon(Icons.Default.PersonRemove, "Remover Acesso", tint = MaterialTheme.colorScheme.error)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -734,25 +1161,223 @@ fun SettingsScreen(viewModel: GlucoseViewModel) {
 }
 
 @Composable
+fun QrCodeDialog(code: String, onDismiss: () -> Unit) {
+    val bitmap = remember(code) { generateQrCode(code) }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Seu QR Code") },
+        text = {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                if (bitmap != null) {
+                    Image(
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = "QR Code",
+                        modifier = Modifier.size(200.dp)
+                    )
+                }
+                Spacer(Modifier.height(16.dp))
+                Text(code, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+            }
+        },
+        confirmButton = {
+            Button(onClick = onDismiss) { Text("Fechar") }
+        }
+    )
+}
+
+fun generateQrCode(text: String): Bitmap? {
+    return try {
+        val writer = QRCodeWriter()
+        val bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, 512, 512)
+        val width = bitMatrix.width
+        val height = bitMatrix.height
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                bitmap.setPixel(x, y, if (bitMatrix.get(x, y)) AndroidColor.BLACK else AndroidColor.WHITE)
+            }
+        }
+        bitmap
+    } catch (e: Exception) {
+        null
+    }
+}
+
+@Composable
+fun QrScannerDialog(onDismiss: () -> Unit, onCodeScanned: (String) -> Unit) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val scanner = remember { BarcodeScanning.getClient() }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Escanear Código") },
+        text = {
+            Box(Modifier.size(300.dp).clip(RoundedCornerShape(16.dp))) {
+                AndroidView(
+                    factory = { ctx ->
+                        val previewView = PreviewView(ctx)
+                        val cameraProviderFuture = ProcessCameraProvider.getInstance(ctx)
+                        cameraProviderFuture.addListener({
+                            val cameraProvider = cameraProviderFuture.get()
+                            val preview = Preview.Builder().build().also {
+                                it.setSurfaceProvider(previewView.surfaceProvider)
+                            }
+                            
+                            val imageAnalysis = ImageAnalysis.Builder()
+                                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                                .build()
+                            
+                            imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor()) { imageProxy ->
+                                val mediaImage = imageProxy.image
+                                if (mediaImage != null) {
+                                    val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+                                    scanner.process(image)
+                                        .addOnSuccessListener { barcodes ->
+                                            for (barcode in barcodes) {
+                                                val rawValue = barcode.rawValue
+                                                if (rawValue != null && rawValue.length == 6) {
+                                                    onCodeScanned(rawValue)
+                                                }
+                                            }
+                                        }
+                                        .addOnCompleteListener {
+                                            imageProxy.close()
+                                        }
+                                } else {
+                                    imageProxy.close()
+                                }
+                            }
+
+                            try {
+                                cameraProvider.unbindAll()
+                                cameraProvider.bindToLifecycle(lifecycleOwner, CameraSelector.DEFAULT_BACK_CAMERA, preview, imageAnalysis)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }, ContextCompat.getMainExecutor(ctx))
+                        previewView
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        },
+        confirmButton = { },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancelar") }
+        }
+    )
+}
+
+@Composable
+fun FollowPatientDialog(onDismiss: () -> Unit, onFollow: (String) -> Unit) {
+    var code by remember { mutableStateOf("") }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Adicionar Paciente") },
+        text = {
+            Column {
+                Text("Digite o código de 6 dígitos que aparece nos ajustes do celular do paciente.")
+                Spacer(Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = code,
+                    onValueChange = { if (it.length <= 6) code = it.uppercase() },
+                    label = { Text("Código (ex: A7X9WQ)") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
+                )
+            }
+        },
+        confirmButton = {
+            Button(onClick = { if (code.length == 6) onFollow(code) }) {
+                Text("Adicionar")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancelar") }
+        }
+    )
+}
+
+@Composable
 fun AddRecordDialog(
     onDismiss: () -> Unit, 
-    onSave: (String, String) -> Unit,
+    onSave: (String, String, Long) -> Unit,
     initialValue: String = "",
-    initialNote: String = ""
+    initialNote: String = "",
+    initialTimestamp: Long = System.currentTimeMillis()
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     var value by remember { mutableStateOf(initialValue) }
     var note by remember { mutableStateOf(initialNote) }
+    var selectedTimestamp by remember { mutableStateOf(initialTimestamp) }
+
+    // Format timestamp for display
+    val dateTimeText = remember(selectedTimestamp) {
+        val cal = java.util.Calendar.getInstance().apply { timeInMillis = selectedTimestamp }
+        val fmt = android.text.format.DateFormat.getDateFormat(context)
+        val timeFmt = android.text.format.DateFormat.getTimeFormat(context)
+        "${fmt.format(cal.time)}  ${timeFmt.format(cal.time)}"
+    }
+
+    fun showDateTimePicker() {
+        val cal = java.util.Calendar.getInstance().apply { timeInMillis = selectedTimestamp }
+        android.app.DatePickerDialog(
+            context,
+            { _, year, month, day ->
+                android.app.TimePickerDialog(
+                    context,
+                    { _, hour, minute ->
+                        val newCal = java.util.Calendar.getInstance().apply {
+                            set(year, month, day, hour, minute, 0)
+                            set(java.util.Calendar.MILLISECOND, 0)
+                        }
+                        selectedTimestamp = newCal.timeInMillis
+                    },
+                    cal.get(java.util.Calendar.HOUR_OF_DAY),
+                    cal.get(java.util.Calendar.MINUTE),
+                    android.text.format.DateFormat.is24HourFormat(context)
+                ).show()
+            },
+            cal.get(java.util.Calendar.YEAR),
+            cal.get(java.util.Calendar.MONTH),
+            cal.get(java.util.Calendar.DAY_OF_MONTH)
+        ).show()
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(if (initialValue.isEmpty()) "Nova Medição" else "Editar Medição") },
         text = {
             Column {
+                // Numeric glucose value field
                 OutlinedTextField(
                     value = value,
-                    onValueChange = { value = it },
+                    onValueChange = { if (it.all { c -> c.isDigit() } && it.length <= 4) value = it },
                     label = { Text("Valor (mg/dL)") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                        keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                    ),
+                    trailingIcon = { Text("mg/dL", style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(end = 8.dp)) }
+                )
+                Spacer(Modifier.height(8.dp))
+                // Date/Time field — tap to change
+                OutlinedTextField(
+                    value = dateTimeText,
+                    onValueChange = {},
+                    label = { Text("Data e Hora") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { showDateTimePicker() },
+                    readOnly = true,
+                    enabled = false,
+                    trailingIcon = {
+                        IconButton(onClick = { showDateTimePicker() }) {
+                            Icon(Icons.Default.Schedule, "Alterar data e hora")
+                        }
+                    }
                 )
                 Spacer(Modifier.height(8.dp))
                 OutlinedTextField(
@@ -764,7 +1389,7 @@ fun AddRecordDialog(
             }
         },
         confirmButton = {
-            Button(onClick = { if (value.isNotEmpty()) onSave(value, note) }) {
+            Button(onClick = { if (value.isNotEmpty()) onSave(value, note, selectedTimestamp) }) {
                 Text("Salvar")
             }
         },

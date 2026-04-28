@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "38287660070",
+    "project_id": "registoglicose",
+    "storage_bucket": "registoglicose.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38287660070:android:5751333472cf9b847e02e7",
+        "android_client_info": {
+          "package_name": "com.ricardo.glicose"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38287660070-9k5ki0vt71tk48as592lmrlosphqlg19.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClsCa4kHNajddT2CD6L5q9zfMMB5t4yy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38287660070-9k5ki0vt71tk48as592lmrlosphqlg19.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
