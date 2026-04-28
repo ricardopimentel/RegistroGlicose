@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import android.content.Intent
 import com.example.glicose.data.GlucoseDatabase
 import com.example.glicose.data.GlucoseRecord
 import com.example.glicose.data.Reminder
@@ -25,6 +26,13 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
     private val dao = GlucoseDatabase.getDatabase(application).glucoseDao()
     private val auth = FirebaseAuth.getInstance()
     private val firestore = FirebaseFirestore.getInstance()
+    private val appContext = application.applicationContext
+
+    private fun triggerWidgetUpdate() {
+        val intent = Intent("com.example.glicose.UPDATE_WIDGET")
+        intent.setPackage(appContext.packageName)
+        appContext.sendBroadcast(intent)
+    }
     
     // The currently viewed user ID (starts as the logged-in user)
     val currentUserId = MutableStateFlow(auth.currentUser?.uid ?: "")
@@ -299,6 +307,7 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             dao.insert(record)
             firestore.collection("glucose_records").document(record.timestamp.toString()).set(record)
+            triggerWidgetUpdate()
         }
     }
 
@@ -308,6 +317,7 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             if (record.userId == auth.currentUser?.uid) {
                 firestore.collection("glucose_records").document(record.timestamp.toString()).delete()
             }
+            triggerWidgetUpdate()
         }
     }
 
@@ -319,6 +329,7 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             if (record.userId == auth.currentUser?.uid) {
                 firestore.collection("glucose_records").document(record.timestamp.toString()).set(newRecord)
             }
+            triggerWidgetUpdate()
         }
     }
 
@@ -368,6 +379,7 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             // 1. Clear local
             dao.deleteAllForUser(uid)
             dao.deleteAllRemindersForUser(uid)
+            triggerWidgetUpdate()
             
             // 2. Clear Cloud (Firestore)
             firestore.collection("glucose_records")

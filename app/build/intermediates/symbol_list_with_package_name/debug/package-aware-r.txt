@@ -2945,6 +2945,7 @@ drawable ic_call_decline
 drawable ic_call_decline_low
 drawable ic_clear_black_24
 drawable ic_clock_black_24dp
+drawable ic_glucose
 drawable ic_keyboard_black_24dp
 drawable ic_launcher_foreground
 drawable ic_m3_chip_check
@@ -3031,6 +3032,7 @@ drawable notify_panel_notification_icon_bg
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+drawable widget_background
 id ALT
 id BOTTOM_END
 id BOTTOM_START
@@ -3229,6 +3231,7 @@ id graph
 id graph_wrap
 id group_divider
 id groups
+id header
 id header_title
 id hide_ime_id
 id hide_in_inspector_tag
@@ -3254,6 +3257,7 @@ id item_touch_helper_previous_elevation
 id jumpToEnd
 id jumpToStart
 id labeled
+id last_record_section
 id layout
 id left
 id leftToRight
@@ -3437,6 +3441,7 @@ id startToEnd
 id startVertical
 id staticLayout
 id staticPostLayout
+id stats_row
 id stop
 id stretch
 id submenuarrow
@@ -3500,6 +3505,12 @@ id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
 id wide
+id widget_a1c
+id widget_avg
+id widget_btn_add
+id widget_last_time
+id widget_last_value
+id widget_range
 id withText
 id with_icon
 id withinBounds
@@ -3639,6 +3650,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout glucose_widget
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout m3_alert_dialog
@@ -5253,4 +5265,5 @@ styleable ViewStubCompat android_id android_layout android_inflatedId
 xml backup_rules
 xml data_extraction_rules
 xml file_paths
+xml glucose_widget_info
 xml image_share_filepaths

@@ -1,4 +1,4 @@
-#Tue Apr 28 16:46:49 BRT 2026
+#Tue Apr 28 17:04:04 BRT 2026
 base.0=D\:\\Documentos\\Android Projects\\RegistroGlicose\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
 base.1=D\:\\Documentos\\Android Projects\\RegistroGlicose\\app\\build\\intermediates\\global_synthetics_dex\\release\\classes.dex
 base.2=D\:\\Documentos\\Android Projects\\RegistroGlicose\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes2.dex

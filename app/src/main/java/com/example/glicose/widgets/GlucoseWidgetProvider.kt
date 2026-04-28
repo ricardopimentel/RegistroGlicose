@@ -1,0 +1,92 @@
+package com.example.glicose.widgets
+
+import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.widget.RemoteViews
+import com.example.glicose.data.GlucoseDatabase
+import com.example.glicose.ui.MainActivity
+import com.ricardo.glicose.R
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.*
+
+class GlucoseWidgetProvider : AppWidgetProvider() {
+
+    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        for (appWidgetId in appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, appWidgetId)
+        }
+    }
+
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+        if (intent.action == "com.example.glicose.UPDATE_WIDGET") {
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            val ids = appWidgetManager.getAppWidgetIds(ComponentName(context, GlucoseWidgetProvider::class.java))
+            onUpdate(context, appWidgetManager, ids)
+        }
+    }
+
+    companion object {
+        fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+            val views = RemoteViews(context.packageName, R.layout.glucose_widget)
+
+            // Intent to open "Add Record" dialog
+            val intent = Intent(context, MainActivity::class.java).apply {
+                putExtra("OPEN_ADD_DIALOG", true)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            val pendingIntent = PendingIntent.getActivity(
+                context, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            views.setOnClickPendingIntent(R.id.widget_btn_add, pendingIntent)
+
+            // Fetch data from Room
+            val auth = FirebaseAuth.getInstance()
+            val userId = auth.currentUser?.uid ?: ""
+
+            if (userId.isNotEmpty()) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val db = GlucoseDatabase.getDatabase(context)
+                    val records = db.glucoseDao().getAllSync(userId)
+                    
+                    if (records.isNotEmpty()) {
+                        val avg = records.map { it.value }.average()
+                        val a1c = (avg + 46.7) / 28.7
+                        val max = records.maxOf { it.value }
+                        val min = records.minOf { it.value }
+                        val latest = records.first() // List is sorted by timestamp DESC
+
+                        val timeFormat = java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault())
+                        
+                        views.setTextViewText(R.id.widget_last_value, String.format("%.0f", latest.value))
+                        views.setTextViewText(R.id.widget_last_time, "Hoje, ${timeFormat.format(java.util.Date(latest.timestamp))}")
+                        
+                        views.setTextViewText(R.id.widget_avg, String.format("%.0f", avg))
+                        views.setTextViewText(R.id.widget_a1c, String.format("%.1f%%", a1c))
+                        views.setTextViewText(R.id.widget_range, String.format("%.0f/%.0f", min, max))
+                    } else {
+                        views.setTextViewText(R.id.widget_last_value, "--")
+                        views.setTextViewText(R.id.widget_last_time, "--:--")
+                        views.setTextViewText(R.id.widget_avg, "--")
+                        views.setTextViewText(R.id.widget_a1c, "--")
+                        views.setTextViewText(R.id.widget_range, "--/--")
+                    }
+                    appWidgetManager.updateAppWidget(appWidgetId, views)
+                }
+            } else {
+                views.setTextViewText(R.id.widget_avg, "--")
+                views.setTextViewText(R.id.widget_a1c, "Login")
+                views.setTextViewText(R.id.widget_range, "-- / --")
+                appWidgetManager.updateAppWidget(appWidgetId, views)
+            }
+        }
+    }
+}
