@@ -1,6 +1,7 @@
 package com.example.glicose.ui
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.glicose.data.GlucoseDatabase
@@ -27,6 +28,17 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
     
     // The currently viewed user ID (starts as the logged-in user)
     val currentUserId = MutableStateFlow(auth.currentUser?.uid ?: "")
+    
+    private val prefs = application.getSharedPreferences("glucose_prefs", Context.MODE_PRIVATE)
+    
+    val targetMin = MutableStateFlow(prefs.getFloat("target_min", 70f))
+    val targetMax = MutableStateFlow(prefs.getFloat("target_max", 140f))
+
+    fun updateTargetRange(min: Float, max: Float) {
+        targetMin.value = min
+        targetMax.value = max
+        prefs.edit().putFloat("target_min", min).putFloat("target_max", max).apply()
+    }
     
     init {
         // Create user profile on Firestore and start sync for whoever is logged in

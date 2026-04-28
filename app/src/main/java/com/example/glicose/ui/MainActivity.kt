@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.graphics.toArgb
 import androidx.navigation.compose.*
 import coil.compose.AsyncImage
 import com.google.zxing.BarcodeFormat
@@ -58,6 +59,7 @@ import java.util.concurrent.Executors
 import com.example.glicose.data.Reminder
 import com.example.glicose.notifications.ReminderReceiver
 import com.example.glicose.utils.CsvExporter
+import com.example.glicose.utils.PdfExporter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -85,17 +87,40 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
     val activity = context as? MainActivity
     val auth = FirebaseAuth.getInstance()
     
-    // Permission Handling
-    PermissionHandler(context)
+    // Theme Colors
+    val primaryColor = Color(0xFF6750A4) // Vibrant Purple (M3 Primary)
+    val colorScheme = lightColorScheme(
+        primary = primaryColor,
+        onPrimary = Color.White,
+        primaryContainer = Color(0xFFEADDFF),
+        onPrimaryContainer = Color(0xFF21005D),
+        secondary = Color(0xFF625B71),
+        onSecondary = Color.White,
+        surface = Color.White,
+        onSurface = Color(0xFF1C1B1F)
+    )
 
-    var showAddDialogFromNotification by remember { 
-        mutableStateOf(activity?.intent?.getBooleanExtra("OPEN_ADD_DIALOG", false) ?: false) 
-    }
+    MaterialTheme(colorScheme = colorScheme) {
+        // Set Status Bar Color
+        SideEffect {
+            (context as? android.app.Activity)?.window?.apply {
+                statusBarColor = primaryColor.toArgb()
+                // Ensure icons are light on dark background
+                androidx.core.view.WindowCompat.getInsetsController(this, decorView).isAppearanceLightStatusBars = false
+            }
+        }
 
-    Scaffold(
-        bottomBar = {
-            if (currentRoute != "login") {
-                NavigationBar {
+        // Permission Handling
+        PermissionHandler(context)
+
+        var showAddDialogFromNotification by remember { 
+            mutableStateOf(activity?.intent?.getBooleanExtra("OPEN_ADD_DIALOG", false) ?: false) 
+        }
+
+        Scaffold(
+            bottomBar = {
+                if (currentRoute != "login") {
+                    NavigationBar {
                     NavigationBarItem(
                         icon = { Icon(Icons.Default.Home, null) },
                         label = { Text("Início") },
@@ -128,21 +153,28 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
             val myUid = auth.currentUser?.uid ?: ""
             
             if (currentRoute != "login" && currentViewUid == myUid) {
-                if (currentRoute == "dashboard" || currentRoute == "reports") {
-                FloatingActionButton(onClick = { showAddDialogFromNotification = true }) {
-                    Icon(Icons.Default.Add, "Adicionar Medição")
-                }
-            } else if (currentRoute == "reminders") {
-                FloatingActionButton(onClick = {
-                    android.app.TimePickerDialog(
-                        context,
-                        { _, hour, minute ->
-                            viewModel.addReminder(hour, minute)
-                            scheduleNotification(context, hour, minute)
+                when (currentRoute) {
+                    "dashboard" -> FloatingActionButton(
+                        onClick = { showAddDialogFromNotification = true },
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = Color.White
+                    ) {
+                        Icon(Icons.Default.Add, "Adicionar Medição")
+                    }
+                    "reminders" -> FloatingActionButton(
+                        onClick = {
+                            android.app.TimePickerDialog(
+                                context,
+                                { _, hour, minute ->
+                                    viewModel.addReminder(hour, minute)
+                                    scheduleNotification(context, hour, minute)
+                                },
+                                8, 0, android.text.format.DateFormat.is24HourFormat(context)
+                            ).show()
                         },
-                        8, 0, android.text.format.DateFormat.is24HourFormat(context)
-                    ).show()
-                    }) {
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = Color.White
+                    ) {
                         Icon(Icons.Default.Notifications, "Adicionar Lembrete")
                     }
                 }
@@ -199,6 +231,7 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
             )
         }
     }
+}
 }
 
 @Composable
@@ -426,13 +459,17 @@ fun GlucoseChart(records: List<com.example.glicose.data.GlucoseRecord>) {
 @Composable
 fun ReportsScreen(viewModel: GlucoseViewModel) {
     val allRecords by viewModel.allRecords.collectAsState()
+    val targetMin by viewModel.targetMin.collectAsState()
+    val targetMax by viewModel.targetMax.collectAsState()
+    
     var selectedDays by remember { mutableStateOf(7) }
     var editingRecord by remember { mutableStateOf<com.example.glicose.data.GlucoseRecord?>(null) }
+    val context = androidx.compose.ui.platform.LocalContext.current
 
     val filteredRecords = remember(allRecords, selectedDays) {
         if (selectedDays == 999) allRecords
         else {
-            val cutoff = Calendar.getInstance().apply { 
+            val cutoff = Calendar.getInstance().apply {
                 add(Calendar.DATE, -selectedDays)
                 set(Calendar.HOUR_OF_DAY, 0)
                 set(Calendar.MINUTE, 0)
@@ -442,68 +479,159 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
         }
     }
 
-    // Calculations
     val avg = if (filteredRecords.isNotEmpty()) filteredRecords.map { it.value }.average() else 0.0
-    // eA1c formula: (Average + 46.7) / 28.7
     val eA1c = if (avg > 0) (avg + 46.7) / 28.7 else 0.0
     val maxVal = filteredRecords.maxOfOrNull { it.value } ?: 0f
     val minVal = filteredRecords.minOfOrNull { it.value } ?: 0f
 
-    // Time in range
-    val inRange = filteredRecords.count { it.value in 70f..140f }
-    val high = filteredRecords.count { it.value > 140f }
-    val low = filteredRecords.count { it.value < 70f }
+    val inRange = filteredRecords.count { it.value in targetMin..targetMax }
+    val high = filteredRecords.count { it.value > targetMax }
+    val low = filteredRecords.count { it.value < targetMin }
     val total = filteredRecords.size.coerceAtLeast(1)
 
-    Column(Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
-        Text("Relatórios", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(16.dp))
+    // Export FAB state
+    var fabExpanded by remember { mutableStateOf(false) }
 
-        // Period Selector
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            listOf(7 to "7 dias", 30 to "30 dias", 999 to "Tudo").forEach { (days, label) ->
-                FilterChip(
-                    selected = selectedDays == days,
-                    onClick = { selectedDays = days },
-                    label = { Text(label) }
+    Box(Modifier.fillMaxSize()) {
+        Column(Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
+            Text("Relatórios", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(16.dp))
+
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                listOf(7 to "7 dias", 30 to "30 dias", 999 to "Tudo").forEach { (days, label) ->
+                    FilterChip(
+                        selected = selectedDays == days,
+                        onClick = { selectedDays = days },
+                        label = { Text(label) }
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                ReportCard(Modifier.weight(1f), "Média", "${avg.toInt()}", "mg/dL", MaterialTheme.colorScheme.primary)
+                ReportCard(Modifier.weight(1f), "eA1c", String.format("%.1f", eA1c), "%", MaterialTheme.colorScheme.secondary)
+            }
+            Spacer(Modifier.height(16.dp))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                ReportCard(Modifier.weight(1f), "Máxima", "${maxVal.toInt()}", "mg/dL", Color(0xFFFF5252))
+                ReportCard(Modifier.weight(1f), "Mínima", "${minVal.toInt()}", "mg/dL", Color(0xFF448AFF))
+            }
+
+            Spacer(Modifier.height(24.dp))
+            Text("Tempo no Alvo (${targetMin.toInt()}-${targetMax.toInt()} mg/dL)", style = MaterialTheme.typography.titleMedium)
+            Spacer(Modifier.height(12.dp))
+            TimeInRangeBar(low.toFloat() / total, inRange.toFloat() / total, high.toFloat() / total)
+
+            Spacer(Modifier.height(32.dp))
+            Text("Histórico do Período", style = MaterialTheme.typography.titleMedium)
+            Spacer(Modifier.height(12.dp))
+
+            if (filteredRecords.isEmpty()) {
+                Text("Nenhum dado no período selecionado", color = Color.Gray)
+            } else {
+                filteredRecords.forEach { record ->
+                    HistoryCard(
+                        record = record,
+                        onDelete = { viewModel.deleteRecord(record) },
+                        onEdit = { editingRecord = record }
+                    )
+                    Spacer(Modifier.height(8.dp))
+                }
+            }
+
+            // Bottom padding so FAB doesn't overlap last item
+            Spacer(Modifier.height(80.dp))
+        }
+
+        // Scrim to close FAB when tapping outside (moved before FAB Column to be behind it)
+        if (fabExpanded) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.1f)) // Added subtle dimming
+                    .clickable { fabExpanded = false }
+            )
+        }
+
+        // ── Export FAB (speed dial) ──────────────────────────────────────────
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            // Mini action buttons (shown when expanded)
+            if (fabExpanded) {
+                // Dismiss scrim on tap outside
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Surface(
+                        shape = MaterialTheme.shapes.small,
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        tonalElevation = 2.dp
+                    ) {
+                        Text(
+                            "Exportar PDF",
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                    SmallFloatingActionButton(
+                        onClick = {
+                            fabExpanded = false
+                            PdfExporter.exportAndShare(context, filteredRecords, targetMin, targetMax)
+                        },
+                        containerColor = MaterialTheme.colorScheme.errorContainer
+                    ) {
+                        Icon(Icons.Default.PictureAsPdf, "Exportar PDF")
+                    }
+                }
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Surface(
+                        shape = MaterialTheme.shapes.small,
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        tonalElevation = 2.dp
+                    ) {
+                        Text(
+                            "Exportar CSV",
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                    SmallFloatingActionButton(
+                        onClick = {
+                            fabExpanded = false
+                            CsvExporter.exportAndHandle(context, filteredRecords)
+                        },
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    ) {
+                        Icon(Icons.Default.TableChart, "Exportar CSV")
+                    }
+                }
+            }
+
+            // Main FAB
+            FloatingActionButton(
+                onClick = { fabExpanded = !fabExpanded },
+                containerColor = if (fabExpanded) MaterialTheme.colorScheme.surfaceVariant
+                                 else MaterialTheme.colorScheme.primary
+            ) {
+                Icon(
+                    if (fabExpanded) Icons.Default.Close else Icons.Default.FileDownload,
+                    "Exportar"
                 )
             }
         }
 
-        Spacer(Modifier.height(16.dp))
-
-        // KPI Grid
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            ReportCard(Modifier.weight(1f), "Média", "${avg.toInt()}", "mg/dL", MaterialTheme.colorScheme.primary)
-            ReportCard(Modifier.weight(1f), "eA1c", String.format("%.1f", eA1c), "%", MaterialTheme.colorScheme.secondary)
-        }
-        Spacer(Modifier.height(16.dp))
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            ReportCard(Modifier.weight(1f), "Máxima", "${maxVal.toInt()}", "mg/dL", Color(0xFFFF5252))
-            ReportCard(Modifier.weight(1f), "Mínima", "${minVal.toInt()}", "mg/dL", Color(0xFF448AFF))
-        }
-
-        Spacer(Modifier.height(24.dp))
-        Text("Tempo no Alvo (70-140 mg/dL)", style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(12.dp))
-        TimeInRangeBar(low.toFloat()/total, inRange.toFloat()/total, high.toFloat()/total)
-
-        Spacer(Modifier.height(32.dp))
-        Text("Histórico do Período", style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(12.dp))
-        
-        if (filteredRecords.isEmpty()) {
-            Text("Nenhum dado no período selecionado", color = Color.Gray)
-        } else {
-            filteredRecords.forEach { record ->
-                HistoryCard(
-                    record = record, 
-                    onDelete = { viewModel.deleteRecord(record) }, 
-                    onEdit = { editingRecord = record }
-                )
-                Spacer(Modifier.height(8.dp))
-            }
-        }
     }
 
     editingRecord?.let { record ->
@@ -762,322 +890,479 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
     val records by viewModel.allRecords.collectAsState()
     val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
     val user = auth.currentUser
-    
-    var vibrationEnabled by remember { mutableStateOf(true) }
-    var notificationVolume by remember { mutableStateOf(0.7f) }
 
-    // Camera Permission Request
+    var showFollowDialog by remember { mutableStateOf(false) }
+    var showScanner by remember { mutableStateOf(false) }
+    var showQrCodeDialog by remember { mutableStateOf(false) }
+    var isSyncing by remember { mutableStateOf(false) }
+
     val cameraPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (!isGranted) {
-            Toast.makeText(context, "Permissão de câmera negada", Toast.LENGTH_SHORT).show()
+        if (isGranted) showScanner = true
+        else Toast.makeText(context, "Permissão de câmera negada", Toast.LENGTH_SHORT).show()
+    }
+
+    // Import state: null = nenhum arquivo selecionado, non-null = resultado da validação
+    var importPreviewState by remember { mutableStateOf<Pair<android.net.Uri, com.example.glicose.utils.CsvExporter.CsvParseResult>?>(null) }
+
+    val importCsvLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (uri != null) {
+            try {
+                val result = CsvExporter.parseAndValidateBackupCsv(context, uri)
+                importPreviewState = uri to result
+            } catch (e: Exception) {
+                Toast.makeText(context, "Erro ao ler arquivo: ${e.message}", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
-    Column(Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
-        Text("Ajustes", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(24.dp))
+    // Dialogs
+    if (showFollowDialog) {
+        FollowPatientDialog(
+            onDismiss = { showFollowDialog = false },
+            onFollow = { code ->
+                viewModel.followUser(
+                    code = code,
+                    onSuccess = { showFollowDialog = false },
+                    onError = { Toast.makeText(context, it, Toast.LENGTH_LONG).show() }
+                )
+            }
+        )
+    }
+    if (showScanner) {
+        QrScannerDialog(
+            onDismiss = { showScanner = false },
+            onCodeScanned = { code ->
+                showScanner = false
+                viewModel.followUser(
+                    code = code,
+                    onSuccess = { },
+                    onError = { Toast.makeText(context, it, Toast.LENGTH_LONG).show() }
+                )
+            }
+        )
+    }
+    if (user != null && showQrCodeDialog) {
+        QrCodeDialog(code = user.uid.take(6).uppercase(), onDismiss = { showQrCodeDialog = false })
+    }
 
-        // Perfil do Usuário
-        if (user != null) {
-            val userCode = user.uid.take(6).uppercase()
-            var showQrCodeDialog by remember { mutableStateOf(false) }
-            val clipboardManager = LocalClipboardManager.current
-            
-            Spacer(Modifier.height(40.dp)) // Espaço para a imagem sair metade pra fora
+    // Dialog de preview e confirmação de importação
+    importPreviewState?.let { (uri, result) ->
+        ImportPreviewDialog(
+            result = result,
+            onConfirm = {
+                result.validRecords.forEach { (value, note, timestamp) ->
+                    viewModel.addRecord(value, note, timestamp)
+                }
+                importPreviewState = null
+                Toast.makeText(context, "${result.validRecords.size} registros importados!", Toast.LENGTH_SHORT).show()
+            },
+            onDismiss = { importPreviewState = null }
+        )
+    }
 
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
-                Card(
-                    modifier = Modifier.fillMaxWidth().padding(top = 40.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-                ) {
-                    Column(
-                        Modifier.padding(top = 50.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        // ── Header Banner ────────────────────────────────────────────────────
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primaryContainer)
+                .padding(top = 32.dp, bottom = 48.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                if (user != null) {
+                    Surface(
+                        modifier = Modifier.size(88.dp),
+                        shape = CircleShape,
+                        border = BorderStroke(3.dp, MaterialTheme.colorScheme.primary)
                     ) {
-                        Text(user.displayName ?: "Sem nome", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                        Text(user.email ?: "Sem e-mail", style = MaterialTheme.typography.bodyMedium)
-                        
-                        Spacer(Modifier.height(24.dp))
-                        
-                        Text("Seu Código de Compartilhamento:", style = MaterialTheme.typography.labelMedium)
-                        
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(userCode, style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onPrimaryContainer)
-                            Spacer(Modifier.width(8.dp))
-                            IconButton(onClick = { 
+                        AsyncImage(
+                            model = user.photoUrl ?: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
+                            contentDescription = "Foto de Perfil",
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        user.displayName ?: "Sem nome",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Text(
+                        user.email ?: "",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                    )
+                }
+            }
+        }
+
+        // Content with padding
+        Column(Modifier.padding(horizontal = 16.dp)) {
+            Spacer(Modifier.height(16.dp))
+
+            // ── Seção: Código de Compartilhamento ────────────────────────────
+            if (user != null) {
+                val userCode = user.uid.take(6).uppercase()
+                val clipboardManager = LocalClipboardManager.current
+
+                SettingsSection(title = "Código de Compartilhamento", icon = Icons.Default.Share) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            "Compartilhe este código com quem deseja que acompanhe seus dados.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        Text(
+                            userCode,
+                            style = MaterialTheme.typography.displaySmall,
+                            fontWeight = FontWeight.Black,
+                            letterSpacing = 6.sp,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            OutlinedButton(onClick = {
                                 clipboardManager.setText(AnnotatedString(userCode))
                                 Toast.makeText(context, "Código copiado!", Toast.LENGTH_SHORT).show()
                             }) {
-                                Icon(Icons.Default.ContentCopy, "Copiar", tint = MaterialTheme.colorScheme.primary)
+                                Icon(Icons.Default.ContentCopy, null, modifier = Modifier.size(18.dp))
+                                Spacer(Modifier.width(6.dp))
+                                Text("Copiar")
                             }
-                            IconButton(onClick = { showQrCodeDialog = true }) {
-                                Icon(Icons.Default.QrCode, "QR Code", tint = MaterialTheme.colorScheme.primary)
+                            OutlinedButton(onClick = { showQrCodeDialog = true }) {
+                                Icon(Icons.Default.QrCode, null, modifier = Modifier.size(18.dp))
+                                Spacer(Modifier.width(6.dp))
+                                Text("QR Code")
                             }
                         }
+                    }
+                }
 
-                        Spacer(Modifier.height(16.dp))
-                        var isSyncing by remember { mutableStateOf(false) }
+                Spacer(Modifier.height(12.dp))
+
+                // ── Seção: Adicionar Paciente ─────────────────────────────────
+                SettingsSection(title = "Adicionar Acompanhamento", icon = Icons.Default.PersonAdd) {
+                    Text(
+                        "Adicione alguém pelo código ou lendo o QR Code.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(12.dp))
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Button(
-                            onClick = { 
-                                isSyncing = true
-                                viewModel.syncLocalDataToCloud {
-                                    isSyncing = false
-                                    Toast.makeText(context, "Sincronização concluída!", Toast.LENGTH_SHORT).show()
+                            onClick = { showFollowDialog = true },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Icon(Icons.Default.PersonAdd, null, modifier = Modifier.size(18.dp))
+                            Spacer(Modifier.width(6.dp))
+                            Text("Por Código")
+                        }
+                        FilledIconButton(
+                            onClick = {
+                                if (androidx.core.content.ContextCompat.checkSelfPermission(
+                                        context, android.Manifest.permission.CAMERA
+                                    ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+                                ) showScanner = true
+                                else cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+                            },
+                            modifier = Modifier.size(48.dp)
+                        ) {
+                            Icon(Icons.Default.QrCodeScanner, "Escanear QR Code")
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(12.dp))
+
+                // ── Seção: Conexões ───────────────────────────────────────────
+                SettingsSection(title = "Gerenciar Conexões", icon = Icons.Default.Group) {
+                    SettingsNavItem(
+                        icon = Icons.Default.Visibility,
+                        label = "Pessoas que eu sigo",
+                        description = "Ver e remover quem você acompanha"
+                    ) { navController.navigate("manage_following") }
+                Divider(Modifier.padding(vertical = 4.dp))
+                    SettingsNavItem(
+                        icon = Icons.Default.VisibilityOff,
+                        label = "Quem vê meus dados",
+                        description = "Revogar acesso de acompanhantes"
+                    ) { navController.navigate("manage_followers") }
+                }
+
+                Spacer(Modifier.height(12.dp))
+
+                // ── Seção: Metas ──────────────────────────────────────────────
+                val targetMinFlow by viewModel.targetMin.collectAsState()
+                val targetMaxFlow by viewModel.targetMax.collectAsState()
+                var tempMin by remember(targetMinFlow) { mutableStateOf(targetMinFlow.toInt().toString()) }
+                var tempMax by remember(targetMaxFlow) { mutableStateOf(targetMaxFlow.toInt().toString()) }
+
+                SettingsSection(title = "Metas de Glicemia", icon = Icons.Default.Flag) {
+                    Text(
+                        "Defina o intervalo alvo para seus relatórios.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(16.dp))
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        OutlinedTextField(
+                            value = tempMin,
+                            onValueChange = { 
+                                if (it.all { char -> char.isDigit() }) {
+                                    tempMin = it
+                                    it.toFloatOrNull()?.let { min -> 
+                                        viewModel.updateTargetRange(min, targetMaxFlow) 
+                                    }
                                 }
                             },
-                            modifier = Modifier.fillMaxWidth(),
-                            enabled = !isSyncing,
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-                        ) {
-                            if (isSyncing) {
-                                CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.White)
-                            } else {
-                                Icon(Icons.Default.Sync, null)
-                                Spacer(Modifier.width(8.dp))
-                                Text("Sincronizar Dados com Nuvem")
-                            }
-                        }
-
-                        Spacer(Modifier.height(8.dp))
-                        Button(
-                            onClick = onLogout,
-                            modifier = Modifier.fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
-                        ) {
-                            Text("Sair da Conta")
-                        }
+                            label = { Text("Mínimo") },
+                            modifier = Modifier.weight(1f),
+                            suffix = { Text("mg/dL") },
+                            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                                keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                            )
+                        )
+                        OutlinedTextField(
+                            value = tempMax,
+                            onValueChange = { 
+                                if (it.all { char -> char.isDigit() }) {
+                                    tempMax = it
+                                    it.toFloatOrNull()?.let { max -> 
+                                        viewModel.updateTargetRange(targetMinFlow, max) 
+                                    }
+                                }
+                            },
+                            label = { Text("Máximo") },
+                            modifier = Modifier.weight(1f),
+                            suffix = { Text("mg/dL") },
+                            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                                keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                            )
+                        )
                     }
                 }
 
-                // Imagem de Perfil Redonda e Centralizada (Metade pra fora)
-                Surface(
-                    modifier = Modifier.size(80.dp),
-                    shape = CircleShape,
-                    border = BorderStroke(4.dp, MaterialTheme.colorScheme.surface),
-                    shadowElevation = 8.dp
+                Spacer(Modifier.height(12.dp))
+            }
+
+            // ── Seção: Nuvem e Dados ──────────────────────────────────────────
+            SettingsSection(title = "Nuvem e Backup", icon = Icons.Default.CloudSync) {
+                SettingsNavItem(
+                    icon = Icons.Default.Sync,
+                    label = "Sincronizar com a Nuvem",
+                    description = if (isSyncing) "Sincronizando..." else "Enviar dados locais para o Firebase"
                 ) {
-                    AsyncImage(
-                        model = user.photoUrl ?: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
-                        contentDescription = "Foto de Perfil",
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-            }
-            
-            if (showQrCodeDialog) {
-                QrCodeDialog(code = userCode, onDismiss = { showQrCodeDialog = false })
-            }
-            Spacer(Modifier.height(16.dp))
-        }
-
-        // Acompanhamento
-        var showFollowDialog by remember { mutableStateOf(false) }
-        var showScanner by remember { mutableStateOf(false) }
-
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-        ) {
-            Column(Modifier.padding(16.dp)) {
-                Text("Compartilhamento", style = MaterialTheme.typography.titleMedium)
-                Spacer(Modifier.height(8.dp))
-                Text("Acompanhe os dados de glicose de um paciente ou familiar usando o código dele.", style = MaterialTheme.typography.bodySmall)
-                Spacer(Modifier.height(16.dp))
-                
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Button(
-                        onClick = { showFollowDialog = true },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(Icons.Default.PersonAdd, null)
-                        Spacer(Modifier.width(8.dp))
-                        Text("Adicionar")
-                    }
-                    Spacer(Modifier.width(8.dp))
-                    FilledIconButton(
-                        onClick = { 
-                            if (androidx.core.content.ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                                showScanner = true 
-                            } else {
-                                cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
-                            }
-                        },
-                        modifier = Modifier.size(48.dp)
-                    ) {
-                        Icon(Icons.Default.QrCodeScanner, "Escanear QR Code")
-                    }
-                }
-            }
-        }
-
-        if (showFollowDialog) {
-            FollowPatientDialog(
-                onDismiss = { showFollowDialog = false },
-                onFollow = { code ->
-                    viewModel.followUser(
-                        code = code,
-                        onSuccess = { showFollowDialog = false },
-                        onError = { error ->
-                            Toast.makeText(context, error, Toast.LENGTH_LONG).show()
-                        }
-                    )
-                }
-            )
-        }
-        
-        if (showScanner) {
-            QrScannerDialog(
-                onDismiss = { showScanner = false },
-                onCodeScanned = { code ->
-                    showScanner = false
-                    viewModel.followUser(
-                        code = code,
-                        onSuccess = { },
-                        onError = { error ->
-                            Toast.makeText(context, error, Toast.LENGTH_LONG).show()
-                        }
-                    )
-                }
-            )
-        }
-
-        Spacer(Modifier.height(16.dp))
-
-        // Gerenciamento de Conexões
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-        ) {
-            Column(Modifier.padding(16.dp)) {
-                Text("Gerenciar Conexões", style = MaterialTheme.typography.titleMedium)
-                Spacer(Modifier.height(16.dp))
-
-                OutlinedButton(
-                    onClick = { navController.navigate("manage_following") },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(Icons.Default.Group, null)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Pessoas que eu sigo")
-                }
-
-                Spacer(Modifier.height(8.dp))
-
-                OutlinedButton(
-                    onClick = { navController.navigate("manage_followers") },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(Icons.Default.GroupAdd, null)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Quem vê meus dados")
-                }
-            }
-        }
-
-        Spacer(Modifier.height(16.dp))
-
-        // Notificações Card
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-        ) {
-            Column(Modifier.padding(16.dp)) {
-                Text("Notificações", style = MaterialTheme.typography.titleMedium)
-                Spacer(Modifier.height(16.dp))
-                
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Vibração", Modifier.weight(1f))
-                    Switch(checked = vibrationEnabled, onCheckedChange = { vibrationEnabled = it })
-                }
-                
-                Spacer(Modifier.height(16.dp))
-                Text("Volume do Lembrete")
-                Slider(
-                    value = notificationVolume,
-                    onValueChange = { notificationVolume = it },
-                    modifier = Modifier.padding(vertical = 8.dp)
-                )
-                
-                Spacer(Modifier.height(8.dp))
-                OutlinedButton(
-                    onClick = { 
-                        val intent = Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-                            putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, context.packageName)
-                        }
-                        context.startActivity(intent)
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(Icons.Default.Settings, null)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Configurações do Sistema")
-                }
-            }
-        }
-
-        Spacer(Modifier.height(16.dp))
-
-        // Backup Card
-        val importCsvLauncher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.GetContent()
-        ) { uri ->
-            if (uri != null) {
-                try {
-                    val uid = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: return@rememberLauncherForActivityResult
-                    context.contentResolver.openInputStream(uri)?.bufferedReader()?.useLines { lines ->
-                        lines.drop(1).forEach { line ->
-                            val parts = line.split(",")
-                            if (parts.size >= 2) {
-                                val value = parts[0].trim().toFloatOrNull() ?: return@forEach
-                                val note = parts.getOrElse(1) { "" }.trim()
-                                val timestamp = parts.getOrElse(2) { "" }.trim().toLongOrNull() ?: System.currentTimeMillis()
-                                viewModel.addRecord(value, note, timestamp)
-                            }
+                    if (!isSyncing) {
+                        isSyncing = true
+                        viewModel.syncLocalDataToCloud {
+                            isSyncing = false
+                            Toast.makeText(context, "Sincronização concluída!", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    Toast.makeText(context, "Importação concluída!", Toast.LENGTH_SHORT).show()
-                } catch (e: Exception) {
-                    Toast.makeText(context, "Erro na importação: ${e.message}", Toast.LENGTH_LONG).show()
                 }
+                Divider(Modifier.padding(vertical = 4.dp))
+                SettingsNavItem(
+                    icon = Icons.Default.FileDownload,
+                    label = "Exportar CSV",
+                    description = "Compartilhar registros como planilha"
+                ) { CsvExporter.exportBackup(context, records) }
+                Divider(Modifier.padding(vertical = 4.dp))
+                SettingsNavItem(
+                    icon = Icons.Default.FileUpload,
+                    label = "Importar CSV",
+                    description = "Restaurar registros de um arquivo CSV"
+                ) { importCsvLauncher.launch("text/*") }
             }
-        }
 
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-        ) {
-            Column(Modifier.padding(16.dp)) {
-                Text("Backup de Dados", style = MaterialTheme.typography.titleMedium)
-                Spacer(Modifier.height(8.dp))
-                Text("Exporte ou importe seus registros em formato CSV.", style = MaterialTheme.typography.bodySmall)
-                Spacer(Modifier.height(16.dp))
-                Button(
-                    onClick = { CsvExporter.exportAndHandle(context, records) },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-                ) {
-                    Icon(Icons.Default.Share, null)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Exportar CSV")
-                }
-                Spacer(Modifier.height(8.dp))
-                OutlinedButton(
-                    onClick = { importCsvLauncher.launch("text/*") },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(Icons.Default.FileUpload, null)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Importar CSV")
-                }
+            Spacer(Modifier.height(12.dp))
+
+            // ── Seção: Conta ──────────────────────────────────────────────────
+            SettingsSection(title = "Conta", icon = Icons.Default.AccountCircle) {
+                SettingsNavItem(
+                    icon = Icons.Default.Logout,
+                    label = "Sair da Conta",
+                    description = "Desconectar e trocar de usuário",
+                    tint = MaterialTheme.colorScheme.error
+                ) { onLogout() }
             }
+
+            Spacer(Modifier.height(32.dp))
         }
     }
+}
+
+@Composable
+fun SettingsSection(
+    title: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
+        ) {
+            Icon(icon, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
+            Spacer(Modifier.width(6.dp))
+            Text(
+                title.uppercase(),
+                style = MaterialTheme.typography.labelSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                letterSpacing = 1.sp
+            )
+        }
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        ) {
+            Column(Modifier.padding(16.dp), content = content)
+        }
+    }
+}
+
+@Composable
+fun SettingsNavItem(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    description: String,
+    tint: Color = MaterialTheme.colorScheme.onSurface,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(icon, null, tint = tint, modifier = Modifier.size(24.dp))
+        Spacer(Modifier.width(16.dp))
+        Column(Modifier.weight(1f)) {
+            Text(label, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, color = tint)
+            Text(description, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        Icon(Icons.Default.ChevronRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
+    }
+}
+
+
+@Composable
+fun ImportPreviewDialog(
+    result: com.example.glicose.utils.CsvExporter.CsvParseResult,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = { Icon(Icons.Default.FileUpload, null) },
+        title = { Text("Importar Registros") },
+        text = {
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+
+                // Formato esperado
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    Column(Modifier.padding(12.dp)) {
+                        Text("Formato esperado do arquivo:", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                        Spacer(Modifier.height(6.dp))
+                        Text(
+                            "valor_mgdl,nota,timestamp_ms,data_hora_legivel",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            "Exemplo: 120,Em jejum,1714320000000,28/04/2025 08:00",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            "• Colunas obrigatórias: valor_mgdl e timestamp_ms\n• A coluna nota pode estar vazia\n• data_hora_legivel é ignorada",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(16.dp))
+
+                // Resultado da validação
+                val hasValid = result.validRecords.isNotEmpty()
+                val hasInvalid = result.invalidLines > 0
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        if (hasValid) Icons.Default.CheckCircle else Icons.Default.Cancel,
+                        null,
+                        tint = if (hasValid) Color(0xFF4CAF50) else MaterialTheme.colorScheme.error,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        "${result.validRecords.size} registro(s) válido(s) encontrado(s)",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium,
+                        color = if (hasValid) Color(0xFF4CAF50) else MaterialTheme.colorScheme.error
+                    )
+                }
+
+                if (hasInvalid) {
+                    Spacer(Modifier.height(6.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Default.Warning,
+                            null,
+                            tint = Color(0xFFFFA000),
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            "${result.invalidLines} linha(s) inválida(s) serão ignoradas",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color(0xFFFFA000)
+                        )
+                    }
+                }
+
+                if (!hasValid) {
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        "Nenhum registro válido encontrado. Verifique se o arquivo está no formato correto.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = onConfirm,
+                enabled = result.validRecords.isNotEmpty()
+            ) {
+                Text("Importar ${result.validRecords.size} registro(s)")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancelar") }
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
