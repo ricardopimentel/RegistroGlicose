@@ -115,12 +115,25 @@ object CsvExporter {
             val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
             uri?.let {
                 resolver.openOutputStream(it)?.use { out -> out.write(csvContent.toByteArray()) }
-                val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                    type = "text/csv"
-                    putExtra(Intent.EXTRA_STREAM, it)
+                
+                // Open the file immediately
+                val viewIntent = Intent(Intent.ACTION_VIEW).apply {
+                    setDataAndType(it, "text/csv")
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
-                context.startActivity(Intent.createChooser(shareIntent, "Exportar e Compartilhar"))
+                
+                try {
+                    context.startActivity(viewIntent)
+                } catch (e: Exception) {
+                    // Fallback to share
+                    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/csv"
+                        putExtra(Intent.EXTRA_STREAM, it)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    context.startActivity(Intent.createChooser(shareIntent, "Abrir Arquivo"))
+                }
+                
                 Toast.makeText(context, "Arquivo salvo em Downloads", Toast.LENGTH_LONG).show()
             }
         } catch (e: Exception) {

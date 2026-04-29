@@ -27,7 +27,8 @@ class GlucoseWidgetProvider : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        if (intent.action == "com.example.glicose.UPDATE_WIDGET") {
+        if (intent.action == "com.example.glicose.UPDATE_WIDGET" || 
+            intent.action == Intent.ACTION_CONFIGURATION_CHANGED) {
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val ids = appWidgetManager.getAppWidgetIds(ComponentName(context, GlucoseWidgetProvider::class.java))
             onUpdate(context, appWidgetManager, ids)
@@ -71,20 +72,27 @@ class GlucoseWidgetProvider : AppWidgetProvider() {
                     val prefs = context.getSharedPreferences("glucose_prefs", Context.MODE_PRIVATE)
                     val targetMin = prefs.getFloat("target_min", 70f)
                     val targetMax = prefs.getFloat("target_max", 140f)
-                    
                     val appTheme = prefs.getInt("app_theme", 0)
-                    // Apply Theme Colors to Widget
+                    
+                    // Determine if we should use Dark Mode
                     val isDark = when (appTheme) {
                         1 -> false
                         2 -> true
                         else -> (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
                     }
 
-                    val textColorPrimary = if (isDark) android.graphics.Color.parseColor("#E6E1E5") else android.graphics.Color.parseColor("#49454F")
-                    val textColorSecondary = if (isDark) android.graphics.Color.parseColor("#938F99") else android.graphics.Color.parseColor("#757575")
-                    val iconTint = if (isDark) android.graphics.Color.parseColor("#D0BCFF") else android.graphics.Color.parseColor("#6750A4")
+                    // Create a themed context to get the correct resources
+                    val config = Configuration(context.resources.configuration)
+                    config.uiMode = (config.uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or
+                            (if (isDark) Configuration.UI_MODE_NIGHT_YES else Configuration.UI_MODE_NIGHT_NO)
+                    val themedContext = context.createConfigurationContext(config)
+
+                    // Get colors from themed context
+                    val textColorPrimary = themedContext.getColor(R.color.widget_text_primary)
+                    val textColorSecondary = themedContext.getColor(R.color.widget_text_secondary)
+                    val iconTint = themedContext.getColor(R.color.widget_accent)
                     
-                    // Swap backgrounds
+                    // Swap backgrounds using themed resources
                     views.setInt(R.id.main_circle_container, "setBackgroundResource", 
                         if (isDark) R.drawable.circular_widget_background_dark else R.drawable.circular_widget_background)
                     
@@ -94,7 +102,7 @@ class GlucoseWidgetProvider : AppWidgetProvider() {
                     // Tint the Add icon
                     views.setInt(R.id.widget_btn_add_icon, "setColorFilter", iconTint)
                     
-                    // Update all text colors based on theme
+                    // Update all text colors
                     views.setTextColor(R.id.widget_avg, textColorPrimary)
                     views.setTextColor(R.id.widget_a1c, textColorPrimary)
                     views.setTextColor(R.id.widget_last_time, textColorPrimary)

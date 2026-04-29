@@ -64,6 +64,8 @@ import com.example.glicose.utils.CsvExporter
 import com.example.glicose.utils.PdfExporter
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -500,19 +502,29 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
     val targetMax by viewModel.targetMax.collectAsState()
     
     var selectedDays by remember { mutableStateOf(7) }
+    var customDateRange by remember { mutableStateOf<Pair<Long, Long>?>(null) }
+    var showDateRangePicker by remember { mutableStateOf(false) }
+    
     var editingRecord by remember { mutableStateOf<com.example.glicose.data.GlucoseRecord?>(null) }
     val context = androidx.compose.ui.platform.LocalContext.current
+    
+    val dateRangePickerState = rememberDateRangePickerState()
 
-    val filteredRecords = remember(allRecords, selectedDays) {
-        if (selectedDays == 999) allRecords
-        else {
-            val cutoff = Calendar.getInstance().apply {
-                add(Calendar.DATE, -selectedDays)
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-            }.timeInMillis
-            allRecords.filter { it.timestamp >= cutoff }
+    val filteredRecords = remember(allRecords, selectedDays, customDateRange) {
+        when {
+            selectedDays == -1 && customDateRange != null -> {
+                allRecords.filter { it.timestamp in customDateRange!!.first..customDateRange!!.second }
+            }
+            selectedDays == 999 -> allRecords
+            else -> {
+                val cutoff = Calendar.getInstance().apply {
+                    add(Calendar.DATE, -selectedDays)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                }.timeInMillis
+                allRecords.filter { it.timestamp >= cutoff }
+            }
         }
     }
 
@@ -543,26 +555,62 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
             Text("Relatórios", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(16.dp))
 
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf(7 to "7 dias", 30 to "30 dias", 999 to "Tudo").forEach { (days, label) ->
+            Row(
+                Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), 
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                listOf(7 to "7 dias", 14 to "14 dias", 30 to "30 dias", 90 to "90 dias", 999 to "Tudo").forEach { (days, label) ->
                     FilterChip(
                         selected = selectedDays == days,
-                        onClick = { selectedDays = days },
+                        onClick = { 
+                            selectedDays = days
+                            customDateRange = null
+                        },
                         label = { Text(label) }
                     )
                 }
+                FilterChip(
+                    selected = selectedDays == -1,
+                    onClick = { showDateRangePicker = true },
+                    label = { 
+                        Text(if (customDateRange != null) {
+                            val sdf = SimpleDateFormat("dd/MM", Locale.getDefault())
+                            "${sdf.format(Date(customDateRange!!.first))} - ${sdf.format(Date(customDateRange!!.second))}"
+                        } else "Personalizado")
+                    },
+                    leadingIcon = { Icon(Icons.Default.DateRange, null, modifier = Modifier.size(18.dp)) }
+                )
             }
 
             Spacer(Modifier.height(16.dp))
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                ReportCard(Modifier.weight(1f), "Média", "${avg.toInt()}", "mg/dL", MaterialTheme.colorScheme.primary)
-                ReportCard(Modifier.weight(1f), "eA1c", String.format("%.1f", eA1c), "%", MaterialTheme.colorScheme.secondary)
+                ReportCard(Modifier.weight(1f), "Média", "${avg.toInt()}", "mg/dL", MaterialTheme.colorScheme.primary, Icons.Default.QueryStats)
+                ReportCard(Modifier.weight(1f), "eA1c", String.format("%.1f", eA1c), "%", MaterialTheme.colorScheme.secondary, Icons.Default.Analytics)
             }
             Spacer(Modifier.height(16.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                ReportCard(Modifier.weight(1f), "Máxima", "${maxVal.toInt()}", "mg/dL", Color(0xFFFF5252))
-                ReportCard(Modifier.weight(1f), "Mínima", "${minVal.toInt()}", "mg/dL", Color(0xFF448AFF))
+                ReportCard(Modifier.weight(1f), "Máxima", "${maxVal.toInt()}", "mg/dL", Color(0xFFFF5252), Icons.Default.TrendingUp)
+                ReportCard(Modifier.weight(1f), "Mínima", "${minVal.toInt()}", "mg/dL", Color(0xFF448AFF), Icons.Default.TrendingDown)
+            }
+
+            Spacer(Modifier.height(24.dp))
+            
+            // Statistics Summary Card
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(Modifier.padding(16.dp)) {
+                    Text("Sumário Estatístico", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Spacer(Modifier.height(12.dp))
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        StatItem("Total", "${filteredRecords.size}", "leituras")
+                        StatItem("No Alvo", "${(inRange.toFloat() / total * 100).toInt()}%", "do tempo")
+                        StatItem("Variabilidade", "${(filteredRecords.map { it.value }.standardDeviation() ?: 0.0).toInt()}", "mg/dL")
+                    }
+                }
             }
 
             Spacer(Modifier.height(24.dp))
@@ -681,6 +729,39 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
 
     }
 
+    if (showDateRangePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showDateRangePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    dateRangePickerState.selectedStartDateMillis?.let { start ->
+                        dateRangePickerState.selectedEndDateMillis?.let { end ->
+                            // Set end to end of day
+                            val endCal = Calendar.getInstance().apply { 
+                                timeInMillis = end
+                                set(Calendar.HOUR_OF_DAY, 23)
+                                set(Calendar.MINUTE, 59)
+                                set(Calendar.SECOND, 59)
+                            }
+                            customDateRange = start to endCal.timeInMillis
+                            selectedDays = -1
+                        }
+                    }
+                    showDateRangePicker = false
+                }) { Text("Aplicar") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDateRangePicker = false }) { Text("Cancelar") }
+            }
+        ) {
+            DateRangePicker(
+                state = dateRangePickerState,
+                title = { Text("Selecionar Período", modifier = Modifier.padding(16.dp)) },
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+
     editingRecord?.let { record ->
         AddRecordDialog(
             onDismiss = { editingRecord = null },
@@ -696,17 +777,23 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
 }
 
 @Composable
-fun ReportCard(modifier: Modifier, title: String, value: String, unit: String, color: Color) {
+fun ReportCard(modifier: Modifier, title: String, value: String, unit: String, color: Color, icon: androidx.compose.ui.graphics.vector.ImageVector) {
     Card(
         modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = color.copy(alpha = 0.1f)),
-        border = BorderStroke(1.dp, color.copy(alpha = 0.2f))
+        colors = CardDefaults.cardColors(containerColor = color.copy(alpha = 0.08f)),
+        border = BorderStroke(1.dp, color.copy(alpha = 0.15f)),
+        shape = RoundedCornerShape(16.dp)
     ) {
         Column(Modifier.padding(16.dp)) {
-            Text(title, style = MaterialTheme.typography.labelMedium, color = color)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(icon, null, tint = color, modifier = Modifier.size(16.dp))
+                Spacer(Modifier.width(6.dp))
+                Text(title, style = MaterialTheme.typography.labelMedium, color = color, fontWeight = FontWeight.SemiBold)
+            }
+            Spacer(Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.Bottom) {
-                Text(value, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold, color = color)
-                Text(unit, style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(start = 4.dp, bottom = 4.dp), color = color)
+                Text(value, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Black, color = color)
+                Text(unit, style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(start = 4.dp, bottom = 4.dp), color = color.copy(alpha = 0.7f))
             }
         }
     }
@@ -1890,4 +1977,19 @@ fun PermissionHandler(context: Context) {
             }
         }
     }
+}
+
+@Composable
+fun StatItem(label: String, value: String, unit: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(label, style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+        Text(value, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        Text(unit, style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+    }
+}
+
+fun List<Float>.standardDeviation(): Double? {
+    if (isEmpty()) return null
+    val mean = average()
+    return sqrt(map { (it.toDouble() - mean).pow(2.0) }.average())
 }

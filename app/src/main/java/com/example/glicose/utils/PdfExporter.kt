@@ -42,12 +42,24 @@ object PdfExporter {
                 resolver.openOutputStream(it)?.use { out -> pdf.writeTo(out) }
                 pdf.close()
 
-                val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                    type = "application/pdf"
-                    putExtra(Intent.EXTRA_STREAM, it)
+                // Open the file immediately
+                val viewIntent = Intent(Intent.ACTION_VIEW).apply {
+                    setDataAndType(it, "application/pdf")
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
-                context.startActivity(Intent.createChooser(shareIntent, "Exportar Relatório PDF"))
+                
+                try {
+                    context.startActivity(viewIntent)
+                } catch (e: Exception) {
+                    // Fallback to share if no PDF viewer
+                    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                        type = "application/pdf"
+                        putExtra(Intent.EXTRA_STREAM, it)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    context.startActivity(Intent.createChooser(shareIntent, "Abrir Relatório"))
+                }
+                
                 Toast.makeText(context, "PDF salvo em Downloads", Toast.LENGTH_LONG).show()
             }
         } catch (e: Exception) {
@@ -56,141 +68,123 @@ object PdfExporter {
     }
 
     private fun buildPdf(records: List<GlucoseRecord>, targetMin: Float, targetMax: Float): PdfDocument {
-        // ── Build pivot data ──────────────────────────────────────────────────
-        val days = records
-            .groupBy { dateFormat.format(Date(it.timestamp)) }
-            .toSortedMap()
-        val allTimes = records
-            .map { timeFormat.format(Date(it.timestamp)) }
-            .distinct()
-            .sorted()
-
-        // ── Page dimensions (A4 landscape-ish) ───────────────────────────────
-        val colWidth = 90f
-        val rowHeight = 28f
-        val marginLeft = 20f
-        val marginTop = 80f
-        val dateColWidth = 110f
-
-        val pageWidth = (dateColWidth + colWidth * allTimes.size + marginLeft * 2).toInt()
-            .coerceAtLeast(595) // at least A4 width
-        val pageHeight = (marginTop + rowHeight * (days.size + 2) + 60f).toInt()
-            .coerceAtLeast(842)
+        val sortedRecords = records.sortedByDescending { it.timestamp }
+        val days = sortedRecords.groupBy { dateFormat.format(Date(it.timestamp)) }
+        
+        // Stats
+        val avg = records.map { it.value }.average()
+        val eA1c = (avg + 46.7) / 28.7
+        val maxVal = records.maxOf { it.value }
+        val minVal = records.minOf { it.value }
 
         val pdf = PdfDocument()
-        val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
-        val page = pdf.startPage(pageInfo)
-        val canvas: Canvas = page.canvas
+        val pageWidth = 595 // A4 width in points
+        val pageHeight = 842 // A4 height in points
+        
+        var pageNumber = 1
+        var pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create()
+        var page = pdf.startPage(pageInfo)
+        var canvas = page.canvas
 
         // ── Paints ────────────────────────────────────────────────────────────
-        val titlePaint = Paint().apply {
-            color = Color.parseColor("#6750A4") // Purple
-            textSize = 18f
-            isFakeBoldText = true
-            isAntiAlias = true
-        }
-        val headerPaint = Paint().apply {
-            color = Color.parseColor("#4F378B") // Darker Purple
-            textSize = 11f
-            isFakeBoldText = true
-            isAntiAlias = true
-        }
-        val headerBgPaint = Paint().apply {
-            color = Color.parseColor("#F3E5F5") // Light Purple background
-            style = Paint.Style.FILL
-        }
-        val cellPaint = Paint().apply {
-            color = Color.parseColor("#212121")
-            textSize = 11f
-            isAntiAlias = true
-        }
-        val altRowPaint = Paint().apply {
-            color = Color.parseColor("#F5F5F5")
-            style = Paint.Style.FILL
-        }
-        val linePaint = Paint().apply {
-            color = Color.parseColor("#BDBDBD")
-            strokeWidth = 0.5f
-            style = Paint.Style.STROKE
-        }
-        val highPaint = Paint().apply {
-            color = Color.parseColor("#C62828")
-            textSize = 11f
-            isFakeBoldText = true
-            isAntiAlias = true
-        }
-        val lowPaint = Paint().apply {
-            color = Color.parseColor("#1565C0")
-            textSize = 11f
-            isFakeBoldText = true
-            isAntiAlias = true
-        }
+        val titlePaint = Paint().apply { color = Color.parseColor("#6750A4"); textSize = 22f; isFakeBoldText = true; isAntiAlias = true }
+        val subTitlePaint = Paint().apply { color = Color.parseColor("#757575"); textSize = 10f; isAntiAlias = true }
+        val cardPaint = Paint().apply { color = Color.parseColor("#F3E5F5"); style = Paint.Style.FILL }
+        val cardTextPaint = Paint().apply { color = Color.parseColor("#4F378B"); textSize = 10f; isFakeBoldText = true; isAntiAlias = true }
+        val cardValuePaint = Paint().apply { color = Color.parseColor("#4F378B"); textSize = 16f; isFakeBoldText = true; isAntiAlias = true }
+        val sectionPaint = Paint().apply { color = Color.parseColor("#212121"); textSize = 12f; isFakeBoldText = true; isAntiAlias = true }
+        val cellPaint = Paint().apply { color = Color.parseColor("#424242"); textSize = 11f; isAntiAlias = true }
+        val timePaint = Paint().apply { color = Color.parseColor("#757575"); textSize = 10f; isAntiAlias = true }
+        val linePaint = Paint().apply { color = Color.parseColor("#EEEEEE"); strokeWidth = 1f }
+        
+        val highColor = Color.parseColor("#EF5350")
+        val lowColor = Color.parseColor("#42A5F5")
+        val normalColor = Color.parseColor("#66BB6A")
 
-        // ── Title ─────────────────────────────────────────────────────────────
-        canvas.drawText("Relatório de Glicemia", marginLeft, 40f, titlePaint)
-        val subtitle = Paint().apply {
-            color = Color.parseColor("#616161"); textSize = 10f; isAntiAlias = true
+        var y = 50f
+        
+        // ── Header ────────────────────────────────────────────────────────────
+        canvas.drawText("Relatório de Controle Glicêmico", 40f, y, titlePaint)
+        y += 20f
+        canvas.drawText("Gerado em ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())}", 40f, y, subTitlePaint)
+        
+        y += 40f
+        
+        // ── Stats Cards ───────────────────────────────────────────────────────
+        val cardW = 120f
+        val cardH = 50f
+        val cardGap = 12f
+        
+        fun drawStatCard(x: Float, label: String, value: String, unit: String) {
+            canvas.drawRoundRect(x, y, x + cardW, y + cardH, 10f, 10f, cardPaint)
+            canvas.drawText(label, x + 10f, y + 18f, cardTextPaint)
+            canvas.drawText(value, x + 10f, y + 40f, cardValuePaint)
+            val vWidth = cardValuePaint.measureText(value)
+            canvas.drawText(unit, x + 10f + vWidth + 4f, y + 40f, subTitlePaint)
         }
-        canvas.drawText(
-            "Gerado em ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())}  |  ${records.size} registros",
-            marginLeft, 58f, subtitle
-        )
-
-        // ── Header row ────────────────────────────────────────────────────────
-        val headerY = marginTop
-        canvas.drawRect(marginLeft, headerY, pageWidth - marginLeft, headerY + rowHeight, headerBgPaint)
-        canvas.drawText("Data", marginLeft + 4f, headerY + rowHeight - 8f, headerPaint)
-        allTimes.forEachIndexed { i, time ->
-            val x = marginLeft + dateColWidth + i * colWidth
-            canvas.drawText(time, x + 4f, headerY + rowHeight - 8f, headerPaint)
-        }
-
-        // ── Data rows ─────────────────────────────────────────────────────────
-        days.entries.forEachIndexed { rowIdx, (date, dayRecords) ->
-            val y = headerY + rowHeight * (rowIdx + 1)
-            val dayTimeMap = dayRecords.associate { timeFormat.format(Date(it.timestamp)) to it.value }
-
-            // Alternate row background
-            if (rowIdx % 2 == 1) {
-                canvas.drawRect(marginLeft, y, pageWidth - marginLeft, y + rowHeight, altRowPaint)
+        
+        drawStatCard(40f, "Média", "${avg.toInt()}", "mg/dL")
+        drawStatCard(40f + cardW + cardGap, "eA1c", String.format("%.1f", eA1c), "%")
+        drawStatCard(40f + (cardW + cardGap) * 2, "Máxima", "${maxVal.toInt()}", "mg/dL")
+        drawStatCard(40f + (cardW + cardGap) * 3, "Mínima", "${minVal.toInt()}", "mg/dL")
+        
+        y += cardH + 40f
+        
+        // ── Log ───────────────────────────────────────────────────────────────
+        days.forEach { (date, dayRecords) ->
+            // Check if we need a new page
+            if (y > pageHeight - 100f) {
+                pdf.finishPage(page)
+                pageNumber++
+                pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create()
+                page = pdf.startPage(pageInfo)
+                canvas = page.canvas
+                y = 50f
             }
-
-            // Date cell
-            canvas.drawText(date, marginLeft + 4f, y + rowHeight - 8f, cellPaint)
-
-            // Value cells
-            allTimes.forEachIndexed { i, time ->
-                val x = marginLeft + dateColWidth + i * colWidth
-                val value = dayTimeMap[time]
-                if (value != null) {
-                    val paint = when {
-                        value > targetMax -> highPaint
-                        value < targetMin -> lowPaint
-                        else -> cellPaint
-                    }
-                    canvas.drawText("${value.toInt()}", x + 4f, y + rowHeight - 8f, paint)
+            
+            canvas.drawText(date, 40f, y, sectionPaint)
+            y += 10f
+            canvas.drawLine(40f, y, pageWidth - 40f, y, linePaint)
+            y += 25f
+            
+            dayRecords.forEach { record ->
+                if (y > pageHeight - 50f) {
+                    pdf.finishPage(page)
+                    pageNumber++
+                    pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create()
+                    page = pdf.startPage(pageInfo)
+                    canvas = page.canvas
+                    y = 50f
                 }
+                
+                val timeStr = timeFormat.format(Date(record.timestamp))
+                canvas.drawText(timeStr, 40f, y, timePaint)
+                
+                val statusColor = when {
+                    record.value > targetMax -> highColor
+                    record.value < targetMin -> lowColor
+                    else -> normalColor
+                }
+                
+                val statusPaint = Paint().apply { color = statusColor; style = Paint.Style.FILL; isAntiAlias = true }
+                canvas.drawCircle(95f, y - 4f, 4f, statusPaint)
+                
+                val valuePaint = Paint().apply { 
+                    color = statusColor
+                    textSize = 12f
+                    isFakeBoldText = true
+                    isAntiAlias = true
+                }
+                canvas.drawText("${record.value.toInt()} mg/dL", 110f, y, valuePaint)
+                
+                if (record.note.isNotEmpty()) {
+                    canvas.drawText(record.note, 220f, y, cellPaint)
+                }
+                
+                y += 25f
             }
-
-            // Row separator
-            canvas.drawLine(marginLeft, y + rowHeight, pageWidth - marginLeft.toFloat(), y + rowHeight, linePaint)
+            y += 15f
         }
-
-        // ── Column grid lines ─────────────────────────────────────────────────
-        val tableBottom = headerY + rowHeight * (days.size + 1)
-        // Date col separator
-        canvas.drawLine(marginLeft + dateColWidth, headerY, marginLeft + dateColWidth, tableBottom, linePaint)
-        allTimes.forEachIndexed { i, _ ->
-            val x = marginLeft + dateColWidth + (i + 1) * colWidth
-            canvas.drawLine(x, headerY, x, tableBottom, linePaint)
-        }
-        // Outer border
-        canvas.drawRect(marginLeft, headerY, pageWidth - marginLeft, tableBottom, linePaint)
-
-        // ── Legend ────────────────────────────────────────────────────────────
-        val legendY = tableBottom + 20f
-        val legendPaint = Paint().apply { color = Color.parseColor("#757575"); textSize = 9f; isAntiAlias = true }
-        canvas.drawText("■ Vermelho: > ${targetMax.toInt()} mg/dL (Alto)    ■ Azul: < ${targetMin.toInt()} mg/dL (Baixo)    ■ Preto: ${targetMin.toInt()}-${targetMax.toInt()} mg/dL (Alvo)", marginLeft, legendY, legendPaint)
 
         pdf.finishPage(page)
         return pdf

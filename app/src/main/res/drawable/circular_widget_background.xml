@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <solid android:color="#FDFBFF" />
+    <solid android:color="@color/widget_bg" />
     <stroke
         android:width="2dp"
-        android:color="#D0BCFF" />
+        android:color="@color/widget_accent" />
 </shape>
