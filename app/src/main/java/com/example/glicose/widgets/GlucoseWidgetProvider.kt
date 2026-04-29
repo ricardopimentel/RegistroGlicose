@@ -15,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import android.content.res.Configuration
 
 class GlucoseWidgetProvider : AppWidgetProvider() {
 
@@ -36,6 +37,16 @@ class GlucoseWidgetProvider : AppWidgetProvider() {
     companion object {
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
             val views = RemoteViews(context.packageName, R.layout.glucose_widget)
+
+            // Intent to open App
+            val openAppIntent = Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            val openAppPendingIntent = PendingIntent.getActivity(
+                context, 1, openAppIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            views.setOnClickPendingIntent(R.id.main_circle_container, openAppPendingIntent)
 
             // Intent to open "Add Record" dialog
             val intent = Intent(context, MainActivity::class.java).apply {
@@ -60,6 +71,38 @@ class GlucoseWidgetProvider : AppWidgetProvider() {
                     val prefs = context.getSharedPreferences("glucose_prefs", Context.MODE_PRIVATE)
                     val targetMin = prefs.getFloat("target_min", 70f)
                     val targetMax = prefs.getFloat("target_max", 140f)
+                    
+                    val appTheme = prefs.getInt("app_theme", 0)
+                    // Apply Theme Colors to Widget
+                    val isDark = when (appTheme) {
+                        1 -> false
+                        2 -> true
+                        else -> (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+                    }
+
+                    val textColorPrimary = if (isDark) android.graphics.Color.parseColor("#E6E1E5") else android.graphics.Color.parseColor("#49454F")
+                    val textColorSecondary = if (isDark) android.graphics.Color.parseColor("#938F99") else android.graphics.Color.parseColor("#757575")
+                    val iconTint = if (isDark) android.graphics.Color.parseColor("#D0BCFF") else android.graphics.Color.parseColor("#6750A4")
+                    
+                    // Swap backgrounds
+                    views.setInt(R.id.main_circle_container, "setBackgroundResource", 
+                        if (isDark) R.drawable.circular_widget_background_dark else R.drawable.circular_widget_background)
+                    
+                    views.setInt(R.id.widget_btn_add, "setBackgroundResource", 
+                        if (isDark) R.drawable.rounded_add_button_dark else R.drawable.rounded_add_button)
+                    
+                    // Tint the Add icon
+                    views.setInt(R.id.widget_btn_add_icon, "setColorFilter", iconTint)
+                    
+                    // Update all text colors based on theme
+                    views.setTextColor(R.id.widget_avg, textColorPrimary)
+                    views.setTextColor(R.id.widget_a1c, textColorPrimary)
+                    views.setTextColor(R.id.widget_last_time, textColorPrimary)
+                    views.setTextColor(R.id.widget_range, textColorPrimary)
+                    
+                    views.setTextColor(R.id.widget_label_avg, textColorSecondary)
+                    views.setTextColor(R.id.widget_label_a1c, textColorSecondary)
+                    views.setTextColor(R.id.widget_label_range, textColorSecondary)
 
                     if (records.isNotEmpty()) {
                         val avg = records.map { it.value }.average()

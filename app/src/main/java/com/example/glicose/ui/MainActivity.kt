@@ -90,25 +90,49 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
     val auth = FirebaseAuth.getInstance()
     
     // Theme Colors
-    val primaryColor = Color(0xFF6750A4) // Vibrant Purple (M3 Primary)
-    val colorScheme = lightColorScheme(
-        primary = primaryColor,
-        onPrimary = Color.White,
-        primaryContainer = Color(0xFFEADDFF),
-        onPrimaryContainer = Color(0xFF21005D),
-        secondary = Color(0xFF625B71),
-        onSecondary = Color.White,
-        surface = Color.White,
-        onSurface = Color(0xFF1C1B1F)
-    )
+    val primaryColor = Color(0xFFD0BCFF) // Light Purple for Dark Theme
+    val primaryColorLight = Color(0xFF6750A4) // Vibrant Purple (M3 Primary)
+    
+    val appTheme by viewModel.appTheme.collectAsState()
+    val isDarkTheme = when (appTheme) {
+        1 -> false
+        2 -> true
+        else -> isSystemInDarkTheme()
+    }
+
+    val colorScheme = if (isDarkTheme) {
+        darkColorScheme(
+            primary = primaryColor,
+            onPrimary = Color(0xFF381E72),
+            primaryContainer = Color(0xFF4F378B),
+            onPrimaryContainer = Color(0xFFEADDFF),
+            secondary = Color(0xFFCCC2DC),
+            onSecondary = Color(0xFF332D41),
+            surface = Color(0xFF1C1B1F),
+            onSurface = Color(0xFFE6E1E5)
+        )
+    } else {
+        lightColorScheme(
+            primary = primaryColorLight,
+            onPrimary = Color.White,
+            primaryContainer = Color(0xFFEADDFF),
+            onPrimaryContainer = Color(0xFF21005D),
+            secondary = Color(0xFF625B71),
+            onSecondary = Color.White,
+            surface = Color.White,
+            onSurface = Color(0xFF1C1B1F)
+        )
+    }
 
     MaterialTheme(colorScheme = colorScheme) {
+        val currentStatusBarColor = if (isDarkTheme) colorScheme.surface else primaryColorLight
+        val isAppearanceLightStatusBars = isDarkTheme
+        
         // Set Status Bar Color
         SideEffect {
             (context as? android.app.Activity)?.window?.apply {
-                statusBarColor = primaryColor.toArgb()
-                // Ensure icons are light on dark background
-                androidx.core.view.WindowCompat.getInsetsController(this, decorView).isAppearanceLightStatusBars = false
+                statusBarColor = currentStatusBarColor.toArgb()
+                androidx.core.view.WindowCompat.getInsetsController(this, decorView).isAppearanceLightStatusBars = isAppearanceLightStatusBars
             }
         }
 
@@ -1179,6 +1203,43 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
                 }
 
                 Spacer(Modifier.height(12.dp))
+                
+                // ── Seção: Aparência ──────────────────────────────────────────
+                val currentTheme by viewModel.appTheme.collectAsState()
+                
+                SettingsSection(title = "Aparência", icon = Icons.Default.Palette) {
+                    val themeLabels = listOf("Sistema", "Claro", "Escuro")
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = themeLabels[currentTheme],
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Slider(
+                            value = currentTheme.toFloat(),
+                            onValueChange = { viewModel.updateAppTheme(it.toInt()) },
+                            valueRange = 0f..2f,
+                            steps = 1,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            themeLabels.forEachIndexed { index, label ->
+                                Text(
+                                    label,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = if (currentTheme == index) MaterialTheme.colorScheme.primary else Color.Gray
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(12.dp))
             }
 
             // ── Seção: Nuvem e Dados ──────────────────────────────────────────
@@ -1313,7 +1374,6 @@ fun SettingsNavItem(
         Icon(Icons.Default.ChevronRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
     }
 }
-
 
 @Composable
 fun ImportPreviewDialog(

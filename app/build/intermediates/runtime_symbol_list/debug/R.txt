@@ -2911,6 +2911,7 @@ int drawable btn_radio_on_mtrl 0x7f07007f
 int drawable btn_radio_on_to_off_mtrl_animation 0x7f070080
 int drawable circular_add_button 0x7f070081
 int drawable circular_widget_background 0x7f070082
+int drawable circular_widget_background_dark 0x7f0700ff
 int drawable common_full_open_on_phone 0x7f070083
 int drawable common_google_signin_btn_icon_dark 0x7f070084
 int drawable common_google_signin_btn_icon_dark_focused 0x7f070085
@@ -3031,6 +3032,7 @@ int drawable notification_template_icon_low_bg 0x7f0700f7
 int drawable notification_tile_bg 0x7f0700f8
 int drawable notify_panel_notification_icon_bg 0x7f0700f9
 int drawable rounded_add_button 0x7f0700fa
+int drawable rounded_add_button_dark 0x7f070100
 int drawable test_level_drawable 0x7f0700fb
 int drawable tooltip_frame_dark 0x7f0700fc
 int drawable tooltip_frame_light 0x7f0700fd
@@ -3509,6 +3511,10 @@ int id wide 0x7f0801d6
 int id widget_a1c 0x7f0801d7
 int id widget_avg 0x7f0801d8
 int id widget_btn_add 0x7f0801d9
+int id widget_btn_add_icon 0x7f0801e6
+int id widget_label_a1c 0x7f0801e7
+int id widget_label_avg 0x7f0801e8
+int id widget_label_range 0x7f0801e9
 int id widget_last_time 0x7f0801da
 int id widget_last_value 0x7f0801db
 int id widget_range 0x7f0801dc

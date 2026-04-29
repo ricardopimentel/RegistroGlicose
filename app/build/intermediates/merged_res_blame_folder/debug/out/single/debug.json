@@ -1,5 +1,9 @@
 [
     {
+        "merged": "com.ricardo.glicose.app-merged_res-83:/drawable_circular_widget_background_dark.xml.flat",
+        "source": "com.ricardo.glicose.app-main-85:/drawable/circular_widget_background_dark.xml"
+    },
+    {
         "merged": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-merged_res-83:\\xml_file_paths.xml.flat",
         "source": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-main-85:\\xml\\file_paths.xml"
     },
@@ -28,16 +32,20 @@
         "source": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-main-85:\\layout\\glucose_widget.xml"
     },
     {
+        "merged": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-merged_res-83:\\drawable_rounded_add_button_dark.xml.flat",
+        "source": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-main-85:\\drawable\\rounded_add_button_dark.xml"
+    },
+    {
         "merged": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-merged_res-83:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
         "source": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-main-85:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-merged_res-83:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-main-85:\\xml\\backup_rules.xml"
+        "merged": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-merged_res-83:\\drawable_circular_widget_background_dark.xml.flat",
+        "source": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-main-85:\\drawable\\circular_widget_background_dark.xml"
     },
     {
-        "merged": "com.ricardo.glicose.app-merged_res-83:/layout_glucose_widget.xml.flat",
-        "source": "com.ricardo.glicose.app-main-85:/layout/glucose_widget.xml"
+        "merged": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-merged_res-83:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-main-85:\\xml\\backup_rules.xml"
     },
     {
         "merged": "C:\\Users\\2306214\\.gradle\\daemon\\8.5\\com.ricardo.glicose.app-merged_res-83:\\drawable_ic_glucose.xml.flat",

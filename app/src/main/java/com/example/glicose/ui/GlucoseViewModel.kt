@@ -41,6 +41,15 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
     
     val targetMin = MutableStateFlow(prefs.getFloat("target_min", 70f))
     val targetMax = MutableStateFlow(prefs.getFloat("target_max", 140f))
+    
+    // Theme selection: 0 = System, 1 = Light, 2 = Dark
+    val appTheme = MutableStateFlow(prefs.getInt("app_theme", 0))
+
+    fun updateAppTheme(theme: Int) {
+        appTheme.value = theme
+        prefs.edit().putInt("app_theme", theme).apply()
+        triggerWidgetUpdate()
+    }
 
     fun updateTargetRange(min: Float, max: Float) {
         targetMin.value = min

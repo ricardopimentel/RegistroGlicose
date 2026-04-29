@@ -23,6 +23,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="18dp">
             <TextView
+                android:id="@+id/widget_label_avg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MÉDIA"
@@ -50,6 +51,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="18dp">
             <TextView
+                android:id="@+id/widget_label_a1c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="eA1c"
@@ -102,6 +104,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <TextView
+                android:id="@+id/widget_label_range"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MÍN/MÁX"
@@ -132,6 +135,7 @@
         android:elevation="6dp">
         
         <ImageView
+            android:id="@+id/widget_btn_add_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerInParent="true"
