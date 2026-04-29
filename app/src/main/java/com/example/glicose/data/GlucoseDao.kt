@@ -17,9 +17,15 @@ interface GlucoseDao {
 
     @Insert
     suspend fun insert(record: GlucoseRecord)
+    
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(records: List<GlucoseRecord>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertIgnore(record: GlucoseRecord)
+    
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnoreAll(records: List<GlucoseRecord>)
 
     @Delete
     suspend fun delete(record: GlucoseRecord)
@@ -41,7 +47,7 @@ interface GlucoseDao {
     suspend fun updateReminderStatus(id: Int, enabled: Boolean)
 
     @Query("DELETE FROM glucose_records WHERE userId = :userId")
-    suspend fun deleteAllForUser(userId: String)
+    suspend fun deleteAllGlucoseRecordsForUser(userId: String)
 
     @Query("DELETE FROM reminders WHERE userId = :userId")
     suspend fun deleteAllRemindersForUser(userId: String)

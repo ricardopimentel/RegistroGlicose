@@ -14,6 +14,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.auth.FirebaseAuth
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,6 +26,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -234,6 +236,7 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
 }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(viewModel: GlucoseViewModel) {
     val allRecords by viewModel.allRecords.collectAsState()
@@ -259,7 +262,16 @@ fun DashboardScreen(viewModel: GlucoseViewModel) {
     val currentViewName = if (currentViewUid == myUid) "Olá, $myName!" 
                          else followedUsers.find { it.second == currentViewUid }?.first ?: "Paciente"
 
-    Column(Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
+    var isRefreshing by remember { mutableStateOf(false) }
+
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = {
+            isRefreshing = true
+            viewModel.refreshData { isRefreshing = false }
+        }
+    ) {
+        Column(Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
         var showProfileMenu by remember { mutableStateOf(false) }
         
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -388,6 +400,7 @@ fun DashboardScreen(viewModel: GlucoseViewModel) {
         }
     }
 }
+}
 
 fun isToday(cal: Calendar): Boolean {
     val today = Calendar.getInstance()
@@ -493,6 +506,15 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
     var fabExpanded by remember { mutableStateOf(false) }
 
     Box(Modifier.fillMaxSize()) {
+    var isRefreshing by remember { mutableStateOf(false) }
+
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = {
+            isRefreshing = true
+            viewModel.refreshData { isRefreshing = false }
+        }
+    ) {
         Column(Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
             Text("Relatórios", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(16.dp))
@@ -544,6 +566,7 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
             // Bottom padding so FAB doesn't overlap last item
             Spacer(Modifier.height(80.dp))
         }
+    }
 
         // Scrim to close FAB when tapping outside (moved before FAB Column to be behind it)
         if (fabExpanded) {
@@ -638,7 +661,7 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
         AddRecordDialog(
             onDismiss = { editingRecord = null },
             onSave = { value, note, timestamp ->
-                viewModel.updateRecord(record, value.toFloat(), note)
+                viewModel.updateRecord(record, value.toFloat(), note, timestamp)
                 editingRecord = null
             },
             initialValue = record.value.toInt().toString(),
@@ -738,26 +761,29 @@ fun HistoryCard(
                 }
             }
 
-            DropdownMenu(
-                expanded = showMenu,
-                onDismissRequest = { showMenu = false }
-            ) {
-                DropdownMenuItem(
-                    text = { Text("Editar") },
-                    onClick = { 
-                        showMenu = false
-                        onEdit()
-                    },
-                    leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) }
-                )
-                DropdownMenuItem(
-                    text = { Text("Excluir") },
-                    onClick = { 
-                        showMenu = false
-                        onDelete()
-                    },
-                    leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null, tint = Color.Red) }
-                )
+            val myUid = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
+            if (record.userId == myUid) {
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Editar") },
+                        onClick = { 
+                            showMenu = false
+                            onEdit()
+                        },
+                        leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Excluir") },
+                        onClick = { 
+                            showMenu = false
+                            onDelete()
+                        },
+                        leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null, tint = Color.Red) }
+                    )
+                }
             }
         }
     }
@@ -954,11 +980,10 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
         ImportPreviewDialog(
             result = result,
             onConfirm = {
-                result.validRecords.forEach { (value, note, timestamp) ->
-                    viewModel.addRecord(value, note, timestamp)
+                viewModel.importRecords(result.validRecords) { count ->
+                    importPreviewState = null
+                    Toast.makeText(context, "$count registros importados!", Toast.LENGTH_SHORT).show()
                 }
-                importPreviewState = null
-                Toast.makeText(context, "${result.validRecords.size} registros importados!", Toast.LENGTH_SHORT).show()
             },
             onDismiss = { importPreviewState = null }
         )
@@ -1194,17 +1219,17 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
                 AlertDialog(
                     onDismissRequest = { showClearDataDialog = false },
                     icon = { Icon(Icons.Default.DeleteForever, null, tint = MaterialTheme.colorScheme.error) },
-                    title = { Text("Limpar Todos os Dados?") },
-                    text = { Text("Isso removerá permanentemente todos os registros deste dispositivo E da nuvem. Esta ação não pode ser desfeita.") },
+                    title = { Text("Limpar Meus Dados?") },
+                    text = { Text("Isso removerá permanentemente todos os SEUS registros deste dispositivo E da nuvem. Os dados de pessoas que você segue não serão afetados.") },
                     confirmButton = {
                         Button(
                             onClick = {
                                 viewModel.clearAllData()
                                 showClearDataDialog = false
-                                Toast.makeText(context, "Todos os dados foram apagados!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Seus dados foram apagados!", Toast.LENGTH_SHORT).show()
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
-                        ) { Text("Apagar Tudo") }
+                        ) { Text("Apagar Meus Dados") }
                     },
                     dismissButton = {
                         TextButton(onClick = { showClearDataDialog = false }) { Text("Cancelar") }
@@ -1413,20 +1438,29 @@ fun ManageFollowingScreen(viewModel: GlucoseViewModel, navController: androidx.n
             )
         }
     ) { padding ->
-        if (following.isEmpty()) {
-            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
-                Text("Você não está seguindo ninguém.", color = Color.Gray)
+        var isRefreshing by remember { mutableStateOf(false) }
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                isRefreshing = true
+                viewModel.refreshData { isRefreshing = false }
             }
-        } else {
-            LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
-                items(following) { (name, uid) ->
-                    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
-                        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.AccountCircle, null, modifier = Modifier.size(40.dp))
-                            Spacer(Modifier.width(16.dp))
-                            Text(name, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
-                            IconButton(onClick = { viewModel.unfollow(uid) }) {
-                                Icon(Icons.Default.Delete, "Remover", tint = MaterialTheme.colorScheme.error)
+        ) {
+            if (following.isEmpty()) {
+                Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
+                    Text("Você não está seguindo ninguém.", color = Color.Gray)
+                }
+            } else {
+                LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
+                    items(following) { (name, uid) ->
+                        Card(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                            Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Default.AccountCircle, null, modifier = Modifier.size(40.dp))
+                                Spacer(Modifier.width(16.dp))
+                                Text(name, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+                                IconButton(onClick = { viewModel.unfollow(uid) }) {
+                                    Icon(Icons.Default.Delete, "Remover", tint = MaterialTheme.colorScheme.error)
+                                }
                             }
                         }
                     }
@@ -1453,20 +1487,29 @@ fun ManageFollowersScreen(viewModel: GlucoseViewModel, navController: androidx.n
             )
         }
     ) { padding ->
-        if (followers.isEmpty()) {
-            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
-                Text("Ninguém está vendo seus dados.", color = Color.Gray)
+        var isRefreshing by remember { mutableStateOf(false) }
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                isRefreshing = true
+                viewModel.refreshData { isRefreshing = false }
             }
-        } else {
-            LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
-                items(followers) { (name, uid) ->
-                    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
-                        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.AccountCircle, null, modifier = Modifier.size(40.dp))
-                            Spacer(Modifier.width(16.dp))
-                            Text(name, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
-                            IconButton(onClick = { viewModel.removeFollower(uid) }) {
-                                Icon(Icons.Default.PersonRemove, "Remover Acesso", tint = MaterialTheme.colorScheme.error)
+        ) {
+            if (followers.isEmpty()) {
+                Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
+                    Text("Ninguém está vendo seus dados.", color = Color.Gray)
+                }
+            } else {
+                LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
+                    items(followers) { (name, uid) ->
+                        Card(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                            Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Default.AccountCircle, null, modifier = Modifier.size(40.dp))
+                                Spacer(Modifier.width(16.dp))
+                                Text(name, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+                                IconButton(onClick = { viewModel.removeFollower(uid) }) {
+                                    Icon(Icons.Default.PersonRemove, "Remover Acesso", tint = MaterialTheme.colorScheme.error)
+                                }
                             }
                         }
                     }

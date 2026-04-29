@@ -1,4 +1,4 @@
-#Tue Apr 28 17:12:56 BRT 2026
+#Wed Apr 29 13:47:59 BRT 2026
 base.0=D\:\\Documentos\\Android Projects\\RegistroGlicose\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=D\:\\Documentos\\Android Projects\\RegistroGlicose\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.2=D\:\\Documentos\\Android Projects\\RegistroGlicose\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\10\\classes.dex

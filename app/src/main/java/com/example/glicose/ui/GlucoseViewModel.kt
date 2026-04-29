@@ -87,14 +87,18 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
         syncListener?.remove()
         syncListener = firestore.collection("glucose_records")
             .whereEqualTo("userId", uid)
-            .addSnapshotListener { snapshot, _ ->
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    android.util.Log.e("Firestore", "Sync error for $uid", error)
+                    return@addSnapshotListener
+                }
                 if (snapshot != null) {
                     viewModelScope.launch {
                         snapshot.documents.forEach { doc ->
                             val value = doc.getDouble("value")?.toFloat() ?: return@forEach
                             val note = doc.getString("note") ?: ""
                             val timestamp = doc.getLong("timestamp") ?: 0L
-                            val record = GlucoseRecord(id = timestamp, value = value, note = note, timestamp = timestamp, userId = uid)
+                            val record = GlucoseRecord(value = value, note = note, timestamp = timestamp, userId = uid)
                             dao.insertIgnore(record)
                         }
                     }
@@ -127,18 +131,24 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             dao.getAll(uid)
         } else {
             // Shared profile: observe Firestore directly
+            // Removed orderBy to avoid index requirements; sorting in memory.
             callbackFlow {
                 val listener = firestore.collection("glucose_records")
                     .whereEqualTo("userId", uid)
-                    .orderBy("timestamp", Query.Direction.DESCENDING)
-                    .addSnapshotListener { snapshot, _ ->
+                    .addSnapshotListener { snapshot, error ->
+                        if (error != null) {
+                            android.util.Log.e("Firestore", "Records flow error for $uid", error)
+                            return@addSnapshotListener
+                        }
                         if (snapshot != null) {
                             val records = snapshot.documents.mapNotNull { doc ->
                                 val value = doc.getDouble("value")?.toFloat() ?: return@mapNotNull null
                                 val note = doc.getString("note") ?: ""
                                 val timestamp = doc.getLong("timestamp") ?: 0L
-                                GlucoseRecord(id = timestamp, value = value, note = note, timestamp = timestamp, userId = uid)
-                            }
+                                GlucoseRecord(value = value, note = note, timestamp = timestamp, userId = uid)
+                            }.sortedByDescending { it.timestamp }
+                            
+                            android.util.Log.d("Firestore", "Received ${records.size} records for $uid")
                             trySend(records)
                         }
                     }
@@ -159,19 +169,16 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             callbackFlow {
                 val listener = firestore.collection("glucose_records")
                     .whereEqualTo("userId", uid)
-                    .orderBy("timestamp", Query.Direction.DESCENDING)
-                    .limit(1)
                     .addSnapshotListener { snapshot, _ ->
                         if (snapshot != null) {
-                            val doc = snapshot.documents.firstOrNull()
-                            if (doc != null) {
-                                val value = doc.getDouble("value")?.toFloat() ?: 0f
+                            val records = snapshot.documents.mapNotNull { doc ->
+                                val value = doc.getDouble("value")?.toFloat() ?: return@mapNotNull null
                                 val note = doc.getString("note") ?: ""
                                 val timestamp = doc.getLong("timestamp") ?: 0L
-                                trySend(GlucoseRecord(id = timestamp, value = value, note = note, timestamp = timestamp, userId = uid))
-                            } else {
-                                trySend(null)
-                            }
+                                GlucoseRecord(value = value, note = note, timestamp = timestamp, userId = uid)
+                            }.sortedByDescending { it.timestamp }
+                            
+                            trySend(records.firstOrNull())
                         }
                     }
                 awaitClose { listener.remove() }
@@ -200,7 +207,11 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             Unit
         } else {
             val listener = firestore.collection("users").document(uid).collection("following")
-                .addSnapshotListener { snapshot, _ ->
+                .addSnapshotListener { snapshot, error ->
+                    if (error != null) {
+                        android.util.Log.e("Firestore", "Following listener error", error)
+                        return@addSnapshotListener
+                    }
                     if (snapshot != null) {
                         val users = snapshot.documents.map { 
                             (it.getString("name") ?: "Desconhecido") to (it.getString("uid") ?: "")
@@ -305,8 +316,14 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
         val uid = auth.currentUser?.uid ?: return
         val record = GlucoseRecord(value = value, note = note, timestamp = timestamp, userId = uid)
         viewModelScope.launch {
-            dao.insert(record)
-            firestore.collection("glucose_records").document(record.timestamp.toString()).set(record)
+            try {
+                dao.insert(record)
+            } catch (e: Exception) {
+                android.util.Log.e("Room", "Collision or error inserting record", e)
+            }
+            firestore.collection("glucose_records")
+                .document("${uid}_${record.timestamp}")
+                .set(record)
             triggerWidgetUpdate()
         }
     }
@@ -315,19 +332,27 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             dao.delete(record)
             if (record.userId == auth.currentUser?.uid) {
-                firestore.collection("glucose_records").document(record.timestamp.toString()).delete()
+                firestore.collection("glucose_records").document("${record.userId}_${record.timestamp}").delete()
             }
             triggerWidgetUpdate()
         }
     }
 
-    fun updateRecord(record: GlucoseRecord, value: Float, note: String) {
+    fun updateRecord(record: GlucoseRecord, value: Float, note: String, newTimestamp: Long) {
         viewModelScope.launch {
+            val myUid = auth.currentUser?.uid ?: return@launch
+            
+            // If timestamp changed and it's our record, delete the old document
+            if (newTimestamp != record.timestamp && record.userId == myUid) {
+                firestore.collection("glucose_records").document("${record.userId}_${record.timestamp}").delete()
+            }
+            
             dao.delete(record)
-            val newRecord = GlucoseRecord(value = value, note = note, timestamp = record.timestamp, userId = record.userId)
+            val newRecord = GlucoseRecord(value = value, note = note, timestamp = newTimestamp, userId = record.userId)
             dao.insert(newRecord)
-            if (record.userId == auth.currentUser?.uid) {
-                firestore.collection("glucose_records").document(record.timestamp.toString()).set(newRecord)
+            
+            if (newRecord.userId == myUid) {
+                firestore.collection("glucose_records").document("${newRecord.userId}_${newRecord.timestamp}").set(newRecord)
             }
             triggerWidgetUpdate()
         }
@@ -362,23 +387,72 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
     fun syncLocalDataToCloud(onComplete: () -> Unit) {
         val uid = auth.currentUser?.uid ?: return
         viewModelScope.launch {
-            // Get all local records for this user
             val localRecords = dao.getAllSync(uid)
-            localRecords.forEach { record ->
-                firestore.collection("glucose_records")
-                    .document(record.timestamp.toString())
-                    .set(record)
+            localRecords.chunked(500).forEach { chunk ->
+                val batch = firestore.batch()
+                chunk.forEach { record ->
+                    batch.set(firestore.collection("glucose_records").document("${uid}_${record.timestamp}"), record)
+                }
+                batch.commit()
             }
             onComplete()
         }
     }
 
-    fun clearAllData() {
+    /**
+     * Efficiently imports a list of records.
+     * Uses Room bulk insert and Firestore batching.
+     */
+    fun importRecords(recordsData: List<Triple<Float, String, Long>>, onComplete: (Int) -> Unit) {
         val uid = auth.currentUser?.uid ?: return
         viewModelScope.launch {
-            // 1. Clear local
-            dao.deleteAllForUser(uid)
-            dao.deleteAllRemindersForUser(uid)
+            val records = recordsData.map { (v, n, t) -> 
+                GlucoseRecord(value = v, note = n, timestamp = t, userId = uid) 
+            }
+            
+            // 1. Local Insert (Ignore duplicates)
+            dao.insertIgnoreAll(records)
+            
+            // 2. Cloud Upload (Batched)
+            var successCount = 0
+            val chunks = records.chunked(500)
+            
+            for (chunk in chunks) {
+                val batch = firestore.batch()
+                chunk.forEach { record ->
+                    val docRef = firestore.collection("glucose_records")
+                        .document("${uid}_${record.timestamp}")
+                    batch.set(docRef, record)
+                }
+                
+                // Using task completion listener to track progress
+                batch.commit().addOnSuccessListener {
+                    successCount += chunk.size
+                    if (successCount >= records.size) {
+                        triggerWidgetUpdate()
+                        onComplete(records.size)
+                    }
+                }.addOnFailureListener {
+                    android.util.Log.e("Firestore", "Batch import failed", it)
+                    // If one batch fails, we should still notify completion for the others
+                }
+            }
+            
+            if (chunks.isEmpty()) onComplete(0)
+        }
+    }
+
+    /**
+     * Clears all local and cloud data strictly for the currently authenticated user.
+     * Records belonging to followed/shared users are NOT affected.
+     */
+    fun clearAllData() {
+        val uid = auth.currentUser?.uid ?: return
+        android.util.Log.d("GlucoseApp", "Starting clearAllData for user: $uid")
+        viewModelScope.launch {
+            // 1. Clear local (explicitly ONLY records)
+            dao.deleteAllGlucoseRecordsForUser(uid)
+            android.util.Log.d("GlucoseApp", "Local glucose records deleted for $uid")
             triggerWidgetUpdate()
             
             // 2. Clear Cloud (Firestore)
@@ -386,12 +460,33 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
                 .whereEqualTo("userId", uid)
                 .get()
                 .addOnSuccessListener { snapshot ->
+                    android.util.Log.d("GlucoseApp", "Firestore found ${snapshot.size()} records to delete")
                     val batch = firestore.batch()
                     snapshot.documents.forEach { doc ->
                         batch.delete(doc.reference)
                     }
-                    batch.commit()
+                    batch.commit().addOnSuccessListener {
+                        android.util.Log.d("GlucoseApp", "Firestore clear committed")
+                    }
                 }
+        }
+    }
+
+    fun refreshData(onComplete: () -> Unit) {
+        viewModelScope.launch {
+            val uid = auth.currentUser?.uid ?: ""
+            if (uid.isNotEmpty()) {
+                auth.currentUser?.let { updateUserProfile(it) }
+                startCloudToLocalSync(uid)
+            }
+            
+            // Re-trigger the current userId to restart flatMapLatest flows
+            val current = currentUserId.value
+            currentUserId.value = ""
+            kotlinx.coroutines.delay(100)
+            currentUserId.value = current
+            
+            onComplete()
         }
     }
 }

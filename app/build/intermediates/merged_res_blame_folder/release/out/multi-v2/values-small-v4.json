@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.ricardo.glicose.app-mergeReleaseResources-75:/values-small-v4/values-small-v4.xml",
+            "outputFile": "com.ricardo.glicose.app-mergeReleaseResources-77:/values-small-v4/values-small-v4.xml",
             "map": [
                 {
                     "source": "C:\\Users\\2306214\\.gradle\\caches\\transforms-3\\e702a29e9358e26117b5f2d973e5266b\\transformed\\material-1.10.0\\res\\values-small-v4\\values-small-v4.xml",

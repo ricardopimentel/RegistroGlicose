@@ -57,16 +57,28 @@ class GlucoseWidgetProvider : AppWidgetProvider() {
                     val db = GlucoseDatabase.getDatabase(context)
                     val records = db.glucoseDao().getAllSync(userId)
                     
+                    val prefs = context.getSharedPreferences("glucose_prefs", Context.MODE_PRIVATE)
+                    val targetMin = prefs.getFloat("target_min", 70f)
+                    val targetMax = prefs.getFloat("target_max", 140f)
+
                     if (records.isNotEmpty()) {
                         val avg = records.map { it.value }.average()
                         val a1c = (avg + 46.7) / 28.7
                         val max = records.maxOf { it.value }
                         val min = records.minOf { it.value }
-                        val latest = records.first() // List is sorted by timestamp DESC
+                        val latest = records.first()
 
                         val timeFormat = java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault())
                         
+                        // Color coding
+                        val color = when {
+                            latest.value < targetMin -> android.graphics.Color.parseColor("#0077C2") // Low - Blue
+                            latest.value > targetMax -> android.graphics.Color.parseColor("#B00020") // High - Red
+                            else -> android.graphics.Color.parseColor("#6750A4") // Normal - Purple
+                        }
+
                         views.setTextViewText(R.id.widget_last_value, String.format("%.0f", latest.value))
+                        views.setTextColor(R.id.widget_last_value, color)
                         views.setTextViewText(R.id.widget_last_time, "Hoje, ${timeFormat.format(java.util.Date(latest.timestamp))}")
                         
                         views.setTextViewText(R.id.widget_avg, String.format("%.0f", avg))
@@ -74,7 +86,7 @@ class GlucoseWidgetProvider : AppWidgetProvider() {
                         views.setTextViewText(R.id.widget_range, String.format("%.0f/%.0f", min, max))
                     } else {
                         views.setTextViewText(R.id.widget_last_value, "--")
-                        views.setTextViewText(R.id.widget_last_time, "--:--")
+                        views.setTextViewText(R.id.widget_last_time, "Sem dados")
                         views.setTextViewText(R.id.widget_avg, "--")
                         views.setTextViewText(R.id.widget_a1c, "--")
                         views.setTextViewText(R.id.widget_range, "--/--")
@@ -82,9 +94,11 @@ class GlucoseWidgetProvider : AppWidgetProvider() {
                     appWidgetManager.updateAppWidget(appWidgetId, views)
                 }
             } else {
+                views.setTextViewText(R.id.widget_last_value, "?")
+                views.setTextViewText(R.id.widget_last_time, "Fazer Login")
                 views.setTextViewText(R.id.widget_avg, "--")
-                views.setTextViewText(R.id.widget_a1c, "Login")
-                views.setTextViewText(R.id.widget_range, "-- / --")
+                views.setTextViewText(R.id.widget_a1c, "--")
+                views.setTextViewText(R.id.widget_range, "--/--")
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             }
         }

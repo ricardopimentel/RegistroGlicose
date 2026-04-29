@@ -1,150 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="12dp"
-    android:background="@drawable/widget_background">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingBottom="4dp">
-        
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_glucose"
-            android:tint="#6750A4" />
-            
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Glicose"
-            android:textColor="#6750A4"
-            android:textStyle="bold"
-            android:textSize="12sp"
-            android:paddingStart="6dp" />
-    </LinearLayout>
+    <!-- Fixed size centered container (180dp) -->
+    <RelativeLayout
+        android:id="@+id/main_circle_container"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/circular_widget_background"
+        android:padding="16dp">
 
-    <!-- Último Registro (Destaque) -->
-    <LinearLayout
-        android:id="@+id/last_record_section"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/header"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:paddingTop="4dp"
-        android:paddingBottom="8dp">
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ÚLTIMA MEDIÇÃO"
-            android:textSize="9sp"
-            android:textColor="#757575"
-            android:letterSpacing="0.1" />
-            
-        <TextView
-            android:id="@+id/widget_last_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="--"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="#6750A4" />
-            
-        <TextView
-            android:id="@+id/widget_last_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="--:--"
-            android:textSize="10sp"
-            android:textColor="#9E9E9E" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/stats_row"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/last_record_section"
-        android:orientation="horizontal"
-        android:paddingTop="4dp">
-        
+        <!-- Top Left: Media -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="18dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Média"
+                android:text="MÉDIA"
                 android:textSize="9sp"
-                android:textColor="#757575" />
+                android:textColor="#757575"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/widget_avg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="#212121" />
+                android:textSize="20sp"
+                android:textColor="#49454F"
+                android:textStyle="bold" />
         </LinearLayout>
 
+        <!-- Top Right: eA1c -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="18dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="eA1c"
                 android:textSize="9sp"
-                android:textColor="#757575" />
+                android:textColor="#757575"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/widget_a1c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="#212121" />
+                android:textSize="20sp"
+                android:textColor="#49454F"
+                android:textStyle="bold" />
         </LinearLayout>
 
+        <!-- Center content -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
-            android:orientation="vertical">
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:gravity="center">
+            
+            <TextView
+                android:id="@+id/widget_last_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textSize="48sp"
+                android:textStyle="bold"
+                android:textColor="#6750A4"
+                android:includeFontPadding="false" />
+
+            <TextView
+                android:id="@+id/widget_last_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem dados"
+                android:textColor="#49454F"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Bottom Center: Range -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mín/Máx"
-                android:textSize="9sp"
-                android:textColor="#757575" />
+                android:text="MÍN/MÁX"
+                android:textSize="8sp"
+                android:textColor="#757575"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/widget_range"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-- / --"
-                android:textSize="12sp"
-                android:textColor="#212121" />
+                android:text="--/--"
+                android:textSize="16sp"
+                android:textColor="#49454F" />
         </LinearLayout>
-    </LinearLayout>
 
-    <Button
+    </RelativeLayout>
+
+    <!-- Balanced Squircle Button -->
+    <RelativeLayout
         android:id="@+id/widget_btn_add"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_alignParentBottom="true"
-        android:text="Registrar"
-        android:textSize="11sp"
-        android:padding="0dp"
-        android:backgroundTint="#6750A4"
-        android:textColor="#FFFFFF" />
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignBottom="@id/main_circle_container"
+        android:layout_alignEnd="@id/main_circle_container"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/rounded_add_button"
+        android:elevation="6dp">
+        
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:src="@android:drawable/ic_input_add"
+            android:tint="#6750A4" />
+    </RelativeLayout>
+
 </RelativeLayout>

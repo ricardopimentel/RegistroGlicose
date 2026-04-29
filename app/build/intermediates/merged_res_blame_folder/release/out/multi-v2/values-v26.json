@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.ricardo.glicose.app-mergeReleaseResources-75:/values-v26/values-v26.xml",
+            "outputFile": "com.ricardo.glicose.app-mergeReleaseResources-77:/values-v26/values-v26.xml",
             "map": [
                 {
                     "source": "C:\\Users\\2306214\\.gradle\\caches\\transforms-3\\4e29d9351373356b6f26b0b703ae8cf0\\transformed\\appcompat-1.6.1\\res\\values-v26\\values-v26.xml",

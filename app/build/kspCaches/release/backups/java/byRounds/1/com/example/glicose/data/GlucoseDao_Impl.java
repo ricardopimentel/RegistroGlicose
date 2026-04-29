@@ -37,6 +37,8 @@ public final class GlucoseDao_Impl implements GlucoseDao {
 
   private final EntityInsertionAdapter<GlucoseRecord> __insertionAdapterOfGlucoseRecord_1;
 
+  private final EntityInsertionAdapter<GlucoseRecord> __insertionAdapterOfGlucoseRecord_2;
+
   private final EntityInsertionAdapter<Reminder> __insertionAdapterOfReminder;
 
   private final EntityDeletionOrUpdateAdapter<GlucoseRecord> __deletionAdapterOfGlucoseRecord;
@@ -45,7 +47,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
 
   private final SharedSQLiteStatement __preparedStmtOfUpdateReminderStatus;
 
-  private final SharedSQLiteStatement __preparedStmtOfDeleteAllForUser;
+  private final SharedSQLiteStatement __preparedStmtOfDeleteAllGlucoseRecordsForUser;
 
   private final SharedSQLiteStatement __preparedStmtOfDeleteAllRemindersForUser;
 
@@ -55,34 +57,48 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `glucose_records` (`id`,`value`,`note`,`timestamp`,`userId`) VALUES (nullif(?, 0),?,?,?,?)";
+        return "INSERT OR ABORT INTO `glucose_records` (`timestamp`,`value`,`note`,`userId`) VALUES (?,?,?,?)";
       }
 
       @Override
       protected void bind(@NonNull final SupportSQLiteStatement statement,
           @NonNull final GlucoseRecord entity) {
-        statement.bindLong(1, entity.getId());
+        statement.bindLong(1, entity.getTimestamp());
         statement.bindDouble(2, entity.getValue());
         statement.bindString(3, entity.getNote());
-        statement.bindLong(4, entity.getTimestamp());
-        statement.bindString(5, entity.getUserId());
+        statement.bindString(4, entity.getUserId());
       }
     };
     this.__insertionAdapterOfGlucoseRecord_1 = new EntityInsertionAdapter<GlucoseRecord>(__db) {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR IGNORE INTO `glucose_records` (`id`,`value`,`note`,`timestamp`,`userId`) VALUES (nullif(?, 0),?,?,?,?)";
+        return "INSERT OR REPLACE INTO `glucose_records` (`timestamp`,`value`,`note`,`userId`) VALUES (?,?,?,?)";
       }
 
       @Override
       protected void bind(@NonNull final SupportSQLiteStatement statement,
           @NonNull final GlucoseRecord entity) {
-        statement.bindLong(1, entity.getId());
+        statement.bindLong(1, entity.getTimestamp());
         statement.bindDouble(2, entity.getValue());
         statement.bindString(3, entity.getNote());
-        statement.bindLong(4, entity.getTimestamp());
-        statement.bindString(5, entity.getUserId());
+        statement.bindString(4, entity.getUserId());
+      }
+    };
+    this.__insertionAdapterOfGlucoseRecord_2 = new EntityInsertionAdapter<GlucoseRecord>(__db) {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "INSERT OR IGNORE INTO `glucose_records` (`timestamp`,`value`,`note`,`userId`) VALUES (?,?,?,?)";
+      }
+
+      @Override
+      protected void bind(@NonNull final SupportSQLiteStatement statement,
+          @NonNull final GlucoseRecord entity) {
+        statement.bindLong(1, entity.getTimestamp());
+        statement.bindDouble(2, entity.getValue());
+        statement.bindString(3, entity.getNote());
+        statement.bindString(4, entity.getUserId());
       }
     };
     this.__insertionAdapterOfReminder = new EntityInsertionAdapter<Reminder>(__db) {
@@ -107,13 +123,14 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "DELETE FROM `glucose_records` WHERE `id` = ?";
+        return "DELETE FROM `glucose_records` WHERE `timestamp` = ? AND `userId` = ?";
       }
 
       @Override
       protected void bind(@NonNull final SupportSQLiteStatement statement,
           @NonNull final GlucoseRecord entity) {
-        statement.bindLong(1, entity.getId());
+        statement.bindLong(1, entity.getTimestamp());
+        statement.bindString(2, entity.getUserId());
       }
     };
     this.__deletionAdapterOfReminder = new EntityDeletionOrUpdateAdapter<Reminder>(__db) {
@@ -137,7 +154,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
         return _query;
       }
     };
-    this.__preparedStmtOfDeleteAllForUser = new SharedSQLiteStatement(__db) {
+    this.__preparedStmtOfDeleteAllGlucoseRecordsForUser = new SharedSQLiteStatement(__db) {
       @Override
       @NonNull
       public String createQuery() {
@@ -174,6 +191,25 @@ public final class GlucoseDao_Impl implements GlucoseDao {
   }
 
   @Override
+  public Object insertAll(final List<GlucoseRecord> records,
+      final Continuation<? super Unit> $completion) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      @NonNull
+      public Unit call() throws Exception {
+        __db.beginTransaction();
+        try {
+          __insertionAdapterOfGlucoseRecord_1.insert(records);
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
   public Object insertIgnore(final GlucoseRecord record,
       final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
@@ -182,7 +218,26 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       public Unit call() throws Exception {
         __db.beginTransaction();
         try {
-          __insertionAdapterOfGlucoseRecord_1.insert(record);
+          __insertionAdapterOfGlucoseRecord_2.insert(record);
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object insertIgnoreAll(final List<GlucoseRecord> records,
+      final Continuation<? super Unit> $completion) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      @NonNull
+      public Unit call() throws Exception {
+        __db.beginTransaction();
+        try {
+          __insertionAdapterOfGlucoseRecord_2.insert(records);
           __db.setTransactionSuccessful();
           return Unit.INSTANCE;
         } finally {
@@ -278,13 +333,13 @@ public final class GlucoseDao_Impl implements GlucoseDao {
   }
 
   @Override
-  public Object deleteAllForUser(final String userId,
+  public Object deleteAllGlucoseRecordsForUser(final String userId,
       final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       @NonNull
       public Unit call() throws Exception {
-        final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteAllForUser.acquire();
+        final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteAllGlucoseRecordsForUser.acquire();
         int _argIndex = 1;
         _stmt.bindString(_argIndex, userId);
         try {
@@ -297,7 +352,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
             __db.endTransaction();
           }
         } finally {
-          __preparedStmtOfDeleteAllForUser.release(_stmt);
+          __preparedStmtOfDeleteAllGlucoseRecordsForUser.release(_stmt);
         }
       }
     }, $completion);
@@ -341,25 +396,22 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       public List<GlucoseRecord> call() throws Exception {
         final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
         try {
-          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "value");
           final int _cursorIndexOfNote = CursorUtil.getColumnIndexOrThrow(_cursor, "note");
-          final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
           final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
           final List<GlucoseRecord> _result = new ArrayList<GlucoseRecord>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final GlucoseRecord _item;
-            final long _tmpId;
-            _tmpId = _cursor.getLong(_cursorIndexOfId);
+            final long _tmpTimestamp;
+            _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
             final float _tmpValue;
             _tmpValue = _cursor.getFloat(_cursorIndexOfValue);
             final String _tmpNote;
             _tmpNote = _cursor.getString(_cursorIndexOfNote);
-            final long _tmpTimestamp;
-            _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
             final String _tmpUserId;
             _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
-            _item = new GlucoseRecord(_tmpId,_tmpValue,_tmpNote,_tmpTimestamp,_tmpUserId);
+            _item = new GlucoseRecord(_tmpTimestamp,_tmpValue,_tmpNote,_tmpUserId);
             _result.add(_item);
           }
           return _result;
@@ -389,25 +441,22 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       public List<GlucoseRecord> call() throws Exception {
         final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
         try {
-          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "value");
           final int _cursorIndexOfNote = CursorUtil.getColumnIndexOrThrow(_cursor, "note");
-          final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
           final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
           final List<GlucoseRecord> _result = new ArrayList<GlucoseRecord>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final GlucoseRecord _item;
-            final long _tmpId;
-            _tmpId = _cursor.getLong(_cursorIndexOfId);
+            final long _tmpTimestamp;
+            _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
             final float _tmpValue;
             _tmpValue = _cursor.getFloat(_cursorIndexOfValue);
             final String _tmpNote;
             _tmpNote = _cursor.getString(_cursorIndexOfNote);
-            final long _tmpTimestamp;
-            _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
             final String _tmpUserId;
             _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
-            _item = new GlucoseRecord(_tmpId,_tmpValue,_tmpNote,_tmpTimestamp,_tmpUserId);
+            _item = new GlucoseRecord(_tmpTimestamp,_tmpValue,_tmpNote,_tmpUserId);
             _result.add(_item);
           }
           return _result;
@@ -431,24 +480,21 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       public GlucoseRecord call() throws Exception {
         final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
         try {
-          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "value");
           final int _cursorIndexOfNote = CursorUtil.getColumnIndexOrThrow(_cursor, "note");
-          final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
           final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
           final GlucoseRecord _result;
           if (_cursor.moveToFirst()) {
-            final long _tmpId;
-            _tmpId = _cursor.getLong(_cursorIndexOfId);
+            final long _tmpTimestamp;
+            _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
             final float _tmpValue;
             _tmpValue = _cursor.getFloat(_cursorIndexOfValue);
             final String _tmpNote;
             _tmpNote = _cursor.getString(_cursorIndexOfNote);
-            final long _tmpTimestamp;
-            _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
             final String _tmpUserId;
             _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
-            _result = new GlucoseRecord(_tmpId,_tmpValue,_tmpNote,_tmpTimestamp,_tmpUserId);
+            _result = new GlucoseRecord(_tmpTimestamp,_tmpValue,_tmpNote,_tmpUserId);
           } else {
             _result = null;
           }

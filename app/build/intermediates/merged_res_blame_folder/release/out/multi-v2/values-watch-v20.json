@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.ricardo.glicose.app-mergeReleaseResources-75:/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "com.ricardo.glicose.app-mergeReleaseResources-77:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
                     "source": "C:\\Users\\2306214\\.gradle\\caches\\transforms-3\\97add86b00aa0d1c5b3591024d7239cf\\transformed\\jetified-play-services-auth-21.0.0\\res\\values-watch-v20\\values.xml",
