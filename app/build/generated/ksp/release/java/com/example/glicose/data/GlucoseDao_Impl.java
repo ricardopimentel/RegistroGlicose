@@ -15,6 +15,7 @@ import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Class;
 import java.lang.Exception;
+import java.lang.Long;
 import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
@@ -44,6 +45,8 @@ public final class GlucoseDao_Impl implements GlucoseDao {
   private final EntityDeletionOrUpdateAdapter<GlucoseRecord> __deletionAdapterOfGlucoseRecord;
 
   private final EntityDeletionOrUpdateAdapter<Reminder> __deletionAdapterOfReminder;
+
+  private final EntityDeletionOrUpdateAdapter<Reminder> __updateAdapterOfReminder;
 
   private final SharedSQLiteStatement __preparedStmtOfUpdateReminderStatus;
 
@@ -105,7 +108,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `reminders` (`id`,`hour`,`minute`,`enabled`,`userId`) VALUES (nullif(?, 0),?,?,?,?)";
+        return "INSERT OR ABORT INTO `reminders` (`id`,`hour`,`minute`,`enabled`,`userId`,`frequency`,`daysOfWeek`) VALUES (nullif(?, 0),?,?,?,?,?,?)";
       }
 
       @Override
@@ -117,6 +120,8 @@ public final class GlucoseDao_Impl implements GlucoseDao {
         final int _tmp = entity.getEnabled() ? 1 : 0;
         statement.bindLong(4, _tmp);
         statement.bindString(5, entity.getUserId());
+        statement.bindString(6, entity.getFrequency());
+        statement.bindString(7, entity.getDaysOfWeek());
       }
     };
     this.__deletionAdapterOfGlucoseRecord = new EntityDeletionOrUpdateAdapter<GlucoseRecord>(__db) {
@@ -144,6 +149,27 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       protected void bind(@NonNull final SupportSQLiteStatement statement,
           @NonNull final Reminder entity) {
         statement.bindLong(1, entity.getId());
+      }
+    };
+    this.__updateAdapterOfReminder = new EntityDeletionOrUpdateAdapter<Reminder>(__db) {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "UPDATE OR ABORT `reminders` SET `id` = ?,`hour` = ?,`minute` = ?,`enabled` = ?,`userId` = ?,`frequency` = ?,`daysOfWeek` = ? WHERE `id` = ?";
+      }
+
+      @Override
+      protected void bind(@NonNull final SupportSQLiteStatement statement,
+          @NonNull final Reminder entity) {
+        statement.bindLong(1, entity.getId());
+        statement.bindLong(2, entity.getHour());
+        statement.bindLong(3, entity.getMinute());
+        final int _tmp = entity.getEnabled() ? 1 : 0;
+        statement.bindLong(4, _tmp);
+        statement.bindString(5, entity.getUserId());
+        statement.bindString(6, entity.getFrequency());
+        statement.bindString(7, entity.getDaysOfWeek());
+        statement.bindLong(8, entity.getId());
       }
     };
     this.__preparedStmtOfUpdateReminderStatus = new SharedSQLiteStatement(__db) {
@@ -249,16 +275,16 @@ public final class GlucoseDao_Impl implements GlucoseDao {
 
   @Override
   public Object insertReminder(final Reminder reminder,
-      final Continuation<? super Unit> $completion) {
-    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      final Continuation<? super Long> $completion) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Long>() {
       @Override
       @NonNull
-      public Unit call() throws Exception {
+      public Long call() throws Exception {
         __db.beginTransaction();
         try {
-          __insertionAdapterOfReminder.insert(reminder);
+          final Long _result = __insertionAdapterOfReminder.insertAndReturnId(reminder);
           __db.setTransactionSuccessful();
-          return Unit.INSTANCE;
+          return _result;
         } finally {
           __db.endTransaction();
         }
@@ -294,6 +320,25 @@ public final class GlucoseDao_Impl implements GlucoseDao {
         __db.beginTransaction();
         try {
           __deletionAdapterOfReminder.handle(reminder);
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object updateReminder(final Reminder reminder,
+      final Continuation<? super Unit> $completion) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      @NonNull
+      public Unit call() throws Exception {
+        __db.beginTransaction();
+        try {
+          __updateAdapterOfReminder.handle(reminder);
           __db.setTransactionSuccessful();
           return Unit.INSTANCE;
         } finally {
@@ -528,6 +573,8 @@ public final class GlucoseDao_Impl implements GlucoseDao {
           final int _cursorIndexOfMinute = CursorUtil.getColumnIndexOrThrow(_cursor, "minute");
           final int _cursorIndexOfEnabled = CursorUtil.getColumnIndexOrThrow(_cursor, "enabled");
           final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
+          final int _cursorIndexOfFrequency = CursorUtil.getColumnIndexOrThrow(_cursor, "frequency");
+          final int _cursorIndexOfDaysOfWeek = CursorUtil.getColumnIndexOrThrow(_cursor, "daysOfWeek");
           final List<Reminder> _result = new ArrayList<Reminder>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final Reminder _item;
@@ -543,7 +590,11 @@ public final class GlucoseDao_Impl implements GlucoseDao {
             _tmpEnabled = _tmp != 0;
             final String _tmpUserId;
             _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
-            _item = new Reminder(_tmpId,_tmpHour,_tmpMinute,_tmpEnabled,_tmpUserId);
+            final String _tmpFrequency;
+            _tmpFrequency = _cursor.getString(_cursorIndexOfFrequency);
+            final String _tmpDaysOfWeek;
+            _tmpDaysOfWeek = _cursor.getString(_cursorIndexOfDaysOfWeek);
+            _item = new Reminder(_tmpId,_tmpHour,_tmpMinute,_tmpEnabled,_tmpUserId,_tmpFrequency,_tmpDaysOfWeek);
             _result.add(_item);
           }
           return _result;
@@ -557,6 +608,55 @@ public final class GlucoseDao_Impl implements GlucoseDao {
         _statement.release();
       }
     });
+  }
+
+  @Override
+  public Object getAllSyncReminders(final Continuation<? super List<Reminder>> $completion) {
+    final String _sql = "SELECT * FROM reminders";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
+    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<Reminder>>() {
+      @Override
+      @NonNull
+      public List<Reminder> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfHour = CursorUtil.getColumnIndexOrThrow(_cursor, "hour");
+          final int _cursorIndexOfMinute = CursorUtil.getColumnIndexOrThrow(_cursor, "minute");
+          final int _cursorIndexOfEnabled = CursorUtil.getColumnIndexOrThrow(_cursor, "enabled");
+          final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
+          final int _cursorIndexOfFrequency = CursorUtil.getColumnIndexOrThrow(_cursor, "frequency");
+          final int _cursorIndexOfDaysOfWeek = CursorUtil.getColumnIndexOrThrow(_cursor, "daysOfWeek");
+          final List<Reminder> _result = new ArrayList<Reminder>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final Reminder _item;
+            final int _tmpId;
+            _tmpId = _cursor.getInt(_cursorIndexOfId);
+            final int _tmpHour;
+            _tmpHour = _cursor.getInt(_cursorIndexOfHour);
+            final int _tmpMinute;
+            _tmpMinute = _cursor.getInt(_cursorIndexOfMinute);
+            final boolean _tmpEnabled;
+            final int _tmp;
+            _tmp = _cursor.getInt(_cursorIndexOfEnabled);
+            _tmpEnabled = _tmp != 0;
+            final String _tmpUserId;
+            _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
+            final String _tmpFrequency;
+            _tmpFrequency = _cursor.getString(_cursorIndexOfFrequency);
+            final String _tmpDaysOfWeek;
+            _tmpDaysOfWeek = _cursor.getString(_cursorIndexOfDaysOfWeek);
+            _item = new Reminder(_tmpId,_tmpHour,_tmpMinute,_tmpEnabled,_tmpUserId,_tmpFrequency,_tmpDaysOfWeek);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+          _statement.release();
+        }
+      }
+    }, $completion);
   }
 
   @NonNull

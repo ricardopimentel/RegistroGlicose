@@ -2024,6 +2024,11 @@ color tooltip_background_dark
 color tooltip_background_light
 color vector_tint_color
 color vector_tint_theme_color
+color widget_accent
+color widget_accent_bg
+color widget_bg
+color widget_text_primary
+color widget_text_secondary
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
 dimen abc_action_bar_default_height_material
@@ -2912,6 +2917,7 @@ drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
 drawable circular_add_button
 drawable circular_widget_background
+drawable circular_widget_background_dark
 drawable common_full_open_on_phone
 drawable common_google_signin_btn_icon_dark
 drawable common_google_signin_btn_icon_dark_focused
@@ -3032,6 +3038,7 @@ drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable rounded_add_button
+drawable rounded_add_button_dark
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
@@ -3510,6 +3517,10 @@ id wide
 id widget_a1c
 id widget_avg
 id widget_btn_add
+id widget_btn_add_icon
+id widget_label_a1c
+id widget_label_avg
+id widget_label_range
 id widget_last_time
 id widget_last_value
 id widget_range

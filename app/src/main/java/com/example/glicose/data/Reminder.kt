@@ -9,5 +9,7 @@ data class Reminder(
     val hour: Int,
     val minute: Int,
     val enabled: Boolean = true,
-    val userId: String = ""
+    val userId: String = "",
+    val frequency: String = "DAILY",
+    val daysOfWeek: String = "0,1,2,3,4,5,6" // Default to all days (Sun-Sat)
 )

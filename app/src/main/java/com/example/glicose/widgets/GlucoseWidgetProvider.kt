@@ -120,6 +120,22 @@ class GlucoseWidgetProvider : AppWidgetProvider() {
                         val latest = records.first()
 
                         val timeFormat = java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault())
+                        val dateFormat = java.text.SimpleDateFormat("dd/MM", java.util.Locale.getDefault())
+                        
+                        val latestCal = Calendar.getInstance().apply { timeInMillis = latest.timestamp }
+                        val now = Calendar.getInstance()
+                        val yesterday = Calendar.getInstance().apply { add(Calendar.DATE, -1) }
+                        
+                        val isToday = latestCal.get(Calendar.YEAR) == now.get(Calendar.YEAR) &&
+                                     latestCal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)
+                        val isYesterday = latestCal.get(Calendar.YEAR) == yesterday.get(Calendar.YEAR) &&
+                                          latestCal.get(Calendar.DAY_OF_YEAR) == yesterday.get(Calendar.DAY_OF_YEAR)
+                        
+                        val dateLabel = when {
+                            isToday -> "Hoje, ${timeFormat.format(java.util.Date(latest.timestamp))}"
+                            isYesterday -> "Ontem, ${timeFormat.format(java.util.Date(latest.timestamp))}"
+                            else -> "${dateFormat.format(java.util.Date(latest.timestamp))}, ${timeFormat.format(java.util.Date(latest.timestamp))}"
+                        }
                         
                         // Color coding
                         val color = when {
@@ -130,7 +146,7 @@ class GlucoseWidgetProvider : AppWidgetProvider() {
 
                         views.setTextViewText(R.id.widget_last_value, String.format("%.0f", latest.value))
                         views.setTextColor(R.id.widget_last_value, color)
-                        views.setTextViewText(R.id.widget_last_time, "Hoje, ${timeFormat.format(java.util.Date(latest.timestamp))}")
+                        views.setTextViewText(R.id.widget_last_time, dateLabel)
                         
                         views.setTextViewText(R.id.widget_avg, String.format("%.0f", avg))
                         views.setTextViewText(R.id.widget_a1c, String.format("%.1f%%", a1c))

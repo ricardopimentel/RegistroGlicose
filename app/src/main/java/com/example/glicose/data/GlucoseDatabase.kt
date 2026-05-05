@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [GlucoseRecord::class, Reminder::class], version = 5, exportSchema = false)
+@Database(entities = [GlucoseRecord::class, Reminder::class], version = 7, exportSchema = false)
 abstract class GlucoseDatabase : RoomDatabase() {
     abstract fun glucoseDao(): GlucoseDao
 

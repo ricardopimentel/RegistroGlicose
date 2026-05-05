@@ -11,12 +11,42 @@ import androidx.core.app.NotificationCompat
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
+import com.example.glicose.data.GlucoseDatabase
 import com.example.glicose.ui.MainActivity
+import kotlinx.coroutines.*
 
 class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
+        val reminderId = intent.getIntExtra("REMINDER_ID", -1)
+        
+        // Show notification immediately
+        showNotification(context)
+
+        if (reminderId != -1) {
+            val pendingResult = goAsync()
+            val database = GlucoseDatabase.getDatabase(context)
+            
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val reminders = database.glucoseDao().getAllSyncReminders() // Need to add this method or similar
+                    val reminder = reminders.find { it.id == reminderId }
+                    
+                    if (reminder != null && reminder.enabled) {
+                        // Always reschedule for the next occurrence based on daysOfWeek
+                        ReminderScheduler.scheduleNotification(context, reminder)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    pendingResult.finish()
+                }
+            }
+        }
+    }
+
+    private fun showNotification(context: Context) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val channelId = "glucose_reminders_v2" // Using new ID to ensure settings update
+        val channelId = "glucose_reminders_v2"
 
         val alarmSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
             ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -52,10 +82,10 @@ class ReminderReceiver : BroadcastReceiver() {
             .setSound(alarmSound)
             .setVibrate(longArrayOf(0, 1000, 500, 1000, 500, 1000))
             .setFullScreenIntent(pendingIntent, true)
-            .setOngoing(true) // Make it harder to dismiss
+            .setOngoing(true)
             .setAutoCancel(true)
             .build()
 
-        notificationManager.notify(1, notification)
+        notificationManager.notify(System.currentTimeMillis().toInt(), notification)
     }
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ricardo.glicose"
-    android:versionCode="12"
+    android:versionCode="16"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="22"
-        android:targetSdkVersion="34" />
+        android:targetSdkVersion="35" />
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -14,11 +14,9 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- Although the *SdkVersion is captured in gradle build files, this is required for non gradle builds -->
-    <!-- <uses-sdk android:minSdkVersion="14" /> -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <permission
         android:name="com.ricardo.glicose.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
@@ -64,10 +62,11 @@
 
         <receiver
             android:name="com.example.glicose.widgets.GlucoseWidgetProvider"
-            android:exported="false" >
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.glicose.UPDATE_WIDGET" />
+                <action android:name="android.intent.action.CONFIGURATION_CHANGED" />
             </intent-filter>
 
             <meta-data
@@ -86,13 +85,13 @@
                 android:name="com.google.firebase.components:com.google.firebase.auth.ktx.FirebaseAuthLegacyRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
                 android:name="com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
                 android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
-                android:value="com.google.firebase.components.ComponentRegistrar" />
-            <meta-data
-                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
                 android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar"
@@ -101,10 +100,6 @@
                 android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
         </service>
-        <service
-            android:name="androidx.room.MultiInstanceInvalidationService"
-            android:directBootAware="true"
-            android:exported="false" />
 
         <activity
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"
@@ -142,6 +137,18 @@
                     android:scheme="recaptcha" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:directBootAware="true"
+            android:exported="false" />
+
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="com.ricardo.glicose.firebaseinitprovider"
+            android:directBootAware="true"
+            android:exported="false"
+            android:initOrder="100" />
         <!--
         Service for holding metadata. Cannot be instantiated.
         Metadata will be merged from other manifests.
@@ -189,17 +196,15 @@
             android:authorities="com.ricardo.glicose.mlkitinitprovider"
             android:exported="false"
             android:initOrder="99" />
-        <provider
-            android:name="com.google.firebase.provider.FirebaseInitProvider"
-            android:authorities="com.ricardo.glicose.firebaseinitprovider"
-            android:directBootAware="true"
-            android:exported="false"
-            android:initOrder="100" />
 
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
@@ -215,10 +220,6 @@
                 android:name="androidx.profileinstaller.ProfileInstallerInitializer"
                 android:value="androidx.startup" />
         </provider>
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <service
             android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"

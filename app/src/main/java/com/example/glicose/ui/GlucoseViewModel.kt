@@ -367,10 +367,11 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun addReminder(hour: Int, minute: Int) {
+    fun addReminder(hour: Int, minute: Int, frequency: String = "DAILY", daysOfWeek: String = "0,1,2,3,4,5,6", onIdGenerated: (Long) -> Unit = {}) {
         val uid = auth.currentUser?.uid ?: return
         viewModelScope.launch {
-            dao.insertReminder(Reminder(hour = hour, minute = minute, userId = uid))
+            val id = dao.insertReminder(Reminder(hour = hour, minute = minute, userId = uid, frequency = frequency, daysOfWeek = daysOfWeek))
+            onIdGenerated(id)
         }
     }
 
@@ -386,10 +387,16 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun updateReminder(reminder: Reminder, hour: Int, minute: Int) {
+    fun updateReminder(reminder: Reminder, hour: Int, minute: Int, frequency: String = "DAILY", daysOfWeek: String? = null) {
         viewModelScope.launch {
-            dao.deleteReminder(reminder)
-            dao.insertReminder(Reminder(hour = hour, minute = minute, enabled = reminder.enabled, userId = reminder.userId))
+            dao.updateReminder(
+                reminder.copy(
+                    hour = hour, 
+                    minute = minute, 
+                    frequency = frequency,
+                    daysOfWeek = daysOfWeek ?: reminder.daysOfWeek
+                )
+            )
         }
     }
 

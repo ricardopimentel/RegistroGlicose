@@ -17,12 +17,17 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.animation.animateContentSize
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.*
@@ -37,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -60,6 +66,7 @@ import androidx.core.content.ContextCompat
 import java.util.concurrent.Executors
 import com.example.glicose.data.Reminder
 import com.example.glicose.notifications.ReminderReceiver
+import com.example.glicose.notifications.ReminderScheduler
 import com.example.glicose.utils.CsvExporter
 import com.example.glicose.utils.PdfExporter
 import java.text.SimpleDateFormat
@@ -195,7 +202,6 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
                                 context,
                                 { _, hour, minute ->
                                     viewModel.addReminder(hour, minute)
-                                    scheduleNotification(context, hour, minute)
                                 },
                                 8, 0, android.text.format.DateFormat.is24HourFormat(context)
                             ).show()
@@ -449,7 +455,34 @@ fun GlucoseChart(records: List<com.example.glicose.data.GlucoseRecord>) {
     val range = (maxValue - minValue).coerceAtLeast(20f)
     val padding = range * 0.1f
 
-    Canvas(modifier = Modifier.fillMaxWidth().height(200.dp).padding(vertical = 16.dp)) {
+    var selectedIndex by remember { mutableStateOf<Int?>(null) }
+
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .padding(vertical = 16.dp, horizontal = 8.dp)
+            .pointerInput(last7) {
+                detectTapGestures { offset ->
+                    val width = size.width
+                    val spacing = width / (last7.size - 1)
+                    
+                    // Find nearest point
+                    var closestIndex = -1
+                    var minDistance = Float.MAX_VALUE
+                    
+                    last7.forEachIndexed { i, _ ->
+                        val x = i * spacing
+                        val distance = Math.abs(offset.x - x)
+                        if (distance < minDistance && distance < spacing / 2) {
+                            minDistance = distance
+                            closestIndex = i
+                        }
+                    }
+                    selectedIndex = if (selectedIndex == closestIndex) null else closestIndex
+                }
+            }
+    ) {
         val width = size.width
         val height = size.height
         val spacing = width / (last7.size - 1)
@@ -485,11 +518,63 @@ fun GlucoseChart(records: List<com.example.glicose.data.GlucoseRecord>) {
             style = Stroke(width = 3.dp.toPx())
         )
         
-        // Draw points
+        // Draw points and optional tooltip
         last7.forEachIndexed { i, record ->
             val x = i * spacing
             val y = height - ((record.value - (minValue - padding)) / (range + 2 * padding) * height)
-            drawCircle(Color(0xFF8B5CF6), radius = 4.dp.toPx(), center = androidx.compose.ui.geometry.Offset(x, y))
+            
+            val isSelected = selectedIndex == i
+            
+            drawCircle(
+                color = if (isSelected) Color.White else Color(0xFF8B5CF6),
+                radius = (if (isSelected) 6.dp else 4.dp).toPx(),
+                center = Offset(x, y),
+                style = if (isSelected) Stroke(width = 3.dp.toPx()) else Fill
+            )
+            
+            if (isSelected) {
+                drawCircle(
+                    color = Color(0xFF8B5CF6),
+                    radius = 3.dp.toPx(),
+                    center = Offset(x, y)
+                )
+
+                // Tooltip background
+                val text = "${record.value.toInt()}"
+                val textPaint = android.graphics.Paint().apply {
+                    color = android.graphics.Color.WHITE
+                    textSize = 12.sp.toPx()
+                    typeface = android.graphics.Typeface.create(android.graphics.Typeface.DEFAULT, android.graphics.Typeface.BOLD)
+                    textAlign = android.graphics.Paint.Align.CENTER
+                }
+                
+                val tooltipWidth = 40.dp.toPx()
+                val tooltipHeight = 24.dp.toPx()
+                val tooltipY = y - 35.dp.toPx()
+                
+                drawRoundRect(
+                    color = Color(0xFF8B5CF6),
+                    topLeft = Offset(x - tooltipWidth / 2, tooltipY),
+                    size = androidx.compose.ui.geometry.Size(tooltipWidth, tooltipHeight),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx())
+                )
+                
+                // Triangle pointer
+                val trianglePath = Path().apply {
+                    moveTo(x - 6.dp.toPx(), tooltipY + tooltipHeight)
+                    lineTo(x + 6.dp.toPx(), tooltipY + tooltipHeight)
+                    lineTo(x, tooltipY + tooltipHeight + 6.dp.toPx())
+                    close()
+                }
+                drawPath(trianglePath, Color(0xFF8B5CF6))
+
+                drawContext.canvas.nativeCanvas.drawText(
+                    text,
+                    x,
+                    tooltipY + tooltipHeight / 2 + 5.dp.toPx(),
+                    textPaint
+                )
+            }
         }
     }
 }
@@ -600,7 +685,7 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(24.dp)
             ) {
                 Column(Modifier.padding(16.dp)) {
                     Text("Sumário Estatístico", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
@@ -782,7 +867,7 @@ fun ReportCard(modifier: Modifier, title: String, value: String, unit: String, c
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = color.copy(alpha = 0.08f)),
         border = BorderStroke(1.dp, color.copy(alpha = 0.15f)),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(24.dp)
     ) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -831,24 +916,25 @@ fun HistoryCard(
     onDelete: () -> Unit, 
     onEdit: () -> Unit
 ) {
-    var showMenu by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val clipboardManager = androidx.compose.ui.platform.LocalClipboardManager.current
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .combinedClickable(
-                onClick = { /* Opcional */ },
-                onLongClick = { showMenu = true }
-            ),
+            .animateContentSize()
+            .clickable { expanded = !expanded },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
-        )
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
+        ),
+        shape = RoundedCornerShape(24.dp)
     ) {
-        Box {
+        Column(Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
             Row(
-                Modifier.padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Column(Modifier.weight(1f)) {
                     Text(
@@ -860,40 +946,70 @@ fun HistoryCard(
                     Text(
                         text = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date(record.timestamp)),
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color.Gray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    if (record.note.isNotEmpty()) {
-                        Text(
-                            text = record.note,
-                            style = MaterialTheme.typography.bodySmall,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                    }
+                }
+                
+                IconButton(onClick = { expanded = !expanded }) {
+                    Icon(
+                        if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                        contentDescription = null
+                    )
                 }
             }
 
-            val myUid = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
-            if (record.userId == myUid) {
-                DropdownMenu(
-                    expanded = showMenu,
-                    onDismissRequest = { showMenu = false }
+            if (expanded) {
+                if (record.note.isNotEmpty()) {
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = record.note,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
+                
+                Spacer(Modifier.height(12.dp))
+                
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    DropdownMenuItem(
-                        text = { Text("Editar") },
-                        onClick = { 
-                            showMenu = false
-                            onEdit()
-                        },
-                        leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Excluir") },
-                        onClick = { 
-                            showMenu = false
-                            onDelete()
-                        },
-                        leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null, tint = Color.Red) }
-                    )
+                    val myUid = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
+                    if (record.userId == myUid) {
+                        TextButton(onClick = onEdit) {
+                            Icon(Icons.Default.Edit, null, modifier = Modifier.size(18.dp))
+                            Spacer(Modifier.width(8.dp))
+                            Text("Editar")
+                        }
+                        
+                        TextButton(onClick = {
+                            clipboardManager.setText(androidx.compose.ui.text.AnnotatedString("${record.value.toInt()} mg/dL"))
+                            Toast.makeText(context, "Copiado!", Toast.LENGTH_SHORT).show()
+                        }) {
+                            Icon(Icons.Default.ContentCopy, null, modifier = Modifier.size(18.dp))
+                            Spacer(Modifier.width(8.dp))
+                            Text("Copiar")
+                        }
+                        
+                        Spacer(Modifier.weight(1f))
+                        
+                        IconButton(
+                            onClick = onDelete,
+                            colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.error)
+                        ) {
+                            Icon(Icons.Default.Delete, null)
+                        }
+                    } else {
+                        // For shared records, only allow copy
+                        TextButton(onClick = {
+                            clipboardManager.setText(androidx.compose.ui.text.AnnotatedString("${record.value.toInt()} mg/dL"))
+                            Toast.makeText(context, "Copiado!", Toast.LENGTH_SHORT).show()
+                        }) {
+                            Icon(Icons.Default.ContentCopy, null, modifier = Modifier.size(18.dp))
+                            Spacer(Modifier.width(8.dp))
+                            Text("Copiar")
+                        }
+                    }
                 }
             }
         }
@@ -904,9 +1020,15 @@ fun HistoryCard(
 fun RemindersScreen(viewModel: GlucoseViewModel) {
     val reminders by viewModel.allReminders.collectAsState()
     val context = androidx.compose.ui.platform.LocalContext.current
-
+    
     Column(Modifier.padding(16.dp)) {
-        Text("Lembretes", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Lembretes", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        }
         Spacer(Modifier.height(16.dp))
 
         if (reminders.isEmpty()) {
@@ -915,25 +1037,38 @@ fun RemindersScreen(viewModel: GlucoseViewModel) {
             }
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                items(reminders) { reminder ->
+                items(reminders, key = { it.id }) { reminder ->
                     ReminderCard(
                         reminder = reminder,
                         onToggle = { enabled ->
                             viewModel.toggleReminder(reminder)
-                            if (enabled) scheduleNotification(context, reminder.hour, reminder.minute)
+                            if (enabled) {
+                                ReminderScheduler.scheduleNotification(context, reminder)
+                                Toast.makeText(context, "Lembrete ativado!", Toast.LENGTH_SHORT).show()
+                            } else {
+                                ReminderScheduler.cancelNotification(context, reminder.id)
+                                Toast.makeText(context, "Lembrete desativado!", Toast.LENGTH_SHORT).show()
+                            }
                         },
-                        onDelete = { viewModel.deleteReminder(reminder) },
+                        onDelete = { 
+                            ReminderScheduler.cancelNotification(context, reminder.id)
+                            viewModel.deleteReminder(reminder) 
+                        },
                         onEdit = {
                             android.app.TimePickerDialog(
                                 context,
                                 { _, hour, minute ->
                                     viewModel.updateReminder(reminder, hour, minute)
-                                    scheduleNotification(context, hour, minute)
                                 },
                                 reminder.hour,
                                 reminder.minute,
                                 android.text.format.DateFormat.is24HourFormat(context)
                             ).show()
+                        },
+                        onDaysChanged = { newDays ->
+                            viewModel.updateReminder(reminder, reminder.hour, reminder.minute, daysOfWeek = newDays)
+                            // Re-schedule to apply changes
+                            ReminderScheduler.scheduleNotification(context, reminder.copy(daysOfWeek = newDays))
                         }
                     )
                 }
@@ -948,27 +1083,30 @@ fun ReminderCard(
     reminder: Reminder, 
     onToggle: (Boolean) -> Unit, 
     onDelete: () -> Unit, 
-    onEdit: () -> Unit
+    onEdit: () -> Unit,
+    onDaysChanged: (String) -> Unit
 ) {
-    var showMenu by remember { mutableStateOf(false) }
-
+    var expanded by remember { mutableStateOf(false) }
+    
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .combinedClickable(
-                onClick = { /* Opcional: clique simples pode alternar o estado */ },
-                onLongClick = { showMenu = true }
-            ),
+            .animateContentSize()
+            .clickable { 
+                if (!expanded) onEdit() 
+            },
         colors = CardDefaults.cardColors(
-            containerColor = if (reminder.enabled) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f) 
+            containerColor = if (reminder.enabled) MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp)
                             else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-        )
+        ),
+        shape = RoundedCornerShape(24.dp)
     ) {
-        Box {
+        Column(Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
+            // Top Row: Time, Switch, Expand Icon
             Row(
-                Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Column(Modifier.weight(1f)) {
                     val context = androidx.compose.ui.platform.LocalContext.current
@@ -982,43 +1120,125 @@ fun ReminderCard(
                     Text(
                         text = timeText,
                         style = MaterialTheme.typography.displaySmall,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Normal,
+                        color = if (reminder.enabled) MaterialTheme.colorScheme.onSurface 
+                                else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
-                    Text(
-                        text = if (reminder.enabled) "Ativo" else "Desativado",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = if (reminder.enabled) MaterialTheme.colorScheme.primary else Color.Gray
-                    )
+                    
+                    if (!expanded) {
+                        // Summary of days when collapsed
+                        val days = reminder.daysOfWeek.split(",").filter { it.isNotEmpty() }.map { it.toInt() }
+                        val summary = when {
+                            days.size == 7 -> "Todos os dias"
+                            days.isEmpty() -> "Nunca"
+                            else -> {
+                                val names = listOf("dom", "seg", "ter", "qua", "qui", "sex", "sáb")
+                                days.sorted().joinToString(", ") { names[it] }
+                            }
+                        }
+                        Text(
+                            text = summary,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = if (reminder.enabled) MaterialTheme.colorScheme.primary 
+                                    else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                        )
+                    }
                 }
-                Switch(
-                    checked = reminder.enabled,
-                    onCheckedChange = onToggle
-                )
+                
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Switch(
+                        checked = reminder.enabled,
+                        onCheckedChange = onToggle,
+                        scale = 0.8f
+                    )
+                    IconButton(onClick = { expanded = !expanded }) {
+                        Icon(
+                            if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                            contentDescription = if (expanded) "Recolher" else "Expandir"
+                        )
+                    }
+                }
             }
-            
-            DropdownMenu(
-                expanded = showMenu,
-                onDismissRequest = { showMenu = false }
-            ) {
-                DropdownMenuItem(
-                    text = { Text("Editar") },
-                    onClick = { 
-                        showMenu = false
-                        onEdit()
-                    },
-                    leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) }
-                )
-                DropdownMenuItem(
-                    text = { Text("Excluir") },
-                    onClick = { 
-                        showMenu = false
-                        onDelete()
-                    },
-                    leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null, tint = Color.Red) }
-                )
+
+            if (expanded) {
+                Spacer(Modifier.height(16.dp))
+                
+                // Day Selection Row
+                val selectedDays = remember(reminder.daysOfWeek) {
+                    reminder.daysOfWeek.split(",").filter { it.isNotEmpty() }.map { it.toInt() }.toSet()
+                }
+                
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    val dayLabels = listOf("D", "S", "T", "Q", "Q", "S", "S")
+                    dayLabels.forEachIndexed { index, label ->
+                        val isSelected = selectedDays.contains(index)
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(CircleShape)
+                                .background(
+                                    if (isSelected) MaterialTheme.colorScheme.primary 
+                                    else Color.Transparent
+                                )
+                                .border(
+                                    if (isSelected) 0.dp else 1.dp,
+                                    MaterialTheme.colorScheme.outline,
+                                    CircleShape
+                                )
+                                .clickable {
+                                    val newList = if (isSelected) selectedDays - index else selectedDays + index
+                                    onDaysChanged(newList.sorted().joinToString(","))
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = label,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                color = if (isSelected) MaterialTheme.colorScheme.onPrimary 
+                                        else MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(16.dp))
+                
+                // Actions: Delete
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    TextButton(
+                        onClick = onDelete,
+                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)
+                    ) {
+                        Icon(Icons.Default.Delete, null, modifier = Modifier.size(18.dp))
+                        Spacer(Modifier.width(8.dp))
+                        Text("Excluir")
+                    }
+                }
             }
         }
     }
+}
+
+// Helper extension for switch scaling
+@Composable
+fun Switch(
+    checked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit)?,
+    modifier: Modifier = Modifier,
+    scale: Float = 1f
+) {
+    androidx.compose.material3.Switch(
+        checked = checked,
+        onCheckedChange = onCheckedChange,
+        modifier = modifier.graphicsLayer(scaleX = scale, scaleY = scale)
+    )
 }
 
 @Composable
@@ -1905,30 +2125,6 @@ fun AddRecordDialog(
     )
 }
 
-fun scheduleNotification(context: Context, hour: Int, minute: Int) {
-    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    val intent = Intent(context, ReminderReceiver::class.java)
-    val pendingIntent = PendingIntent.getBroadcast(
-        context, 0, intent,
-        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-    )
-
-    val calendar = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, hour)
-        set(Calendar.MINUTE, minute)
-        set(Calendar.SECOND, 0)
-        if (before(Calendar.getInstance())) {
-            add(Calendar.DATE, 1)
-        }
-    }
-
-    alarmManager.setExactAndAllowWhileIdle(
-        AlarmManager.RTC_WAKEUP,
-        calendar.timeInMillis,
-        pendingIntent
-    )
-    Toast.makeText(context, "Lembrete agendado para ${hour}:${String.format("%02d", minute)}", Toast.LENGTH_SHORT).show()
-}
 
 @Composable
 fun PermissionHandler(context: Context) {

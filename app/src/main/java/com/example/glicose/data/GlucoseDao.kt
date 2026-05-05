@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import androidx.room.OnConflictStrategy
 import kotlinx.coroutines.flow.Flow
 
@@ -37,11 +38,17 @@ interface GlucoseDao {
     @Query("SELECT * FROM reminders WHERE userId = :userId ORDER BY hour, minute")
     fun getAllReminders(userId: String): Flow<List<Reminder>>
 
+    @Query("SELECT * FROM reminders")
+    suspend fun getAllSyncReminders(): List<Reminder>
+
     @Insert
-    suspend fun insertReminder(reminder: Reminder)
+    suspend fun insertReminder(reminder: Reminder): Long
 
     @Delete
     suspend fun deleteReminder(reminder: Reminder)
+
+    @Update
+    suspend fun updateReminder(reminder: Reminder)
 
     @Query("UPDATE reminders SET enabled = :enabled WHERE id = :id")
     suspend fun updateReminderStatus(id: Int, enabled: Boolean)
