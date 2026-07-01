@@ -1,0 +1,18539 @@
+// Banco de dados de alimentos para contagem de carboidratos (SBD)
+export const FOODS = [
+  {
+    "id": 1,
+    "name": "Abacate",
+    "measure": "1 fatia",
+    "grams": 90,
+    "carbs": 5,
+    "calories": 86
+  },
+  {
+    "id": 2,
+    "name": "Abacate (picadinho)",
+    "measure": "1 colher de sopa",
+    "grams": 45,
+    "carbs": 3,
+    "calories": 34
+  },
+  {
+    "id": 3,
+    "name": "Abacaxi",
+    "measure": "1 fatia média",
+    "grams": 75,
+    "carbs": 10,
+    "calories": 44
+  },
+  {
+    "id": 4,
+    "name": "Abacaxi em calda",
+    "measure": "1 fatia média",
+    "grams": 64,
+    "carbs": 19,
+    "calories": 78
+  },
+  {
+    "id": 5,
+    "name": "Abacaxi, polpa, congelada",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 8,
+    "calories": 31
+  },
+  {
+    "id": 6,
+    "name": "Abacaxi, suco de com acucar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 25,
+    "calories": 103
+  },
+  {
+    "id": 7,
+    "name": "Abadejo assado",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 112
+  },
+  {
+    "id": 8,
+    "name": "Abará",
+    "measure": "1 unidade média",
+    "grams": 170,
+    "carbs": 24,
+    "calories": 414
+  },
+  {
+    "id": 9,
+    "name": "Abiu cru",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 15,
+    "calories": 62
+  },
+  {
+    "id": 10,
+    "name": "Abóbora cabotian, cozida",
+    "measure": "1 colher de sopa",
+    "grams": 36,
+    "carbs": 3,
+    "calories": 14
+  },
+  {
+    "id": 11,
+    "name": "Abóbora Cabotian, crua",
+    "measure": "1 colher de sopa",
+    "grams": 36,
+    "carbs": 4,
+    "calories": 17
+  },
+  {
+    "id": 12,
+    "name": "Abóbora d’água (picada)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 36,
+    "carbs": 0,
+    "calories": 10
+  },
+  {
+    "id": 13,
+    "name": "Abóbora doce (picada)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 36,
+    "carbs": 4,
+    "calories": 18
+  },
+  {
+    "id": 14,
+    "name": "Abóbora moranga (picada)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 36,
+    "carbs": 1,
+    "calories": 7
+  },
+  {
+    "id": 15,
+    "name": "Abobrinha recheada",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 6,
+    "calories": 89
+  },
+  {
+    "id": 16,
+    "name": "Abobrinha, italiana, cozida",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 3
+  },
+  {
+    "id": 17,
+    "name": "Abobrinha, italiana, crua",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 18,
+    "name": "Abobrinha, paulista, crua",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 2,
+    "calories": 6
+  },
+  {
+    "id": 19,
+    "name": "Abricó-do-pará",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 13,
+    "calories": 64
+  },
+  {
+    "id": 20,
+    "name": "Açafrão em pó",
+    "measure": "1 colher de sopa cheia",
+    "grams": 16,
+    "carbs": 12,
+    "calories": 54
+  },
+  {
+    "id": 21,
+    "name": "Açaí (polpa concentrada com farinha de mandioca)",
+    "measure": "1 copo pequeno",
+    "grams": 150,
+    "carbs": 85,
+    "calories": 339
+  },
+  {
+    "id": 22,
+    "name": "Açaí (polpa concentrada com farinha de tapioca)",
+    "measure": "1 copo pequeno",
+    "grams": 150,
+    "carbs": 85,
+    "calories": 340
+  },
+  {
+    "id": 23,
+    "name": "Açaí (polpa natural concentrada)",
+    "measure": "1 copo pequeno",
+    "grams": 150,
+    "carbs": 55,
+    "calories": 220
+  },
+  {
+    "id": 24,
+    "name": "Açaí (polpa) com xarope de guaraná e glicose",
+    "measure": "1 taça pequena",
+    "grams": 100,
+    "carbs": 21,
+    "calories": 110
+  },
+  {
+    "id": 25,
+    "name": "Açai natural Frooty ®",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 13,
+    "calories": 64
+  },
+  {
+    "id": 26,
+    "name": "Açaí natural Frooty zero ®",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 10,
+    "calories": 35
+  },
+  {
+    "id": 27,
+    "name": "Açaí polpa congelada (sem adição de açúcar)",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 6,
+    "calories": 58
+  },
+  {
+    "id": 28,
+    "name": "Açaí, suco de",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 72,
+    "calories": 438
+  },
+  {
+    "id": 29,
+    "name": "Acarajé",
+    "measure": "1 unidade média",
+    "grams": 100,
+    "carbs": 22,
+    "calories": 282
+  },
+  {
+    "id": 30,
+    "name": "Acelga (picada)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 6,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 31,
+    "name": "Acém magro cozido",
+    "measure": "1 pedaço médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 215
+  },
+  {
+    "id": 32,
+    "name": "Acerola",
+    "measure": "1 unidade",
+    "grams": 12,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 33,
+    "name": "Achocolatado Diet Gold ®",
+    "measure": "1 colher de sopa",
+    "grams": 5,
+    "carbs": 3,
+    "calories": 11
+  },
+  {
+    "id": 34,
+    "name": "Achocolatado Diet Linea ®",
+    "measure": "1 colher de sopa",
+    "grams": 5,
+    "carbs": 3,
+    "calories": 14
+  },
+  {
+    "id": 35,
+    "name": "Achocolatado light Nescau ®",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 35
+  },
+  {
+    "id": 36,
+    "name": "Achocolatado light Toddy ®",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 36
+  },
+  {
+    "id": 37,
+    "name": "Achocolatado tradicional Nescau ®",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 9,
+    "calories": 37
+  },
+  {
+    "id": 38,
+    "name": "Achocolatado tradicional Toddy ®",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 9,
+    "calories": 40
+  },
+  {
+    "id": 39,
+    "name": "Açúcar branco refinado",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 30,
+    "calories": 116
+  },
+  {
+    "id": 40,
+    "name": "Açúcar cristal",
+    "measure": "1 colher de sopa cheia",
+    "grams": 24,
+    "carbs": 24,
+    "calories": 96
+  },
+  {
+    "id": 41,
+    "name": "Açúcar de coco",
+    "measure": "1 colher de chá",
+    "grams": 5,
+    "carbs": 5,
+    "calories": 19
+  },
+  {
+    "id": 42,
+    "name": "Açúcar mascavo",
+    "measure": "1 colher de sopa cheia",
+    "grams": 19,
+    "carbs": 17,
+    "calories": 70
+  },
+  {
+    "id": 43,
+    "name": "Adoçante Linea Forno e Fogão",
+    "measure": "1 colher de sopa",
+    "grams": 1,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 44,
+    "name": "Adoçante Tal e Qual forno e fogão",
+    "measure": "1 colher de sopa",
+    "grams": 2,
+    "carbs": 2,
+    "calories": 8
+  },
+  {
+    "id": 45,
+    "name": "Adoçante Use Metade Forno e Fogão",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 9,
+    "calories": 37
+  },
+  {
+    "id": 46,
+    "name": "Agrião (picado)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 7,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 47,
+    "name": "Agriao refogado",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 1,
+    "calories": 19
+  },
+  {
+    "id": 48,
+    "name": "Água de coco industrializada Sococo ®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 11,
+    "calories": 44
+  },
+  {
+    "id": 49,
+    "name": "Água de coco verde",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 11,
+    "calories": 44
+  },
+  {
+    "id": 50,
+    "name": "Água tônica Antarctica ®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 17,
+    "calories": 73
+  },
+  {
+    "id": 51,
+    "name": "Água tônica zero Antarctica ®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 52,
+    "name": "Aguardente",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 109
+  },
+  {
+    "id": 53,
+    "name": "Aipim cozido (macaxeira ou mandioca)",
+    "measure": "pedaço grande",
+    "grams": 100,
+    "carbs": 30,
+    "calories": 120
+  },
+  {
+    "id": 54,
+    "name": "Aipim frito (macaxeira ou mandioca)",
+    "measure": "pedaço grande",
+    "grams": 100,
+    "carbs": 50,
+    "calories": 304
+  },
+  {
+    "id": 55,
+    "name": "Aipo inteiro (picado)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 56,
+    "name": "Alcachofra cozida 1 pedaco médio",
+    "measure": "",
+    "grams": 90,
+    "carbs": 11,
+    "calories": 45
+  },
+  {
+    "id": 57,
+    "name": "Alcaparra",
+    "measure": "1 colher de sopa cheia",
+    "grams": 27,
+    "carbs": 1,
+    "calories": 10
+  },
+  {
+    "id": 58,
+    "name": "Alface americana crua",
+    "measure": "1 folha média",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 1
+  },
+  {
+    "id": 59,
+    "name": "Alface crespa crua",
+    "measure": "1 folha média",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 1
+  },
+  {
+    "id": 60,
+    "name": "Alface lisa crua",
+    "measure": "1 folha média",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 1
+  },
+  {
+    "id": 61,
+    "name": "Alface roxa crua",
+    "measure": "1 folha média",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 1
+  },
+  {
+    "id": 62,
+    "name": "Alfajor ao leite Cacau Show ®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 23,
+    "calories": 120
+  },
+  {
+    "id": 63,
+    "name": "Alfajor recheado com doce de leite Brasil Cacau ®",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 98
+  },
+  {
+    "id": 64,
+    "name": "Alfarroba em pó Carob House ®",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 13,
+    "calories": 58
+  },
+  {
+    "id": 65,
+    "name": "Alfavaca crua",
+    "measure": "1 folha média",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 3
+  },
+  {
+    "id": 66,
+    "name": "Algodão Doce",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 30,
+    "calories": 116
+  },
+  {
+    "id": 67,
+    "name": "Algodão doce (Mavalério)",
+    "measure": "1 embalagem",
+    "grams": 35,
+    "carbs": 35,
+    "calories": 140
+  },
+  {
+    "id": 68,
+    "name": "Algodão doce tuti - frutti Snow Sugar ®",
+    "measure": "1/2 xícara de chá",
+    "grams": 5,
+    "carbs": 5,
+    "calories": 20
+  },
+  {
+    "id": 69,
+    "name": "Algodão doce uva Snow Sugar ®",
+    "measure": "1/2 xícara de chá",
+    "grams": 5,
+    "carbs": 5,
+    "calories": 20
+  },
+  {
+    "id": 70,
+    "name": "Alho cru",
+    "measure": "2 dentes",
+    "grams": 6,
+    "carbs": 2,
+    "calories": 8
+  },
+  {
+    "id": 71,
+    "name": "Alho poró cru 1 porcao pequena",
+    "measure": "",
+    "grams": 20,
+    "carbs": 3,
+    "calories": 11
+  },
+  {
+    "id": 72,
+    "name": "All bran",
+    "measure": "1 colher de sopa cheia",
+    "grams": 9,
+    "carbs": 4,
+    "calories": 23
+  },
+  {
+    "id": 73,
+    "name": "Almeirão cru (picado)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 74,
+    "name": "Almôndega bovina",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 4,
+    "calories": 102
+  },
+  {
+    "id": 75,
+    "name": "Ambrosia",
+    "measure": "2 colheres de sopa cheias",
+    "grams": 80,
+    "carbs": 23,
+    "calories": 137
+  },
+  {
+    "id": 76,
+    "name": "Ameixa de queijo",
+    "measure": "1 unidade",
+    "grams": 12,
+    "carbs": 7,
+    "calories": 36
+  },
+  {
+    "id": 77,
+    "name": "Ameixa preta em calda",
+    "measure": "1 unidade média",
+    "grams": 7,
+    "carbs": 5,
+    "calories": 20
+  },
+  {
+    "id": 78,
+    "name": "Ameixa preta fresca",
+    "measure": "1 unidade media",
+    "grams": 42,
+    "carbs": 4,
+    "calories": 18
+  },
+  {
+    "id": 79,
+    "name": "Ameixa preta seca",
+    "measure": "1 unidade média",
+    "grams": 5,
+    "carbs": 2,
+    "calories": 9
+  },
+  {
+    "id": 80,
+    "name": "Ameixa vermelha",
+    "measure": "1 unidade media",
+    "grams": 5,
+    "carbs": 2,
+    "calories": 9
+  },
+  {
+    "id": 81,
+    "name": "Ameixa, passa de",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 10,
+    "calories": 44
+  },
+  {
+    "id": 82,
+    "name": "Amêndoa",
+    "measure": "1 unidade média",
+    "grams": 3,
+    "carbs": 1,
+    "calories": 13
+  },
+  {
+    "id": 83,
+    "name": "Amendoim caramelizado 1 pacote pequeno",
+    "measure": "",
+    "grams": 20,
+    "carbs": 14,
+    "calories": 95
+  },
+  {
+    "id": 84,
+    "name": "Amendoim cozido",
+    "measure": "2 colheres de sopa",
+    "grams": 34,
+    "carbs": 7,
+    "calories": 108
+  },
+  {
+    "id": 85,
+    "name": "Amendoim torrado salgado",
+    "measure": "2 colheres de sopa",
+    "grams": 34,
+    "carbs": 5,
+    "calories": 194
+  },
+  {
+    "id": 86,
+    "name": "Amendoim, grão cru",
+    "measure": "2 colheres de sopa",
+    "grams": 34,
+    "carbs": 5,
+    "calories": 194
+  },
+  {
+    "id": 87,
+    "name": "Amido de arroz",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 17,
+    "calories": 70
+  },
+  {
+    "id": 88,
+    "name": "Amido de milho",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 17,
+    "calories": 69
+  },
+  {
+    "id": 89,
+    "name": "Amora (branca, preta e vermelha)",
+    "measure": "1 unidade média",
+    "grams": 8,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 90,
+    "name": "Amora, geléia de (com açúcar)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 40,
+    "carbs": 23,
+    "calories": 93
+  },
+  {
+    "id": 91,
+    "name": "Amora, geléia de (Linea ®)",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 8,
+    "calories": 23
+  },
+  {
+    "id": 92,
+    "name": "Angu",
+    "measure": "1 colher de sopa cheia",
+    "grams": 35,
+    "carbs": 9,
+    "calories": 44
+  },
+  {
+    "id": 93,
+    "name": "Antepasto abobrinha escabeche",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 4,
+    "calories": 57
+  },
+  {
+    "id": 94,
+    "name": "Antepasto alichella",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 106
+  },
+  {
+    "id": 95,
+    "name": "Antepasto berinjela",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 4,
+    "calories": 88
+  },
+  {
+    "id": 96,
+    "name": "Antepasto sardella",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 5,
+    "calories": 160
+  },
+  {
+    "id": 97,
+    "name": "Apfelstrudell (folheado de maçã)",
+    "measure": "1 porção grande",
+    "grams": 220,
+    "carbs": 59,
+    "calories": 396
+  },
+  {
+    "id": 98,
+    "name": "Apresuntado",
+    "measure": "1 fatia média",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 69
+  },
+  {
+    "id": 99,
+    "name": "Araçá",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 3,
+    "calories": 12
+  },
+  {
+    "id": 100,
+    "name": "Arroz à grega",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 7,
+    "calories": 35
+  },
+  {
+    "id": 101,
+    "name": "Arroz à grega",
+    "measure": "1 colher de servir",
+    "grams": 60,
+    "carbs": 18,
+    "calories": 75
+  },
+  {
+    "id": 102,
+    "name": "Arroz a piamontese",
+    "measure": "1 colher de servir cheia",
+    "grams": 55,
+    "carbs": 11,
+    "calories": 100
+  },
+  {
+    "id": 103,
+    "name": "Arroz branco cozido",
+    "measure": "1 colher de servir arroz",
+    "grams": 45,
+    "carbs": 15,
+    "calories": 74
+  },
+  {
+    "id": 104,
+    "name": "Arroz branco cozido",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 6,
+    "calories": 26
+  },
+  {
+    "id": 105,
+    "name": "Arroz carreteiro",
+    "measure": "1 colher de servir",
+    "grams": 45,
+    "carbs": 5,
+    "calories": 70
+  },
+  {
+    "id": 106,
+    "name": "Arroz com amendoas",
+    "measure": "1 colher de servir",
+    "grams": 60,
+    "carbs": 18,
+    "calories": 75
+  },
+  {
+    "id": 107,
+    "name": "Arroz com galinha",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 6,
+    "calories": 45
+  },
+  {
+    "id": 108,
+    "name": "Arroz com lentilha",
+    "measure": "1 colher de servir cheia",
+    "grams": 55,
+    "carbs": 11,
+    "calories": 80
+  },
+  {
+    "id": 109,
+    "name": "Arroz com lingüiça",
+    "measure": "1 colher de servir cheia",
+    "grams": 55,
+    "carbs": 11,
+    "calories": 92
+  },
+  {
+    "id": 110,
+    "name": "Arroz com pequi",
+    "measure": "1 colher de servir cheia",
+    "grams": 55,
+    "carbs": 13,
+    "calories": 95
+  },
+  {
+    "id": 111,
+    "name": "Arroz de aveia Quaker®",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 38
+  },
+  {
+    "id": 112,
+    "name": "Arroz de Cabidela (ao molho pardo) ! Coher de servir cheia",
+    "measure": "",
+    "grams": 55,
+    "carbs": 7,
+    "calories": 85
+  },
+  {
+    "id": 113,
+    "name": "Arroz de cuxá",
+    "measure": "1 colher de servir cheia",
+    "grams": 55,
+    "carbs": 11,
+    "calories": 66
+  },
+  {
+    "id": 114,
+    "name": "Arroz doce com açúcar",
+    "measure": "1 colher de sopa cheia",
+    "grams": 40,
+    "carbs": 13,
+    "calories": 66
+  },
+  {
+    "id": 115,
+    "name": "Arroz integral cozido",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 5,
+    "calories": 25
+  },
+  {
+    "id": 116,
+    "name": "Arroz Negro cozido",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 8,
+    "calories": 40
+  },
+  {
+    "id": 117,
+    "name": "Arroz para sushi com açúcar e sal",
+    "measure": "1 colher de sopa rasa",
+    "grams": 25,
+    "carbs": 7,
+    "calories": 35
+  },
+  {
+    "id": 118,
+    "name": "Arroz selvagem",
+    "measure": "1 colher de servir cheia",
+    "grams": 55,
+    "carbs": 12,
+    "calories": 55
+  },
+  {
+    "id": 119,
+    "name": "Arroz sírio",
+    "measure": "1 colher de servir",
+    "grams": 45,
+    "carbs": 13,
+    "calories": 69
+  },
+  {
+    "id": 120,
+    "name": "Arroz, farinha de",
+    "measure": "1 colher de sopa cheia",
+    "grams": 17,
+    "carbs": 14,
+    "calories": 62
+  },
+  {
+    "id": 121,
+    "name": "Arroz, flocos de",
+    "measure": "1 colher de sopa cheia",
+    "grams": 14,
+    "carbs": 11,
+    "calories": 49
+  },
+  {
+    "id": 122,
+    "name": "Aspargo em conserva",
+    "measure": "1 unidade média",
+    "grams": 7,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 123,
+    "name": "Ata (fruta do conde)",
+    "measure": "1 unidade média",
+    "grams": 60,
+    "carbs": 9,
+    "calories": 41
+  },
+  {
+    "id": 124,
+    "name": "Ataif",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 13,
+    "calories": 124
+  },
+  {
+    "id": 125,
+    "name": "Atum em água",
+    "measure": "1 colher de sopa cheia",
+    "grams": 16,
+    "carbs": 0,
+    "calories": 45
+  },
+  {
+    "id": 126,
+    "name": "Aveia em flocos crua",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 10,
+    "calories": 56
+  },
+  {
+    "id": 127,
+    "name": "Aveia, farinha de (crua)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 18,
+    "carbs": 12,
+    "calories": 71
+  },
+  {
+    "id": 128,
+    "name": "Aveia, flocos finos Quaker ®",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 8,
+    "calories": 52
+  },
+  {
+    "id": 129,
+    "name": "Avelã",
+    "measure": "1 unidade média",
+    "grams": 1,
+    "carbs": 0,
+    "calories": 6
+  },
+  {
+    "id": 130,
+    "name": "Azeite de dendê industrializado",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 71
+  },
+  {
+    "id": 131,
+    "name": "Azeite de oliva (extra)",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 72
+  },
+  {
+    "id": 132,
+    "name": "Azeitona preta (parte comest.)",
+    "measure": "1 unidade média",
+    "grams": 3,
+    "carbs": 0,
+    "calories": 7
+  },
+  {
+    "id": 133,
+    "name": "Azeitona verde (parte comest.)",
+    "measure": "1 unidade média",
+    "grams": 4,
+    "carbs": 0,
+    "calories": 12
+  },
+  {
+    "id": 134,
+    "name": "Baba de moça",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 27,
+    "calories": 150
+  },
+  {
+    "id": 135,
+    "name": "Babaganuche",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 6,
+    "calories": 84
+  },
+  {
+    "id": 136,
+    "name": "Bacaba",
+    "measure": "1 copo pequeno",
+    "grams": 150,
+    "carbs": 10,
+    "calories": 320
+  },
+  {
+    "id": 137,
+    "name": "Bacalhau a Gomes de Sá",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 13,
+    "calories": 151
+  },
+  {
+    "id": 138,
+    "name": "Bacalhau com natas",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 13,
+    "calories": 155
+  },
+  {
+    "id": 139,
+    "name": "Bacalhau Espiritual",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 20,
+    "calories": 216
+  },
+  {
+    "id": 140,
+    "name": "Bacalhau refogado",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 1,
+    "calories": 140
+  },
+  {
+    "id": 141,
+    "name": "Bacalhoada",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 2,
+    "calories": 51
+  },
+  {
+    "id": 142,
+    "name": "Bacallhau cozido",
+    "measure": "1 escumadeira média",
+    "grams": 60,
+    "carbs": 0,
+    "calories": 88
+  },
+  {
+    "id": 143,
+    "name": "Bacon",
+    "measure": "1 fatia média",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 99
+  },
+  {
+    "id": 144,
+    "name": "Bacon Baked Potato ®",
+    "measure": "1 concha",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 92
+  },
+  {
+    "id": 145,
+    "name": "Baconzitos (Elma Chips®)",
+    "measure": "1 xícara",
+    "grams": 17,
+    "carbs": 9,
+    "calories": 82
+  },
+  {
+    "id": 146,
+    "name": "Bacuri",
+    "measure": "1 unidade média (polpa)",
+    "grams": 90,
+    "carbs": 0,
+    "calories": 870
+  },
+  {
+    "id": 147,
+    "name": "Baguete congelada Qualitá ®",
+    "measure": "1 unidade pequena",
+    "grams": 50,
+    "carbs": 25,
+    "calories": 124
+  },
+  {
+    "id": 148,
+    "name": "Baião de dois",
+    "measure": "1 escumadeira cheia",
+    "grams": 100,
+    "carbs": 20,
+    "calories": 136
+  },
+  {
+    "id": 149,
+    "name": "Bala 7 belo ®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 4,
+    "calories": 20
+  },
+  {
+    "id": 150,
+    "name": "Bala de banana",
+    "measure": "1 unidade",
+    "grams": 17,
+    "carbs": 4,
+    "calories": 15
+  },
+  {
+    "id": 151,
+    "name": "Bala de caramelo Embare ®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 5,
+    "calories": 27
+  },
+  {
+    "id": 152,
+    "name": "Bala de coco",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 5,
+    "calories": 20
+  },
+  {
+    "id": 153,
+    "name": "Bala de goma",
+    "measure": "1 unidade",
+    "grams": 3,
+    "carbs": 3,
+    "calories": 11
+  },
+  {
+    "id": 154,
+    "name": "Bala de mel Arcor ®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 6,
+    "calories": 22
+  },
+  {
+    "id": 155,
+    "name": "Bala Delícia",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 4,
+    "calories": 20
+  },
+  {
+    "id": 156,
+    "name": "Bala Fini bananas ®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 5,
+    "calories": 21
+  },
+  {
+    "id": 157,
+    "name": "Bala Fini beijos ®",
+    "measure": "1 unidade",
+    "grams": 7,
+    "carbs": 6,
+    "calories": 24
+  },
+  {
+    "id": 158,
+    "name": "Bala Fini dentaduras ®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 5,
+    "calories": 21
+  },
+  {
+    "id": 159,
+    "name": "Bala Fini minhoca ®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 5,
+    "calories": 21
+  },
+  {
+    "id": 160,
+    "name": "Bala Fini tubinhos ®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 6,
+    "calories": 26
+  },
+  {
+    "id": 161,
+    "name": "Bala Halls ®",
+    "measure": "1 unidade",
+    "grams": 3,
+    "carbs": 3,
+    "calories": 13
+  },
+  {
+    "id": 162,
+    "name": "Bala Jujuba",
+    "measure": "1 unidade",
+    "grams": 3,
+    "carbs": 3,
+    "calories": 12
+  },
+  {
+    "id": 163,
+    "name": "Bala macia",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 5,
+    "calories": 20
+  },
+  {
+    "id": 164,
+    "name": "Bala mentos mint ®",
+    "measure": "1 unidade",
+    "grams": 3,
+    "carbs": 2,
+    "calories": 10
+  },
+  {
+    "id": 165,
+    "name": "Bala mentos rainbow ®",
+    "measure": "1 unidade",
+    "grams": 3,
+    "carbs": 2,
+    "calories": 9
+  },
+  {
+    "id": 166,
+    "name": "Bala Tic Tac ® 1 caixa",
+    "measure": "",
+    "grams": 16,
+    "carbs": 16,
+    "calories": 63
+  },
+  {
+    "id": 167,
+    "name": "Bala Toffees Chocolate Arcor ®",
+    "measure": "1 unidade",
+    "grams": 7,
+    "carbs": 4,
+    "calories": 31
+  },
+  {
+    "id": 168,
+    "name": "Bala yogurte ®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 4,
+    "calories": 19
+  },
+  {
+    "id": 169,
+    "name": "Bambu, brotos de",
+    "measure": "1 pires de chá",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 3
+  },
+  {
+    "id": 170,
+    "name": "Banana à milanesa",
+    "measure": "1 unidade média",
+    "grams": 100,
+    "carbs": 24,
+    "calories": 185
+  },
+  {
+    "id": 171,
+    "name": "Banana caramelada",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 29,
+    "calories": 114
+  },
+  {
+    "id": 172,
+    "name": "Banana caturra ou Nanica",
+    "measure": "1 unidade média",
+    "grams": 86,
+    "carbs": 20,
+    "calories": 79
+  },
+  {
+    "id": 173,
+    "name": "Banana da terra crua",
+    "measure": "1 unidade grande",
+    "grams": 100,
+    "carbs": 27,
+    "calories": 117
+  },
+  {
+    "id": 174,
+    "name": "Banana frita da terra",
+    "measure": "1 fatia media",
+    "grams": 31,
+    "carbs": 10,
+    "calories": 68
+  },
+  {
+    "id": 175,
+    "name": "Banana maçã",
+    "measure": "1 unidade média",
+    "grams": 65,
+    "carbs": 17,
+    "calories": 72
+  },
+  {
+    "id": 176,
+    "name": "Banana ouro",
+    "measure": "1 unidade média",
+    "grams": 40,
+    "carbs": 9,
+    "calories": 42
+  },
+  {
+    "id": 177,
+    "name": "Banana pacova madura cozida sem casca",
+    "measure": "1 colher de sopa cheia",
+    "grams": 35,
+    "carbs": 12,
+    "calories": 48
+  },
+  {
+    "id": 178,
+    "name": "Banana pacova madura frita (picada)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 35,
+    "carbs": 18,
+    "calories": 96
+  },
+  {
+    "id": 179,
+    "name": "Banana pacova madura in natura (picada)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 11,
+    "calories": 45
+  },
+  {
+    "id": 180,
+    "name": "Banana pacova verde frita",
+    "measure": "1 colher de sopa cheia",
+    "grams": 35,
+    "carbs": 30,
+    "calories": 138
+  },
+  {
+    "id": 181,
+    "name": "Banana prata crua",
+    "measure": "1 unidade média",
+    "grams": 55,
+    "carbs": 14,
+    "calories": 54
+  },
+  {
+    "id": 182,
+    "name": "Banana prata crua",
+    "measure": "1 unidade pequena",
+    "grams": 40,
+    "carbs": 10,
+    "calories": 39
+  },
+  {
+    "id": 183,
+    "name": "Bananada",
+    "measure": "1 unidade media",
+    "grams": 40,
+    "carbs": 27,
+    "calories": 115
+  },
+  {
+    "id": 184,
+    "name": "Banha de porco",
+    "measure": "1 colher de sopa cheia",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 90
+  },
+  {
+    "id": 185,
+    "name": "Barra de cereais 3 grãos integrais choconut Línea ®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 11,
+    "calories": 73
+  },
+  {
+    "id": 186,
+    "name": "Barra de cereais 3 grãos integrais zero açúcar sabor banana com aveia Línea®",
+    "measure": "1 unidade 20 13 63 Barra de cereais 3 grãos integrais zero açúcar sabor cookies’s cream Línea® 1 unidade 20 13 70 Barra de cereais 3 grãos integrais zero açúcar sabor trifa de chocolate Línea® 1 unidade 20 12 68 Barra de cereais 7 grãos banana, aveia e mel Da Magrinha® 1 unidade 15 10 53 Barra de cereais 7 grãos cacau Da Magrinha® 1 unidade",
+    "grams": 15,
+    "carbs": 10,
+    "calories": 55
+  },
+  {
+    "id": 187,
+    "name": "Barra de cereais 7 grãos castanha do Pará Da Magrinha®",
+    "measure": "1 unidade 15 6,2 74 Barra de cereais 7 grãos moramgo e cacau Da Magrinha® 1 unidade 15 10 54 Barra de cereais 7 grãos morango e cacau Da Magrinha® 1 unidade 15 10 54 Barra de cereais 7 grãos original Da Magrinha® 1 unidade",
+    "grams": 15,
+    "carbs": 2,
+    "calories": 30
+  },
+  {
+    "id": 188,
+    "name": "Barra de cereais 7 graõs zero açúcar sabor banana aveia e mel Da Magrinha®",
+    "measure": "1 unidade 15 10 53 Barra de cereais 7 graõs zero açúcar sabor cacau Da Magrinha® 1 unidade 15 10 55 Barra de cereais banana com aveia Línea ® 1 unidade",
+    "grams": 20,
+    "carbs": 13,
+    "calories": 67
+  },
+  {
+    "id": 189,
+    "name": "Barra de cereais morango com iogurte Línea ®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 12,
+    "calories": 63
+  },
+  {
+    "id": 190,
+    "name": "Barra de cereais zero açúcar sabor avelã + nibs de cacau &Joy®",
+    "measure": "1 unidade 25 9,4 109 Barra de cereais zero açúcar sabor avelã, castanha e chocolate Trio® 1 unidade 20 9,1 140 Barra de cereais zero açúcar sabor banan, aveia e mel Trio® 1 unidade 20 9,1 140 Barra de cereais zero açúcar sabor banana + nozes &Joy® 1 unidade 25 8,7 115 Barra de cereais zero açúcar sabor brownie Ritter® 1 unidade 25 16 97 Barra de cereais zero açúcar sabor caramelo salgado e chocolate branco Ritter® 1 unidade 22 14 94 Barra de cereais zero açúcar sabor mocca café e chocolate branco Ritter® 1 unidade 22 15 91 Barra de cereais zero açúcar sabor morango e chocolate branco Ritter® 1 unidade 22 15 90 Barra de cereais zero açúcar sabor morango e chocolate Trio® 1 unidade 20 9,3 140 Barra de cereal Banana, Aveia e Mel Light TAEQ ® 1 unidade",
+    "grams": 22,
+    "carbs": 14,
+    "calories": 71
+  },
+  {
+    "id": 191,
+    "name": "Barra de cereal comum (média)",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 18,
+    "calories": 97
+  },
+  {
+    "id": 192,
+    "name": "Barra de cereal diet (média)",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 67
+  },
+  {
+    "id": 193,
+    "name": "Barra de cereal light (média)",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 16,
+    "calories": 75
+  },
+  {
+    "id": 194,
+    "name": "Barra de Cereal Nuts Original Nutry ®",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 11,
+    "calories": 158
+  },
+  {
+    "id": 195,
+    "name": "Barra de frutas (Supino) ®",
+    "measure": "1 unidade",
+    "grams": 24,
+    "carbs": 17,
+    "calories": 86
+  },
+  {
+    "id": 196,
+    "name": "Barra de frutas proteica (Supino) ®",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 12,
+    "calories": 86
+  },
+  {
+    "id": 197,
+    "name": "Barra de frutas zero açúcar (Supino) ®",
+    "measure": "1 unidade",
+    "grams": 24,
+    "carbs": 17,
+    "calories": 84
+  },
+  {
+    "id": 198,
+    "name": "Barra de proteína 7 grãos amedoim Da Magrinha®",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 6.8,
+    "calories": 68
+  },
+  {
+    "id": 199,
+    "name": "Barra de proteína 7 grãos cacau Da Magrinha®",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 6,
+    "calories": 69
+  },
+  {
+    "id": 200,
+    "name": "Barra de Proteina zero adição de açúcar Crunch sabor cookies & cream Bold®",
+    "measure": "1 unidade 54 14 170 Barra de Proteina zero adição de açúcar Crunch sabor morango e chantlly Bold® 1 unidade 50 14 174 Barra de Proteina zero adição de açúcar sabor pistache Bold® 1 unidade 60 17 240 Barra de Proteina zero adição de açúcar sabores YoPro Nutrata® 1 unidade 55 15 229 Barra de Proteina zero adição de açúcar Thin sabor avelã branco Bold® 1 unidade 40 12 149 Barra de Proteina zero adição de açúcar Thin sabor bonbom de coco Bold® 1 unidade 40 12 151 Barra de Proteina zero adição de açúcar Thin sabor caramelo crocante Bold® 1 unidade 40 12 141 Barra de Proteina zero adição de açúcar Thin sabor caramelo e amendoim Bold® 1 unidade 40 12 144 Barra de Proteina zero adição de açúcar Thin sabor cookies & cream Bold® 1 unidade 40 12 139 Barra de proteínas (média) 1 unidade",
+    "grams": 30,
+    "carbs": 10,
+    "calories": 100
+  },
+  {
+    "id": 201,
+    "name": "Barra de proteínas plant based (Essential) ®",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 11,
+    "calories": 183
+  },
+  {
+    "id": 202,
+    "name": "Barra nuts castanhas e sementes (Banana Brasil) ®",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 9,
+    "calories": 132
+  },
+  {
+    "id": 203,
+    "name": "Barra nuts castanhas e sementes zero açúcar (Banana Brasil) ®",
+    "measure": "1 unidade 25 9 132 Barra nuts castanhas, cacau e coco (Banana Brasil) ® 1 unidade",
+    "grams": 25,
+    "carbs": 8,
+    "calories": 123
+  },
+  {
+    "id": 204,
+    "name": "Barra proteica zero açúcar sabor amemndoim com chocolate Win Stage®",
+    "measure": "1 unidade 54 20 202 Barra proteica zero açúcar sabor banana com chocolate Win Stage® 1 unidade 54 21 210 Barra proteica zero açúcar sabor banana com chocolate Win Stage® 1 unidade 54 20 204 Barra proteica zero açúcar sabor chocolate com amendoas Win Stage® 1 unidade 54 21 202 Barra proteica zero açúcar sabor chocolate com avelâ Win Stage® 1 unidade 54 24 202 Barra proteica zero açúcar sabor morago Win Stage® 1 unidade",
+    "grams": 54,
+    "carbs": 22,
+    "calories": 205
+  },
+  {
+    "id": 205,
+    "name": "Barra proteica zero açúcar sabor vanilla coffe Win Stage®",
+    "measure": "1 unidade 54 20 202 Batata (Baked Potato) 1 unidade",
+    "grams": 470,
+    "carbs": 83,
+    "calories": 369
+  },
+  {
+    "id": 206,
+    "name": "Batata doce amarela assada (picada)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 10,
+    "calories": 43
+  },
+  {
+    "id": 207,
+    "name": "Batata doce branca cozida (picada)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 8,
+    "calories": 38
+  },
+  {
+    "id": 208,
+    "name": "Batata doce cozida",
+    "measure": "1 colher sopa cheia",
+    "grams": 42,
+    "carbs": 10,
+    "calories": 43
+  },
+  {
+    "id": 209,
+    "name": "Batata doce frita",
+    "measure": "1 fatia media",
+    "grams": 65,
+    "carbs": 39,
+    "calories": 249
+  },
+  {
+    "id": 210,
+    "name": "Batata doce, doce de",
+    "measure": "1 colher de sopa cheia",
+    "grams": 40,
+    "carbs": 24,
+    "calories": 94
+  },
+  {
+    "id": 211,
+    "name": "Batata frita Burguer King ®",
+    "measure": "1 porção média",
+    "grams": 0,
+    "carbs": 37,
+    "calories": 320
+  },
+  {
+    "id": 212,
+    "name": "Batata frita canoa Bob’s ®",
+    "measure": "1 porção média",
+    "grams": 0,
+    "carbs": 46,
+    "calories": 307
+  },
+  {
+    "id": 213,
+    "name": "Batata frita chips 1 punhado",
+    "measure": "",
+    "grams": 13,
+    "carbs": 6,
+    "calories": 70
+  },
+  {
+    "id": 214,
+    "name": "Batata frita Habib’s ®",
+    "measure": "1 porção média",
+    "grams": 100,
+    "carbs": 33,
+    "calories": 252
+  },
+  {
+    "id": 215,
+    "name": "Batata frita palito Bob’s ®",
+    "measure": "1 porção média",
+    "grams": 0,
+    "carbs": 41,
+    "calories": 259
+  },
+  {
+    "id": 216,
+    "name": "Batata fritas Mc’ Donalds ®",
+    "measure": "1 porção média",
+    "grams": 0,
+    "carbs": 35,
+    "calories": 295
+  },
+  {
+    "id": 217,
+    "name": "Batata fritas McFritas Kids Mc’ Donalds ®",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 11,
+    "calories": 87
+  },
+  {
+    "id": 218,
+    "name": "Batata inglesa cozida",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 6,
+    "calories": 26
+  },
+  {
+    "id": 219,
+    "name": "Batata inglesa frita",
+    "measure": "1 escumadeira media cheia",
+    "grams": 65,
+    "carbs": 23,
+    "calories": 182
+  },
+  {
+    "id": 220,
+    "name": "Batata inglesa Sauté",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 4,
+    "calories": 37
+  },
+  {
+    "id": 221,
+    "name": "Batata palha",
+    "measure": "Colher de sopa cheia",
+    "grams": 13,
+    "carbs": 6,
+    "calories": 78
+  },
+  {
+    "id": 222,
+    "name": "Batata palha",
+    "measure": "1 xícara de chá",
+    "grams": 30,
+    "carbs": 13,
+    "calories": 180
+  },
+  {
+    "id": 223,
+    "name": "Batata pringles ®",
+    "measure": "14 unidades",
+    "grams": 25,
+    "carbs": 13,
+    "calories": 131
+  },
+  {
+    "id": 224,
+    "name": "Batata smiles Mccain ®",
+    "measure": "1 unidade",
+    "grams": 21,
+    "carbs": 7,
+    "calories": 42
+  },
+  {
+    "id": 225,
+    "name": "Batata, amido de",
+    "measure": "1 colher de sopa cheia",
+    "grams": 16,
+    "carbs": 13,
+    "calories": 53
+  },
+  {
+    "id": 226,
+    "name": "Batata, fécula de",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 16,
+    "calories": 66
+  },
+  {
+    "id": 227,
+    "name": "Batata-baroa ou mandioquinha (picada)",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 5,
+    "calories": 33
+  },
+  {
+    "id": 228,
+    "name": "Baton (chocolate ao leite Garoto)",
+    "measure": "1 unidade",
+    "grams": 16,
+    "carbs": 9,
+    "calories": 86
+  },
+  {
+    "id": 229,
+    "name": "Beijinho",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 11,
+    "calories": 105
+  },
+  {
+    "id": 230,
+    "name": "Beijinho",
+    "measure": "1 unidade pequena",
+    "grams": 6,
+    "carbs": 3,
+    "calories": 25
+  },
+  {
+    "id": 231,
+    "name": "Beijinho diet",
+    "measure": "1 unidade pequena",
+    "grams": 6,
+    "carbs": 2,
+    "calories": 20
+  },
+  {
+    "id": 232,
+    "name": "Beijinho-de-coco Nestle",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 11,
+    "calories": 63
+  },
+  {
+    "id": 233,
+    "name": "Beiju",
+    "measure": "1 unidade media",
+    "grams": 100,
+    "carbs": 87,
+    "calories": 359
+  },
+  {
+    "id": 234,
+    "name": "Beiju com Coco",
+    "measure": "1 unidade grande",
+    "grams": 125,
+    "carbs": 77,
+    "calories": 622
+  },
+  {
+    "id": 235,
+    "name": "Beiju de queijo com manteiga",
+    "measure": "1 unidade média",
+    "grams": 150,
+    "carbs": 87,
+    "calories": 518
+  },
+  {
+    "id": 236,
+    "name": "Beirute de frango crocante Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 553,
+    "carbs": 84,
+    "calories": 1269
+  },
+  {
+    "id": 237,
+    "name": "Beirute Habibão Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 636,
+    "carbs": 45,
+    "calories": 1709
+  },
+  {
+    "id": 238,
+    "name": "Beirute tradicional de rosbife Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 418,
+    "carbs": 56,
+    "calories": 919
+  },
+  {
+    "id": 239,
+    "name": "Bekleua",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 20,
+    "calories": 290
+  },
+  {
+    "id": 240,
+    "name": "Bem casado",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 25,
+    "calories": 160
+  },
+  {
+    "id": 241,
+    "name": "Berinjela cozida sem sal",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 2,
+    "calories": 8
+  },
+  {
+    "id": 242,
+    "name": "Berinjela ensopada",
+    "measure": "1 escumadeira media rasa",
+    "grams": 75,
+    "carbs": 6,
+    "calories": 56
+  },
+  {
+    "id": 243,
+    "name": "Berinjela frita 1 rodela média",
+    "measure": "",
+    "grams": 13,
+    "carbs": 1,
+    "calories": 10
+  },
+  {
+    "id": 244,
+    "name": "Bertalha refogada",
+    "measure": "1 pires",
+    "grams": 100,
+    "carbs": 4,
+    "calories": 45
+  },
+  {
+    "id": 245,
+    "name": "Beterraba cozida (picada)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 2,
+    "calories": 9
+  },
+  {
+    "id": 246,
+    "name": "Beterraba crua",
+    "measure": "1 colher de sopa cheia",
+    "grams": 16,
+    "carbs": 1,
+    "calories": 7
+  },
+  {
+    "id": 247,
+    "name": "Bib’s Cebola Caramelizada Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 266,
+    "carbs": 37,
+    "calories": 938
+  },
+  {
+    "id": 248,
+    "name": "Bib’s Chicken BBQ Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 289,
+    "carbs": 59,
+    "calories": 676
+  },
+  {
+    "id": 249,
+    "name": "Bib’s Classic Burger Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 276,
+    "carbs": 40,
+    "calories": 891
+  },
+  {
+    "id": 250,
+    "name": "Bib’Sfiha Cheddar Burger Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 296,
+    "carbs": 34,
+    "calories": 985
+  },
+  {
+    "id": 251,
+    "name": "Bib’Sfiha Salad Burger Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 327,
+    "carbs": 36,
+    "calories": 973
+  },
+  {
+    "id": 252,
+    "name": "Bib’s salada bacon Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 271,
+    "carbs": 29,
+    "calories": 876
+  },
+  {
+    "id": 253,
+    "name": "Bib’sfiha de Calabresa com mussarela Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 70,
+    "carbs": 19,
+    "calories": 186
+  },
+  {
+    "id": 254,
+    "name": "Bib’sfiha de Carne Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 75,
+    "carbs": 23,
+    "calories": 193
+  },
+  {
+    "id": 255,
+    "name": "Bib’sfiha de Frango Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 75,
+    "carbs": 23,
+    "calories": 180
+  },
+  {
+    "id": 256,
+    "name": "Bib’sfiha de Queijo Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 70,
+    "carbs": 22,
+    "calories": 210
+  },
+  {
+    "id": 257,
+    "name": "Bife à milanesa",
+    "measure": "1 unidade media",
+    "grams": 80,
+    "carbs": 8,
+    "calories": 230
+  },
+  {
+    "id": 258,
+    "name": "Bife à parmegiana",
+    "measure": "1 unidade média",
+    "grams": 150,
+    "carbs": 13,
+    "calories": 490
+  },
+  {
+    "id": 259,
+    "name": "Bife à Role",
+    "measure": "1 unidade grande",
+    "grams": 150,
+    "carbs": 4,
+    "calories": 268
+  },
+  {
+    "id": 260,
+    "name": "Bife de boi",
+    "measure": "1 unidade média",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 228
+  },
+  {
+    "id": 261,
+    "name": "Bife de fígado",
+    "measure": "1 unidade média",
+    "grams": 100,
+    "carbs": 6,
+    "calories": 216
+  },
+  {
+    "id": 262,
+    "name": "Big Bob Bob’s ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 38,
+    "calories": 509
+  },
+  {
+    "id": 263,
+    "name": "Big Bob frango Bob’s ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 38,
+    "calories": 494
+  },
+  {
+    "id": 264,
+    "name": "Big Bob Veggie Carne ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 42,
+    "calories": 491
+  },
+  {
+    "id": 265,
+    "name": "Big Mac McDonald’s ®",
+    "measure": "1 unidade",
+    "grams": 210,
+    "carbs": 41,
+    "calories": 503
+  },
+  {
+    "id": 266,
+    "name": "Big Tasty McDonald’s ®",
+    "measure": "1 unidade",
+    "grams": 337,
+    "carbs": 41,
+    "calories": 837
+  },
+  {
+    "id": 267,
+    "name": "Bis Lacta ®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 4,
+    "calories": 31
+  },
+  {
+    "id": 268,
+    "name": "Biscoito 7 grãos Da Magrinha® (média dos sabores)",
+    "measure": "1 unidade 5 3 17 Biscoito amanteigado banana e canela 1 unidade",
+    "grams": 5,
+    "carbs": 4,
+    "calories": 25
+  },
+  {
+    "id": 269,
+    "name": "Biscoito Cracker 7 grãos Da Magrinha® (média dos sabores)",
+    "measure": "1 unidade 4 2 12 Biscoito cream cracker (média) 1 unidade",
+    "grams": 5,
+    "carbs": 4,
+    "calories": 22
+  },
+  {
+    "id": 270,
+    "name": "Biscoito de água e sal",
+    "measure": "1 unidade",
+    "grams": 8,
+    "carbs": 5,
+    "calories": 34
+  },
+  {
+    "id": 271,
+    "name": "Biscoito de arroz (Camil)",
+    "measure": "1 unidade pequena",
+    "grams": 2,
+    "carbs": 2,
+    "calories": 9
+  },
+  {
+    "id": 272,
+    "name": "Biscoito de arroz Jasmine ®",
+    "measure": "1 unidade grande",
+    "grams": 6,
+    "carbs": 5,
+    "calories": 23
+  },
+  {
+    "id": 273,
+    "name": "Biscoito de aveia e mel Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 4,
+    "calories": 26
+  },
+  {
+    "id": 274,
+    "name": "Biscoito de castanha do Pará",
+    "measure": "1 unidade",
+    "grams": 9,
+    "carbs": 7,
+    "calories": 46
+  },
+  {
+    "id": 275,
+    "name": "Biscoito de coco Piraquê ®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 3,
+    "calories": 23
+  },
+  {
+    "id": 276,
+    "name": "Biscoito de polvilho (rosquinha)",
+    "measure": "1 unidade",
+    "grams": 3,
+    "carbs": 2,
+    "calories": 13
+  },
+  {
+    "id": 277,
+    "name": "Biscoito de proteína sabor amendoim WheyViv® 1 pacotinho",
+    "measure": "",
+    "grams": 45,
+    "carbs": 12,
+    "calories": 142
+  },
+  {
+    "id": 278,
+    "name": "Biscoito de proteína sabor amendoim WheyViv®",
+    "measure": "1 unidade",
+    "grams": 4,
+    "carbs": 1,
+    "calories": 12
+  },
+  {
+    "id": 279,
+    "name": "Biscoito de proteína sabor banana com canela WheyViv® 1 pacotinho 45 10 136 Biscoito de proteína sabor banana com canela WheyViv®",
+    "measure": "1 unidade 4 1 11 Biscoito de proteína sabor chocolate WheyViv® 1 pacotinho",
+    "grams": 45,
+    "carbs": 14,
+    "calories": 135
+  },
+  {
+    "id": 280,
+    "name": "Biscoito de proteína sabor chocolate WheyViv®",
+    "measure": "1 unidade",
+    "grams": 4,
+    "carbs": 2,
+    "calories": 11
+  },
+  {
+    "id": 281,
+    "name": "Biscoito de proteína sabor coco WheyViv® 1 pacotinho",
+    "measure": "",
+    "grams": 45,
+    "carbs": 14,
+    "calories": 137
+  },
+  {
+    "id": 282,
+    "name": "Biscoito de proteína sabor cookies WheyViv® 1 pacotinho",
+    "measure": "",
+    "grams": 45,
+    "carbs": 16,
+    "calories": 135
+  },
+  {
+    "id": 283,
+    "name": "Biscoito de proteína sabor cookies WheyViv®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 2,
+    "calories": 14
+  },
+  {
+    "id": 284,
+    "name": "Biscoito de proteína sabor gergelim WheyViv® 1 pacotinho",
+    "measure": "",
+    "grams": 45,
+    "carbs": 12,
+    "calories": 151
+  },
+  {
+    "id": 285,
+    "name": "Biscoito de proteína sabor suspiro WheyViv® 1 pacotinho",
+    "measure": "",
+    "grams": 25,
+    "carbs": 6,
+    "calories": 66
+  },
+  {
+    "id": 286,
+    "name": "Biscoito de proteína sabor suspiro WheyViv®",
+    "measure": "1 unidade",
+    "grams": 1,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 287,
+    "name": "Biscoito de queijo",
+    "measure": "1 unidade",
+    "grams": 12,
+    "carbs": 6,
+    "calories": 51
+  },
+  {
+    "id": 288,
+    "name": "Biscoito leite maltado Piraquê ®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 3,
+    "calories": 23
+  },
+  {
+    "id": 289,
+    "name": "Biscoito maçã e canela nesfit ®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 3,
+    "calories": 22
+  },
+  {
+    "id": 290,
+    "name": "Biscoito maisena Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 4,
+    "calories": 22
+  },
+  {
+    "id": 291,
+    "name": "Biscoito maisena zero açúcar Lowçucar®",
+    "measure": "1 unidade",
+    "grams": 4,
+    "carbs": 3,
+    "calories": 15
+  },
+  {
+    "id": 292,
+    "name": "Biscoito maria Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 4,
+    "calories": 26
+  },
+  {
+    "id": 293,
+    "name": "Biscoito maria zero açúcar Lowçucar®",
+    "measure": "1 unidade",
+    "grams": 8,
+    "carbs": 3,
+    "calories": 19
+  },
+  {
+    "id": 294,
+    "name": "Biscoito passatempo coberto com chocolate Nestlé ®",
+    "measure": "1 unidade 10 7 46 Biscoito passatempo recheio chocolate Nestlé ® 1 unidade",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 45
+  },
+  {
+    "id": 295,
+    "name": "Biscoito passatempo recheio doce de leite Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 46
+  },
+  {
+    "id": 296,
+    "name": "Biscoito passatempo recheio morango Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 45
+  },
+  {
+    "id": 297,
+    "name": "Biscoito passatempo sem recheio ®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 4,
+    "calories": 22
+  },
+  {
+    "id": 298,
+    "name": "Biscoito prestígio recheado São Luiz Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 10,
+    "calories": 71
+  },
+  {
+    "id": 299,
+    "name": "Biscoito prestígio wafer Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 8,
+    "carbs": 5,
+    "calories": 43
+  },
+  {
+    "id": 300,
+    "name": "Biscoito Protein cookie 7 grãos Da Magrinha® (média dos sabores)",
+    "measure": "1 unidade mini 3 2 14 Biscoito recheado bono chocolate Nestlé ® 1 unidade",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 46
+  },
+  {
+    "id": 301,
+    "name": "Biscoito recheado chocolate (média)",
+    "measure": "1 unidade",
+    "grams": 13,
+    "carbs": 9,
+    "calories": 62
+  },
+  {
+    "id": 302,
+    "name": "Biscoito salgado gergelim Piraquê ®",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 5,
+    "calories": 32
+  },
+  {
+    "id": 303,
+    "name": "Biscoito tipo cookie gotas de chocolate bauduco ®",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 51
+  },
+  {
+    "id": 304,
+    "name": "Biscoito tipo cookie nescau due nestlé ® 1 pacote",
+    "measure": "",
+    "grams": 20,
+    "carbs": 13,
+    "calories": 97
+  },
+  {
+    "id": 305,
+    "name": "Biscoito tipo wafer (média)",
+    "measure": "1 unidade",
+    "grams": 7,
+    "carbs": 5,
+    "calories": 38
+  },
+  {
+    "id": 306,
+    "name": "Biscoito tostines cream cracker São Luiz Nestle ®",
+    "measure": "1 unidade",
+    "grams": 8,
+    "carbs": 5,
+    "calories": 37
+  },
+  {
+    "id": 307,
+    "name": "Biscoito tostines leite ®",
+    "measure": "1 unidade",
+    "grams": 8,
+    "carbs": 6,
+    "calories": 37
+  },
+  {
+    "id": 308,
+    "name": "Biscoitos de farinha integral",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 40
+  },
+  {
+    "id": 309,
+    "name": "Biscoitos de glúten a 40%",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 3,
+    "calories": 29
+  },
+  {
+    "id": 310,
+    "name": "Biscoitos de glúten puro",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 35
+  },
+  {
+    "id": 311,
+    "name": "Biscoitos doces",
+    "measure": "1 unidade",
+    "grams": 8,
+    "carbs": 6,
+    "calories": 33
+  },
+  {
+    "id": 312,
+    "name": "Bisnaguinha integral Wickbold ®",
+    "measure": "1 unidade",
+    "grams": 17,
+    "carbs": 8,
+    "calories": 46
+  },
+  {
+    "id": 313,
+    "name": "Bisnaguinha Pullman",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 11,
+    "calories": 62
+  },
+  {
+    "id": 314,
+    "name": "Bisnaguinha Seven Boys ®",
+    "measure": "1 unidade",
+    "grams": 17,
+    "carbs": 9,
+    "calories": 48
+  },
+  {
+    "id": 315,
+    "name": "BK Burger do BK burger king ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 31,
+    "calories": 678
+  },
+  {
+    "id": 316,
+    "name": "BK Chicken Crispy burger king ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 42,
+    "calories": 406
+  },
+  {
+    "id": 317,
+    "name": "BK original burger king ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 32,
+    "calories": 714
+  },
+  {
+    "id": 318,
+    "name": "BK original cheddar burger king ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 33,
+    "calories": 541
+  },
+  {
+    "id": 319,
+    "name": "Blanquet de peru sadia ®",
+    "measure": "4 fatias",
+    "grams": 60,
+    "carbs": 3,
+    "calories": 57
+  },
+  {
+    "id": 320,
+    "name": "Blis Frutas Vermelhas",
+    "measure": "1 unidade",
+    "grams": 180,
+    "carbs": 29,
+    "calories": 158
+  },
+  {
+    "id": 321,
+    "name": "Bliss morango",
+    "measure": "1 unidade",
+    "grams": 200,
+    "carbs": 31,
+    "calories": 168
+  },
+  {
+    "id": 322,
+    "name": "Bloody Mary 1 coquetel",
+    "measure": "",
+    "grams": 148,
+    "carbs": 5,
+    "calories": 123
+  },
+  {
+    "id": 323,
+    "name": "Bob’s Burgão ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 51,
+    "calories": 779
+  },
+  {
+    "id": 324,
+    "name": "Bob’s burguer ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 28,
+    "calories": 661
+  },
+  {
+    "id": 325,
+    "name": "Bob’s burguer celebrativo ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 35,
+    "calories": 279
+  },
+  {
+    "id": 326,
+    "name": "Bob’s burguer frango ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 31,
+    "calories": 286
+  },
+  {
+    "id": 327,
+    "name": "Bob’s burguer veggie carne ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 31,
+    "calories": 301
+  },
+  {
+    "id": 328,
+    "name": "Bob’s chedar ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 27,
+    "calories": 267
+  },
+  {
+    "id": 329,
+    "name": "Bob’s costela ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 52,
+    "calories": 725
+  },
+  {
+    "id": 330,
+    "name": "Bob’s Premium ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 29,
+    "calories": 845
+  },
+  {
+    "id": 331,
+    "name": "Bolacha de nata Panco ®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 4,
+    "calories": 22
+  },
+  {
+    "id": 332,
+    "name": "Bolacha sabor chocolate trakinas ®",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 48
+  },
+  {
+    "id": 333,
+    "name": "Bolacha sabor mais morango Trakinas ®",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 49
+  },
+  {
+    "id": 334,
+    "name": "Bolacha sabor meio chocolate ao leite meio chocolate branco trakinas ®",
+    "measure": "1 unidade 10 8 48 Bolinha de queijo 1 unidade pequena",
+    "grams": 10,
+    "carbs": 3,
+    "calories": 27
+  },
+  {
+    "id": 335,
+    "name": "Bolinho de aipim com carne seca",
+    "measure": "1 unidade média",
+    "grams": 45,
+    "carbs": 12,
+    "calories": 86
+  },
+  {
+    "id": 336,
+    "name": "Bolinho de arroz",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 20,
+    "calories": 164
+  },
+  {
+    "id": 337,
+    "name": "Bolinho de bacalhau",
+    "measure": "1 unidade media",
+    "grams": 15,
+    "carbs": 3,
+    "calories": 42
+  },
+  {
+    "id": 338,
+    "name": "Bolinho de bacalhau Habib’s ®",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 5,
+    "calories": 87
+  },
+  {
+    "id": 339,
+    "name": "Bolinho de carne",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 8,
+    "calories": 67
+  },
+  {
+    "id": 340,
+    "name": "Bolinho de Carne",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 8,
+    "calories": 67
+  },
+  {
+    "id": 341,
+    "name": "Bolinho de Chuva",
+    "measure": "1 unidade pequena",
+    "grams": 30,
+    "carbs": 13,
+    "calories": 81
+  },
+  {
+    "id": 342,
+    "name": "Bolinho de estudante (Bolinho Ana Maria)",
+    "measure": "1 unidade média",
+    "grams": 80,
+    "carbs": 49,
+    "calories": 292
+  },
+  {
+    "id": 343,
+    "name": "Bolinho de Presunto e Queijo",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 12,
+    "calories": 73
+  },
+  {
+    "id": 344,
+    "name": "Bolinho de Queijo",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 16,
+    "calories": 137
+  },
+  {
+    "id": 345,
+    "name": "Bolinho de soja tipo salsicha (Ta’amti) - Albee ®",
+    "measure": "4 unidades",
+    "grams": 90,
+    "carbs": 28,
+    "calories": 232
+  },
+  {
+    "id": 346,
+    "name": "Bolo alemão",
+    "measure": "1 fatia",
+    "grams": 60,
+    "carbs": 30,
+    "calories": 227
+  },
+  {
+    "id": 347,
+    "name": "Bolo comum baunilha Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 30,
+    "calories": 143
+  },
+  {
+    "id": 348,
+    "name": "Bolo comum com glacê e recheio",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 65,
+    "calories": 384
+  },
+  {
+    "id": 349,
+    "name": "Bolo de aipim com coco",
+    "measure": "1 fatia media",
+    "grams": 80,
+    "carbs": 37,
+    "calories": 243
+  },
+  {
+    "id": 350,
+    "name": "Bolo de aipim Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 33,
+    "calories": 147
+  },
+  {
+    "id": 351,
+    "name": "Bolo de arroz",
+    "measure": "1 fatia média",
+    "grams": 70,
+    "carbs": 39,
+    "calories": 197
+  },
+  {
+    "id": 352,
+    "name": "Bolo de banana",
+    "measure": "1 fatia média",
+    "grams": 70,
+    "carbs": 33,
+    "calories": 211
+  },
+  {
+    "id": 353,
+    "name": "Bolo de batata-doce",
+    "measure": "1 fatia média",
+    "grams": 90,
+    "carbs": 43,
+    "calories": 292
+  },
+  {
+    "id": 354,
+    "name": "Bolo de Brigadeiro",
+    "measure": "1 fatia pequena",
+    "grams": 50,
+    "carbs": 20,
+    "calories": 147
+  },
+  {
+    "id": 355,
+    "name": "Bolo de brigadeiro Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 28,
+    "calories": 147
+  },
+  {
+    "id": 356,
+    "name": "Bolo de brigadeiro recheado (doceria/festa)",
+    "measure": "1 fatia pequena",
+    "grams": 100,
+    "carbs": 55,
+    "calories": 352
+  },
+  {
+    "id": 357,
+    "name": "Bolo de brownie Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 36,
+    "calories": 155
+  },
+  {
+    "id": 358,
+    "name": "Bolo de casamento",
+    "measure": "1 fatia pequena",
+    "grams": 75,
+    "carbs": 42,
+    "calories": 285
+  },
+  {
+    "id": 359,
+    "name": "Bolo de cenoura",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 38,
+    "calories": 227
+  },
+  {
+    "id": 360,
+    "name": "Bolo de cenoura Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 28,
+    "calories": 121
+  },
+  {
+    "id": 361,
+    "name": "Bolo de cenoura Fleischmann ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 30,
+    "calories": 133
+  },
+  {
+    "id": 362,
+    "name": "Bolo de chocolate (recheio/ cobertura)",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 54,
+    "calories": 320
+  },
+  {
+    "id": 363,
+    "name": "Bolo de chocolate com avelã Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 29,
+    "calories": 152
+  },
+  {
+    "id": 364,
+    "name": "Bolo de chocolate Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 30,
+    "calories": 145
+  },
+  {
+    "id": 365,
+    "name": "Bolo de Chocolate e Nozes",
+    "measure": "1 fatia pequena",
+    "grams": 50,
+    "carbs": 17,
+    "calories": 175
+  },
+  {
+    "id": 366,
+    "name": "Bolo de chocolate sem glacê",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 34,
+    "calories": 306
+  },
+  {
+    "id": 367,
+    "name": "Bolo de coco",
+    "measure": "1 fatia grande",
+    "grams": 100,
+    "carbs": 54,
+    "calories": 317
+  },
+  {
+    "id": 368,
+    "name": "Bolo de coco Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 30,
+    "calories": 143
+  },
+  {
+    "id": 369,
+    "name": "Bolo de festa (recheio/ cobertura)",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 54,
+    "calories": 320
+  },
+  {
+    "id": 370,
+    "name": "Bolo de festa diet (recheio/ cobertura)",
+    "measure": "1 fatia média",
+    "grams": 80,
+    "carbs": 20,
+    "calories": 220
+  },
+  {
+    "id": 371,
+    "name": "Bolo de fubá",
+    "measure": "1 fatia média",
+    "grams": 50,
+    "carbs": 20,
+    "calories": 160
+  },
+  {
+    "id": 372,
+    "name": "Bolo de fubá Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 30,
+    "calories": 140
+  },
+  {
+    "id": 373,
+    "name": "Bolo de laranja Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 30,
+    "calories": 143
+  },
+  {
+    "id": 374,
+    "name": "Bolo de limão",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 37,
+    "calories": 233
+  },
+  {
+    "id": 375,
+    "name": "Bolo de mandioca (aipim)",
+    "measure": "1 pedaço grande",
+    "grams": 100,
+    "carbs": 48,
+    "calories": 324
+  },
+  {
+    "id": 376,
+    "name": "Bolo de milho",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 32,
+    "calories": 174
+  },
+  {
+    "id": 377,
+    "name": "Bolo de milho Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 30,
+    "calories": 143
+  },
+  {
+    "id": 378,
+    "name": "Bolo de nozes",
+    "measure": "1 fatia média",
+    "grams": 50,
+    "carbs": 28,
+    "calories": 200
+  },
+  {
+    "id": 379,
+    "name": "Bolo Floresta Branca com Cereja",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 38,
+    "calories": 366
+  },
+  {
+    "id": 380,
+    "name": "Bolo Floresta Negra com Morango",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 20,
+    "calories": 212
+  },
+  {
+    "id": 381,
+    "name": "Bolo Merengue",
+    "measure": "1 fatia pequena",
+    "grams": 50,
+    "carbs": 11,
+    "calories": 116
+  },
+  {
+    "id": 382,
+    "name": "Bolo Mousse de Chocolate",
+    "measure": "1 fatia pequena",
+    "grams": 50,
+    "carbs": 20,
+    "calories": 173
+  },
+  {
+    "id": 383,
+    "name": "Bolo mousse de chocolate (doceria)",
+    "measure": "1 fatia pequena",
+    "grams": 60,
+    "carbs": 23,
+    "calories": 185
+  },
+  {
+    "id": 384,
+    "name": "Bolo mousse de chocolate Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 27,
+    "calories": 128
+  },
+  {
+    "id": 385,
+    "name": "Bolo petit gateau Dona Benta ®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 29,
+    "calories": 142
+  },
+  {
+    "id": 386,
+    "name": "Bolo simples (sem cobertura)",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 31,
+    "calories": 214
+  },
+  {
+    "id": 387,
+    "name": "Bolo simples diet (sem cobertura)",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 21,
+    "calories": 154
+  },
+  {
+    "id": 388,
+    "name": "Bomba de chocolate",
+    "measure": "1 unidade",
+    "grams": 48,
+    "carbs": 9,
+    "calories": 163
+  },
+  {
+    "id": 389,
+    "name": "Bombom Alpino ®",
+    "measure": "1 unidade",
+    "grams": 13,
+    "carbs": 8,
+    "calories": 70
+  },
+  {
+    "id": 390,
+    "name": "Bombom Avelã zero açúcar Kopenhagen ®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 9,
+    "calories": 112
+  },
+  {
+    "id": 391,
+    "name": "Bombom banana Caribe Garoto ®",
+    "measure": "1 unidade",
+    "grams": 17,
+    "carbs": 12,
+    "calories": 65
+  },
+  {
+    "id": 392,
+    "name": "Bombom charge Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 23,
+    "calories": 195
+  },
+  {
+    "id": 393,
+    "name": "Bombom chokito Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 32,
+    "carbs": 24,
+    "calories": 140
+  },
+  {
+    "id": 394,
+    "name": "Bombom Copinho de Torrone ®",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 54
+  },
+  {
+    "id": 395,
+    "name": "Bombom de Brigadeiro Florybal ®",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 7,
+    "calories": 74
+  },
+  {
+    "id": 396,
+    "name": "Bombom diet Cacau Show ®",
+    "measure": "1 unidade",
+    "grams": 13,
+    "carbs": 13,
+    "calories": 122
+  },
+  {
+    "id": 397,
+    "name": "Bombom Ferrero Rocher ®",
+    "measure": "1 unidade",
+    "grams": 12,
+    "carbs": 6,
+    "calories": 75
+  },
+  {
+    "id": 398,
+    "name": "Bombom Flocos",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 52
+  },
+  {
+    "id": 399,
+    "name": "Bombom It coco Garoto ®",
+    "measure": "1 unidade",
+    "grams": 17,
+    "carbs": 11,
+    "calories": 80
+  },
+  {
+    "id": 400,
+    "name": "Bombom lajotinha Kopenhagen ® 1 e",
+    "measure": "1/4 unidades",
+    "grams": 25,
+    "carbs": 12,
+    "calories": 141
+  },
+  {
+    "id": 401,
+    "name": "Bombom língua de gato zero açúcar Kopenhagen ® 1 e",
+    "measure": "1/4 unidades",
+    "grams": 25,
+    "carbs": 11,
+    "calories": 139
+  },
+  {
+    "id": 402,
+    "name": "Bombom nhá benta kopenhagen ®",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 7,
+    "calories": 71
+  },
+  {
+    "id": 403,
+    "name": "Bombom Ouro Branco ®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 12,
+    "calories": 104
+  },
+  {
+    "id": 404,
+    "name": "Bombom prestígio Nestle ®",
+    "measure": "1 unidade",
+    "grams": 32,
+    "carbs": 22,
+    "calories": 152
+  },
+  {
+    "id": 405,
+    "name": "Bombom Raffaello ®",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 4,
+    "calories": 62
+  },
+  {
+    "id": 406,
+    "name": "Bombom Sonho de Valsa ®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 13,
+    "calories": 105
+  },
+  {
+    "id": 407,
+    "name": "Bombom Trufa de Cereja",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 45
+  },
+  {
+    "id": 408,
+    "name": "Bombom truffa de creme de cereja Cacau Show ®",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 12,
+    "calories": 123
+  },
+  {
+    "id": 409,
+    "name": "Brezel (Pretzel)",
+    "measure": "17 unidades pequenos",
+    "grams": 28,
+    "carbs": 23,
+    "calories": 110
+  },
+  {
+    "id": 410,
+    "name": "Brigadeiro",
+    "measure": "1 unidade pequena",
+    "grams": 15,
+    "carbs": 9,
+    "calories": 60
+  },
+  {
+    "id": 411,
+    "name": "Brigadeiro",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 16,
+    "calories": 103
+  },
+  {
+    "id": 412,
+    "name": "Brigadeiro de chocolate meio amargo",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 20,
+    "calories": 99
+  },
+  {
+    "id": 413,
+    "name": "Brigadeiro de Flocos",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 9,
+    "calories": 60
+  },
+  {
+    "id": 414,
+    "name": "Brigadeiro de Morango",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 9,
+    "calories": 60
+  },
+  {
+    "id": 415,
+    "name": "Brigadeiro diet",
+    "measure": "1 unidade pequena",
+    "grams": 10,
+    "carbs": 4,
+    "calories": 25
+  },
+  {
+    "id": 416,
+    "name": "Broa de Milho",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 25,
+    "calories": 128
+  },
+  {
+    "id": 417,
+    "name": "Brócolis com cottage (Baked Potato)",
+    "measure": "1 concha",
+    "grams": 80,
+    "carbs": 3,
+    "calories": 31
+  },
+  {
+    "id": 418,
+    "name": "Brócolis cozido (picado)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 419,
+    "name": "Buchada de bode",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 1,
+    "calories": 32
+  },
+  {
+    "id": 420,
+    "name": "Burger King ®",
+    "measure": "1 unidade",
+    "grams": 197,
+    "carbs": 32,
+    "calories": 458
+  },
+  {
+    "id": 421,
+    "name": "Buriti",
+    "measure": "3 unidades",
+    "grams": 9,
+    "carbs": 1,
+    "calories": 15
+  },
+  {
+    "id": 422,
+    "name": "Cação em posta cozido 1 posta média",
+    "measure": "",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 116
+  },
+  {
+    "id": 423,
+    "name": "Cacau em pó",
+    "measure": "1 colher de Sopa",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 8
+  },
+  {
+    "id": 424,
+    "name": "Cacau em pó Mãe Terra®",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 23
+  },
+  {
+    "id": 425,
+    "name": "Cachaça",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 115
+  },
+  {
+    "id": 426,
+    "name": "Cachorro quente (média)",
+    "measure": "1 unidade",
+    "grams": 125,
+    "carbs": 31,
+    "calories": 330
+  },
+  {
+    "id": 427,
+    "name": "Café coado com açúcar",
+    "measure": "1 xícara de café",
+    "grams": 50,
+    "carbs": 5,
+    "calories": 19
+  },
+  {
+    "id": 428,
+    "name": "Café coado com açúcar",
+    "measure": "1 xícara de chá",
+    "grams": 200,
+    "carbs": 20,
+    "calories": 76
+  },
+  {
+    "id": 429,
+    "name": "Café coado sem açúcar",
+    "measure": "1 xícara de café",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 430,
+    "name": "Café com leite 3 corações® (cápsula) 1 cápsula",
+    "measure": "",
+    "grams": 9,
+    "carbs": 5,
+    "calories": 37
+  },
+  {
+    "id": 431,
+    "name": "Café com leite com açúcar",
+    "measure": "1 xícara de chá cheia",
+    "grams": 200,
+    "carbs": 17,
+    "calories": 128
+  },
+  {
+    "id": 432,
+    "name": "Café com leite sem açúcar",
+    "measure": "1 xícara de chá cheia",
+    "grams": 200,
+    "carbs": 7,
+    "calories": 88
+  },
+  {
+    "id": 433,
+    "name": "Café expresso 3 corações® (cápsula) 1 cápsula",
+    "measure": "",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 434,
+    "name": "Café solúvel",
+    "measure": "1 colher de sopa",
+    "grams": 4,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 435,
+    "name": "Café solúvel",
+    "measure": "1 colher de chá",
+    "grams": 1,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 436,
+    "name": "Café tradicional filtrado 3 corações® (cápsula) 1 cápsula",
+    "measure": "",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 437,
+    "name": "Caipirinha com açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 30,
+    "calories": 340
+  },
+  {
+    "id": 438,
+    "name": "Caipirinha sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 3,
+    "calories": 232
+  },
+  {
+    "id": 439,
+    "name": "Cajá manga",
+    "measure": "1 unidade grande",
+    "grams": 75,
+    "carbs": 9,
+    "calories": 38
+  },
+  {
+    "id": 440,
+    "name": "Cajá manga",
+    "measure": "1 unidade média",
+    "grams": 55,
+    "carbs": 7,
+    "calories": 28
+  },
+  {
+    "id": 441,
+    "name": "Cajá manga",
+    "measure": "1 unidade pequena",
+    "grams": 40,
+    "carbs": 5,
+    "calories": 20
+  },
+  {
+    "id": 442,
+    "name": "Cajá polpa congelada",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 6,
+    "calories": 26
+  },
+  {
+    "id": 443,
+    "name": "Cajú",
+    "measure": "1 unidade média",
+    "grams": 90,
+    "carbs": 9,
+    "calories": 39
+  },
+  {
+    "id": 444,
+    "name": "Caju polpa congelada",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 9,
+    "calories": 37
+  },
+  {
+    "id": 445,
+    "name": "Caju, suco concentrado",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 21,
+    "calories": 90
+  },
+  {
+    "id": 446,
+    "name": "Cajuzinho",
+    "measure": "1 unidade pequena",
+    "grams": 12,
+    "carbs": 6,
+    "calories": 50
+  },
+  {
+    "id": 447,
+    "name": "Cajuzinho",
+    "measure": "1 unidade média",
+    "grams": 25,
+    "carbs": 13,
+    "calories": 106
+  },
+  {
+    "id": 448,
+    "name": "Cajuzinho",
+    "measure": "1 unidade grande",
+    "grams": 40,
+    "carbs": 20,
+    "calories": 169
+  },
+  {
+    "id": 449,
+    "name": "Calda de caramelo",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 31
+  },
+  {
+    "id": 450,
+    "name": "Calda de chocolate",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 5,
+    "calories": 31
+  },
+  {
+    "id": 451,
+    "name": "Calda de morango",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 25
+  },
+  {
+    "id": 452,
+    "name": "Caldo de cana",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 36,
+    "calories": 130
+  },
+  {
+    "id": 453,
+    "name": "Caldo de carne Knorr® 1 tablete",
+    "measure": "",
+    "grams": 10,
+    "carbs": 3,
+    "calories": 30
+  },
+  {
+    "id": 454,
+    "name": "Caldo de feijão",
+    "measure": "1 Concha média",
+    "grams": 150,
+    "carbs": 16,
+    "calories": 254
+  },
+  {
+    "id": 455,
+    "name": "Caldo de galinha Knorr® 1 tablete",
+    "measure": "",
+    "grams": 10,
+    "carbs": 3,
+    "calories": 30
+  },
+  {
+    "id": 456,
+    "name": "Caldo de mandioca",
+    "measure": "1 Concha média",
+    "grams": 150,
+    "carbs": 21,
+    "calories": 312
+  },
+  {
+    "id": 457,
+    "name": "Caldo verde",
+    "measure": "1 concha média cheia",
+    "grams": 130,
+    "carbs": 7,
+    "calories": 79
+  },
+  {
+    "id": 458,
+    "name": "Camarão (Baked Potato®)",
+    "measure": "1 concha",
+    "grams": 90,
+    "carbs": 0,
+    "calories": 42
+  },
+  {
+    "id": 459,
+    "name": "Camarão à milanesa",
+    "measure": "1 Colher de Sopa",
+    "grams": 20,
+    "carbs": 5,
+    "calories": 69
+  },
+  {
+    "id": 460,
+    "name": "Camarão cozido",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 18
+  },
+  {
+    "id": 461,
+    "name": "Camarão cozido",
+    "measure": "1 unidade grande",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 27
+  },
+  {
+    "id": 462,
+    "name": "Camarão cru",
+    "measure": "1 unidade grande",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 14
+  },
+  {
+    "id": 463,
+    "name": "Camarão frito",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 46
+  },
+  {
+    "id": 464,
+    "name": "Camu-camu",
+    "measure": "6 unidades",
+    "grams": 48,
+    "carbs": 3,
+    "calories": 15
+  },
+  {
+    "id": 465,
+    "name": "Canapé de capaccio 1 torrada",
+    "measure": "",
+    "grams": 3,
+    "carbs": 2,
+    "calories": 20
+  },
+  {
+    "id": 466,
+    "name": "Canela em pau Kitano®",
+    "measure": "1 unidade",
+    "grams": 2,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 467,
+    "name": "Canela em pó",
+    "measure": "1 colher de chá",
+    "grams": 2,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 468,
+    "name": "Canelone de frango",
+    "measure": "1 unidade média",
+    "grams": 45,
+    "carbs": 9,
+    "calories": 87
+  },
+  {
+    "id": 469,
+    "name": "Canelone de ricota",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 7,
+    "calories": 74
+  },
+  {
+    "id": 470,
+    "name": "Canja de galinha",
+    "measure": "1 concha média cheia",
+    "grams": 130,
+    "carbs": 12,
+    "calories": 110
+  },
+  {
+    "id": 471,
+    "name": "Canja de galinha",
+    "measure": "1 prato fundo",
+    "grams": 520,
+    "carbs": 49,
+    "calories": 442
+  },
+  {
+    "id": 472,
+    "name": "Canjica pronta",
+    "measure": "1 Colher de Sopa cheia",
+    "grams": 25,
+    "carbs": 6,
+    "calories": 28
+  },
+  {
+    "id": 473,
+    "name": "Canjica pronta",
+    "measure": "1 Concha média",
+    "grams": 120,
+    "carbs": 28,
+    "calories": 134
+  },
+  {
+    "id": 474,
+    "name": "Canjica pronta diet",
+    "measure": "1 Concha",
+    "grams": 120,
+    "carbs": 13,
+    "calories": 86
+  },
+  {
+    "id": 475,
+    "name": "Canjica pronta diet",
+    "measure": "1 Colher de Sopa",
+    "grams": 25,
+    "carbs": 3,
+    "calories": 18
+  },
+  {
+    "id": 476,
+    "name": "Canjiquinha de frango",
+    "measure": "1 Concha média",
+    "grams": 145,
+    "carbs": 13,
+    "calories": 215
+  },
+  {
+    "id": 477,
+    "name": "Capeletti de carne",
+    "measure": "1 escumadeira",
+    "grams": 50,
+    "carbs": 25,
+    "calories": 141
+  },
+  {
+    "id": 478,
+    "name": "Capeletti de carne Massa leve®",
+    "measure": "1 xícara de chá",
+    "grams": 100,
+    "carbs": 44,
+    "calories": 223
+  },
+  {
+    "id": 479,
+    "name": "Capeletti de frango",
+    "measure": "1 escumadeira",
+    "grams": 50,
+    "carbs": 25,
+    "calories": 140
+  },
+  {
+    "id": 480,
+    "name": "Capeletti de frango Massa leve®",
+    "measure": "1 xícara de chá",
+    "grams": 100,
+    "carbs": 51,
+    "calories": 266
+  },
+  {
+    "id": 481,
+    "name": "Capeletti de presunto",
+    "measure": "1 escumadeira",
+    "grams": 50,
+    "carbs": 25,
+    "calories": 143
+  },
+  {
+    "id": 482,
+    "name": "Cappuccino Baunilha 3 corações ® pó",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 41
+  },
+  {
+    "id": 483,
+    "name": "Cappuccino Chocolate 3 corações ® pó",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 40
+  },
+  {
+    "id": 484,
+    "name": "Cappuccino Classic 3 corações ® 1 cápsula",
+    "measure": "",
+    "grams": 11,
+    "carbs": 7,
+    "calories": 44
+  },
+  {
+    "id": 485,
+    "name": "Cappuccino Classic 3 corações ® pó",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 43
+  },
+  {
+    "id": 486,
+    "name": "Cappuccino Classic Pronto 3 corações ®",
+    "measure": "1 unidade / garrafinha",
+    "grams": 260,
+    "carbs": 39,
+    "calories": 267
+  },
+  {
+    "id": 487,
+    "name": "Cappuccino Descafeinado 3 corações ® pó",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 36
+  },
+  {
+    "id": 488,
+    "name": "Cappuccino Diet 3 corações ® pó",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 4,
+    "calories": 45
+  },
+  {
+    "id": 489,
+    "name": "Cappuccino em pó",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 42
+  },
+  {
+    "id": 490,
+    "name": "Cappuccino Light 3 corações ® pó",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 35
+  },
+  {
+    "id": 491,
+    "name": "Cappuccino Light 3 corações ® pó 1 sachê",
+    "measure": "",
+    "grams": 14,
+    "carbs": 9,
+    "calories": 49
+  },
+  {
+    "id": 492,
+    "name": "Caqui",
+    "measure": "1 unidade média",
+    "grams": 110,
+    "carbs": 21,
+    "calories": 78
+  },
+  {
+    "id": 493,
+    "name": "Caqui",
+    "measure": "1 unidade pequena",
+    "grams": 85,
+    "carbs": 16,
+    "calories": 60
+  },
+  {
+    "id": 494,
+    "name": "Cará cozido",
+    "measure": "1 Colher de Sopa cheia",
+    "grams": 35,
+    "carbs": 7,
+    "calories": 27
+  },
+  {
+    "id": 495,
+    "name": "Carambola",
+    "measure": "1 unidade média",
+    "grams": 75,
+    "carbs": 9,
+    "calories": 35
+  },
+  {
+    "id": 496,
+    "name": "Caranguejo cozido",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 83
+  },
+  {
+    "id": 497,
+    "name": "Carne assada",
+    "measure": "1 fatia média",
+    "grams": 90,
+    "carbs": 0,
+    "calories": 259
+  },
+  {
+    "id": 498,
+    "name": "Carne bovina, acém, moído, cozido",
+    "measure": "1 Colher de Sopa cheia",
+    "grams": 25,
+    "carbs": 0,
+    "calories": 53
+  },
+  {
+    "id": 499,
+    "name": "Carne bovina, costela assada",
+    "measure": "1 pedaço médio",
+    "grams": 40,
+    "carbs": 0,
+    "calories": 149
+  },
+  {
+    "id": 500,
+    "name": "Carne bovina, picanha, com gordura, grelhada 1 bife médio",
+    "measure": "",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 289
+  },
+  {
+    "id": 501,
+    "name": "Carne de boi cozida",
+    "measure": "1 Colher de Sopa",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 65
+  },
+  {
+    "id": 502,
+    "name": "Carne de boi cozida",
+    "measure": "1 pedaço",
+    "grams": 35,
+    "carbs": 0,
+    "calories": 75
+  },
+  {
+    "id": 503,
+    "name": "Carne de boi cozida",
+    "measure": "1 Colher de Arroz / Servir",
+    "grams": 70,
+    "carbs": 0,
+    "calories": 150
+  },
+  {
+    "id": 504,
+    "name": "Carne de boi moída",
+    "measure": "1 Colher de Sopa cheia",
+    "grams": 25,
+    "carbs": 0,
+    "calories": 49
+  },
+  {
+    "id": 505,
+    "name": "Carne de boi, lagarto cozido",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 222
+  },
+  {
+    "id": 506,
+    "name": "Carne de boi, lagarto cru",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 135
+  },
+  {
+    "id": 507,
+    "name": "Carne de boi, maminha, grelhado",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 153
+  },
+  {
+    "id": 508,
+    "name": "Carne de boi, paleta sem gordura, cozida",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 194
+  },
+  {
+    "id": 509,
+    "name": "Carne de boi, paleta sem gordura, crua",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 141
+  },
+  {
+    "id": 510,
+    "name": "Carne de boi, picanha com gordura, grelhada",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 289
+  },
+  {
+    "id": 511,
+    "name": "Carne de boi, picanha sem gordura, grelhada",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 238
+  },
+  {
+    "id": 512,
+    "name": "Carne de cabrito magra",
+    "measure": "1 pedaço médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 179
+  },
+  {
+    "id": 513,
+    "name": "Carne de cordeiro magra",
+    "measure": "1 pedaço médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 162
+  },
+  {
+    "id": 514,
+    "name": "Carne de porco, bisteca grelhada",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 280
+  },
+  {
+    "id": 515,
+    "name": "Carne de porco, lombo assado 1 bife médio",
+    "measure": "",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 210
+  },
+  {
+    "id": 516,
+    "name": "Carne de porco, pernil assado",
+    "measure": "1 fatia média",
+    "grams": 90,
+    "carbs": 0,
+    "calories": 236
+  },
+  {
+    "id": 517,
+    "name": "Carne de sol (carne seca)",
+    "measure": "1 Colher de Sopa cheia",
+    "grams": 18,
+    "carbs": 0,
+    "calories": 77
+  },
+  {
+    "id": 518,
+    "name": "Carne de vaca, maminha",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 153
+  },
+  {
+    "id": 519,
+    "name": "Carne ensopada com legumes",
+    "measure": "1 Colher de Sopa cheia",
+    "grams": 35,
+    "carbs": 3,
+    "calories": 57
+  },
+  {
+    "id": 520,
+    "name": "Carne vegetal (proteína texturizada de soja)",
+    "measure": "1 xícara",
+    "grams": 50,
+    "carbs": 10,
+    "calories": 139
+  },
+  {
+    "id": 521,
+    "name": "Carpa assada",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 110
+  },
+  {
+    "id": 522,
+    "name": "Carpaccio de carne",
+    "measure": "1 fatia média",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 43
+  },
+  {
+    "id": 523,
+    "name": "Carpaccio de Haddock",
+    "measure": "1 fatia média",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 17
+  },
+  {
+    "id": 524,
+    "name": "Carpaccio de salmão",
+    "measure": "1 fatia média",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 21
+  },
+  {
+    "id": 525,
+    "name": "Carré",
+    "measure": "1 unidade média",
+    "grams": 90,
+    "carbs": 0,
+    "calories": 213
+  },
+  {
+    "id": 526,
+    "name": "Caruru (hortaliça crua picada)",
+    "measure": "1 Colher de Sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 7
+  },
+  {
+    "id": 527,
+    "name": "Caruru (prato baiano)",
+    "measure": "1 Colher de Sopa",
+    "grams": 40,
+    "carbs": 3,
+    "calories": 67
+  },
+  {
+    "id": 528,
+    "name": "Casquinha de siri",
+    "measure": "1 unidade pequena",
+    "grams": 16,
+    "carbs": 0,
+    "calories": 27
+  },
+  {
+    "id": 529,
+    "name": "Castanha de caju",
+    "measure": "1 unidade média",
+    "grams": 3,
+    "carbs": 1,
+    "calories": 17
+  },
+  {
+    "id": 530,
+    "name": "Castanha do Pará",
+    "measure": "2 unidades médias",
+    "grams": 8,
+    "carbs": 1,
+    "calories": 51
+  },
+  {
+    "id": 531,
+    "name": "Castanha portuguesa",
+    "measure": "1 unidade média",
+    "grams": 4,
+    "carbs": 2,
+    "calories": 8
+  },
+  {
+    "id": 532,
+    "name": "Catchup / Ketchup 1 sachê",
+    "measure": "",
+    "grams": 7,
+    "carbs": 2,
+    "calories": 6
+  },
+  {
+    "id": 533,
+    "name": "Catchup / Ketchup",
+    "measure": "1 Colher de Sopa",
+    "grams": 12,
+    "carbs": 2,
+    "calories": 11
+  },
+  {
+    "id": 534,
+    "name": "Catupiry",
+    "measure": "1 Colher de Sopa",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 80
+  },
+  {
+    "id": 535,
+    "name": "CBO (Mc’Donalds®)",
+    "measure": "1 unidade",
+    "grams": 240,
+    "carbs": 56,
+    "calories": 643
+  },
+  {
+    "id": 536,
+    "name": "Cebola picada",
+    "measure": "1 Colher de sopa",
+    "grams": 10,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 537,
+    "name": "Cebolinha crua (picada)",
+    "measure": "2 Colheres de Sopa",
+    "grams": 4,
+    "carbs": 0,
+    "calories": 1
+  },
+  {
+    "id": 538,
+    "name": "Cebolitos (Elma Chips®)",
+    "measure": "1 xícara",
+    "grams": 17,
+    "carbs": 11,
+    "calories": 85
+  },
+  {
+    "id": 539,
+    "name": "Cenoura cozida",
+    "measure": "1 Colher de Sopa",
+    "grams": 25,
+    "carbs": 2,
+    "calories": 8
+  },
+  {
+    "id": 540,
+    "name": "Cenoura crua ralada",
+    "measure": "1 Colher de Sopa",
+    "grams": 12,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 541,
+    "name": "Centeio (farinha integral)",
+    "measure": "1/2 xícara",
+    "grams": 50,
+    "carbs": 37,
+    "calories": 168
+  },
+  {
+    "id": 542,
+    "name": "Cereal barra Nestlé® banana, aveia e mel",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 11,
+    "calories": 63
+  },
+  {
+    "id": 543,
+    "name": "Cereal barra Nutry® coco com chocolate",
+    "measure": "1 unidade",
+    "grams": 22,
+    "carbs": 16,
+    "calories": 90
+  },
+  {
+    "id": 544,
+    "name": "Cereal barra Trio® light morango com chocolate",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 14,
+    "calories": 74
+  },
+  {
+    "id": 545,
+    "name": "Cereal infantil 3 cereais Mucilon Nestlé®",
+    "measure": "1 Colher de Sopa",
+    "grams": 7,
+    "carbs": 6,
+    "calories": 27
+  },
+  {
+    "id": 546,
+    "name": "Cereal infantil banana, maçã e quinoa Mucilon Nestle®",
+    "measure": "1 Colher de Sopa",
+    "grams": 7,
+    "carbs": 5,
+    "calories": 25
+  },
+  {
+    "id": 547,
+    "name": "Cereal infantil de arroz / milho Mucilon Nestlé®",
+    "measure": "1 Colher de Sopa",
+    "grams": 7,
+    "carbs": 6,
+    "calories": 26
+  },
+  {
+    "id": 548,
+    "name": "Cereal matinal All bran Fibre Plus Kellogg’s®",
+    "measure": "1 xícara",
+    "grams": 40,
+    "carbs": 134,
+    "calories": 19
+  },
+  {
+    "id": 549,
+    "name": "Cereal matinal All bran flakes Kellogg’s®",
+    "measure": "1 xícara",
+    "grams": 30,
+    "carbs": 20,
+    "calories": 107
+  },
+  {
+    "id": 550,
+    "name": "Cereal matinal Chocokrispis Kellogg’s®",
+    "measure": "1 xícara",
+    "grams": 30,
+    "carbs": 25,
+    "calories": 116
+  },
+  {
+    "id": 551,
+    "name": "Cereal matinal Corn flakes Kellogg’s®",
+    "measure": "1 xícara",
+    "grams": 30,
+    "carbs": 24,
+    "calories": 108
+  },
+  {
+    "id": 552,
+    "name": "Cereal matinal Crunch Nestlé®",
+    "measure": "1 xícara",
+    "grams": 30,
+    "carbs": 22,
+    "calories": 117
+  },
+  {
+    "id": 553,
+    "name": "Cereal matinal de milho",
+    "measure": "1 xícara",
+    "grams": 30,
+    "carbs": 25,
+    "calories": 110
+  },
+  {
+    "id": 554,
+    "name": "Cereal matinal de milho",
+    "measure": "1 Colher de Sopa",
+    "grams": 4,
+    "carbs": 3,
+    "calories": 15
+  },
+  {
+    "id": 555,
+    "name": "Cereal matinal de milho com açúcar",
+    "measure": "1 xícara",
+    "grams": 30,
+    "carbs": 27,
+    "calories": 113
+  },
+  {
+    "id": 556,
+    "name": "Cereal matinal de milho com açúcar",
+    "measure": "1 Colher de Sopa",
+    "grams": 4,
+    "carbs": 3,
+    "calories": 15
+  },
+  {
+    "id": 557,
+    "name": "Cereal matinal granola tradicional Kelloggs®",
+    "measure": "1/2 xícara",
+    "grams": 40,
+    "carbs": 24,
+    "calories": 158
+  },
+  {
+    "id": 558,
+    "name": "Cereal matinal granola tradicional Kelloggs®",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 29
+  },
+  {
+    "id": 559,
+    "name": "Cereal matinal Nesfit® frutas sem açúcar",
+    "measure": "1 xícara",
+    "grams": 30,
+    "carbs": 21,
+    "calories": 102
+  },
+  {
+    "id": 560,
+    "name": "Cereal matinal Nesfit® mel e amêndoas sem açúcar",
+    "measure": "1 xícara",
+    "grams": 30,
+    "carbs": 22,
+    "calories": 108
+  },
+  {
+    "id": 561,
+    "name": "Cereal matinal Nesfit® sem açúcar",
+    "measure": "1 xícara",
+    "grams": 30,
+    "carbs": 21,
+    "calories": 100
+  },
+  {
+    "id": 562,
+    "name": "Cereja em calda",
+    "measure": "1 unidade",
+    "grams": 7,
+    "carbs": 2,
+    "calories": 6
+  },
+  {
+    "id": 563,
+    "name": "Cereja fresca",
+    "measure": "1 unidade",
+    "grams": 7,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 564,
+    "name": "Cerveja",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 12,
+    "calories": 143
+  },
+  {
+    "id": 565,
+    "name": "Cerveja 0% Carboidrato Bruder®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 0,
+    "calories": 112
+  },
+  {
+    "id": 566,
+    "name": "Cerveja 0% de álcool",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 20,
+    "calories": 84
+  },
+  {
+    "id": 567,
+    "name": "Cerveja Amstel Ultra Heineken® 1 long neck",
+    "measure": "",
+    "grams": 275,
+    "carbs": 2.7,
+    "calories": 72
+  },
+  {
+    "id": 568,
+    "name": "Cerveja Michelob Ultra Ambev® 1 long neck",
+    "measure": "",
+    "grams": 330,
+    "carbs": 2,
+    "calories": 79
+  },
+  {
+    "id": 569,
+    "name": "Cerveja Noi® low carb",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 2,
+    "calories": 94
+  },
+  {
+    "id": 570,
+    "name": "Cerveja Stella Artois® pure gold 1 long neck",
+    "measure": "",
+    "grams": 330,
+    "carbs": 1,
+    "calories": 34
+  },
+  {
+    "id": 571,
+    "name": "Cerveja Stella Artois® tradicional 1 long neck",
+    "measure": "",
+    "grams": 330,
+    "carbs": 9,
+    "calories": 134
+  },
+  {
+    "id": 572,
+    "name": "Cerveja tipo Malzbier",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 49,
+    "calories": 210
+  },
+  {
+    "id": 573,
+    "name": "Cevada, infusão",
+    "measure": "1 xícara de chá",
+    "grams": 200,
+    "carbs": 6,
+    "calories": 30
+  },
+  {
+    "id": 574,
+    "name": "Cevada, pó",
+    "measure": "1 Colher de Sopa",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 30
+  },
+  {
+    "id": 575,
+    "name": "Chá com açúcar (média)",
+    "measure": "1 xícara de chá",
+    "grams": 200,
+    "carbs": 16,
+    "calories": 64
+  },
+  {
+    "id": 576,
+    "name": "Chá mate (infusão sem açúcar)",
+    "measure": "1 xícara de chá",
+    "grams": 200,
+    "carbs": 1,
+    "calories": 6
+  },
+  {
+    "id": 577,
+    "name": "Chá sem açúcar (média)",
+    "measure": "1 xícara de chá",
+    "grams": 200,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 578,
+    "name": "Chambinho",
+    "measure": "1 unidade pequena",
+    "grams": 40,
+    "carbs": 6,
+    "calories": 46
+  },
+  {
+    "id": 579,
+    "name": "Champagne (Chandon®)",
+    "measure": "1 taça",
+    "grams": 150,
+    "carbs": 0,
+    "calories": 127
+  },
+  {
+    "id": 580,
+    "name": "Champagne (Espumante tipo sidra)",
+    "measure": "1 taça",
+    "grams": 150,
+    "carbs": 4,
+    "calories": 123
+  },
+  {
+    "id": 581,
+    "name": "Champignon (conserva)",
+    "measure": "1 Colher de Sopa",
+    "grams": 27,
+    "carbs": 1,
+    "calories": 6
+  },
+  {
+    "id": 582,
+    "name": "Chandelle® chocolate",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 20,
+    "calories": 132
+  },
+  {
+    "id": 583,
+    "name": "Chantilly",
+    "measure": "1 Colher de Sopa",
+    "grams": 20,
+    "carbs": 3,
+    "calories": 63
+  },
+  {
+    "id": 584,
+    "name": "Charutinho de",
+    "measure": "folha de uva 1 porcao",
+    "grams": 100,
+    "carbs": 3,
+    "calories": 99
+  },
+  {
+    "id": 585,
+    "name": "Charutinho de repolho 1 porcao",
+    "measure": "",
+    "grams": 100,
+    "carbs": 2,
+    "calories": 67
+  },
+  {
+    "id": 586,
+    "name": "Charuto folha de uva Habib’s",
+    "measure": "1 porção",
+    "grams": 245,
+    "carbs": 19,
+    "calories": 263
+  },
+  {
+    "id": 587,
+    "name": "Charuto repolho Habib’s",
+    "measure": "1 porção",
+    "grams": 285,
+    "carbs": 23,
+    "calories": 295
+  },
+  {
+    "id": 588,
+    "name": "Cheddar McMelt (Mc’ Donalds)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 31,
+    "calories": 474
+  },
+  {
+    "id": 589,
+    "name": "Cheeseburger simples caseiro",
+    "measure": "1 unidade",
+    "grams": 130,
+    "carbs": 32,
+    "calories": 430
+  },
+  {
+    "id": 590,
+    "name": "Cheeseburguer (Bob’s)",
+    "measure": "1 unidade",
+    "grams": 120,
+    "carbs": 25,
+    "calories": 264
+  },
+  {
+    "id": 591,
+    "name": "Cheeseburguer (Burguer King)",
+    "measure": "1 unidade",
+    "grams": 130,
+    "carbs": 30,
+    "calories": 308
+  },
+  {
+    "id": 592,
+    "name": "Cheeseburguer (Mc’ Donalds)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 32,
+    "calories": 298
+  },
+  {
+    "id": 593,
+    "name": "Cheesecake com Mirtilo (sorvete)",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 18,
+    "calories": 140
+  },
+  {
+    "id": 594,
+    "name": "Cheetos (Elma Chips®)",
+    "measure": "1 xícara",
+    "grams": 12,
+    "carbs": 8,
+    "calories": 60
+  },
+  {
+    "id": 595,
+    "name": "Chester",
+    "measure": "1 fatia média",
+    "grams": 32,
+    "carbs": 0,
+    "calories": 53
+  },
+  {
+    "id": 596,
+    "name": "Chia (Sementes)",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 4,
+    "calories": 44
+  },
+  {
+    "id": 597,
+    "name": "Chicken Bacon Sandwich (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 37,
+    "calories": 448
+  },
+  {
+    "id": 598,
+    "name": "Chicken Crispy Deluxe Sandwich (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 54,
+    "calories": 625
+  },
+  {
+    "id": 599,
+    "name": "Chicken Crispy Melt & Bacon Sandwich (Mc’ Donalds®)",
+    "measure": "1 unidade 0 54 651 Chicken Junior Sandwich (Mc’ Donalds®) 1 unidade",
+    "grams": 171,
+    "carbs": 38,
+    "calories": 343
+  },
+  {
+    "id": 600,
+    "name": "Chicken Sandwich (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 37,
+    "calories": 396
+  },
+  {
+    "id": 601,
+    "name": "Chiclete (média)",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 4,
+    "calories": 16
+  },
+  {
+    "id": 602,
+    "name": "Chiclete Adams®",
+    "measure": "1 unidade",
+    "grams": 2,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 603,
+    "name": "Chiclete Bubbaloo®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 4,
+    "calories": 16
+  },
+  {
+    "id": 604,
+    "name": "Chiclete Mentos® sem açúcar",
+    "measure": "1 unidade",
+    "grams": 2,
+    "carbs": 1,
+    "calories": 3
+  },
+  {
+    "id": 605,
+    "name": "Chiclete Trident®",
+    "measure": "1 unidade",
+    "grams": 2,
+    "carbs": 1,
+    "calories": 3
+  },
+  {
+    "id": 606,
+    "name": "Chicória crua",
+    "measure": "2 folhas grandes",
+    "grams": 34,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 607,
+    "name": "Chicória refogada",
+    "measure": "1 colher de sopa cheia",
+    "grams": 45,
+    "carbs": 3,
+    "calories": 39
+  },
+  {
+    "id": 608,
+    "name": "Chimarrão 1 cuia média",
+    "measure": "",
+    "grams": 200,
+    "carbs": 3,
+    "calories": 13
+  },
+  {
+    "id": 609,
+    "name": "Chipa de queijo (Forno de Minas®)",
+    "measure": "1 unidade média",
+    "grams": 33,
+    "carbs": 11,
+    "calories": 90
+  },
+  {
+    "id": 610,
+    "name": "Chocolate 70% cacao Lindt® 1/4 barra",
+    "measure": "",
+    "grams": 25,
+    "carbs": 3.5,
+    "calories": 148
+  },
+  {
+    "id": 611,
+    "name": "Chocolate Alpino diet Nestlé® 1 barra pequena",
+    "measure": "",
+    "grams": 30,
+    "carbs": 17,
+    "calories": 143
+  },
+  {
+    "id": 612,
+    "name": "Chocolate Alpino Nestlé® 6 quadradinhos",
+    "measure": "",
+    "grams": 25,
+    "carbs": 14,
+    "calories": 137
+  },
+  {
+    "id": 613,
+    "name": "Chocolate Alpino Nestlé® 1 bombom",
+    "measure": "",
+    "grams": 13,
+    "carbs": 7,
+    "calories": 71
+  },
+  {
+    "id": 614,
+    "name": "Chocolate ao leite (média) 1 barra pequena",
+    "measure": "",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 135
+  },
+  {
+    "id": 615,
+    "name": "Chocolate ao leite Classic diet Nestlé® 1 barra pequena",
+    "measure": "",
+    "grams": 25,
+    "carbs": 14,
+    "calories": 165
+  },
+  {
+    "id": 616,
+    "name": "Chocolate ao leite Classic Nestlé® 6 quadradinhos",
+    "measure": "",
+    "grams": 25,
+    "carbs": 13,
+    "calories": 136
+  },
+  {
+    "id": 617,
+    "name": "Chocolate ao leite diet Línea® 1 tablete",
+    "measure": "",
+    "grams": 30,
+    "carbs": 13,
+    "calories": 143
+  },
+  {
+    "id": 618,
+    "name": "Chocolate ao leite Lacta® 4 quadrados",
+    "measure": "",
+    "grams": 25,
+    "carbs": 14,
+    "calories": 133
+  },
+  {
+    "id": 619,
+    "name": "Chocolate Batom Nestlé®",
+    "measure": "1 unidade",
+    "grams": 16,
+    "carbs": 8,
+    "calories": 87
+  },
+  {
+    "id": 620,
+    "name": "Chocolate Bis Lacta®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 4,
+    "calories": 31
+  },
+  {
+    "id": 621,
+    "name": "Chocolate caramelo Twix®",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 10,
+    "calories": 75
+  },
+  {
+    "id": 622,
+    "name": "Chocolate Diamante Negro® 4 quadradinhos",
+    "measure": "",
+    "grams": 25,
+    "carbs": 17,
+    "calories": 124
+  },
+  {
+    "id": 623,
+    "name": "Chocolate diet Talento® 1 barra peq / 4 quad.",
+    "measure": "",
+    "grams": 25,
+    "carbs": 12,
+    "calories": 129
+  },
+  {
+    "id": 624,
+    "name": "Chocolate em pó",
+    "measure": "1 Colher de Sopa",
+    "grams": 15,
+    "carbs": 7,
+    "calories": 79
+  },
+  {
+    "id": 625,
+    "name": "Chocolate Ferrero Rocher®",
+    "measure": "2 unidades",
+    "grams": 25,
+    "carbs": 11,
+    "calories": 149
+  },
+  {
+    "id": 626,
+    "name": "Chocolate Galak Nestlé® 6 quadradinhos",
+    "measure": "",
+    "grams": 25,
+    "carbs": 14,
+    "calories": 138
+  },
+  {
+    "id": 627,
+    "name": "Chocolate Lindt Excellence 50% cacau",
+    "measure": "1/4 unidade",
+    "grams": 50,
+    "carbs": 12,
+    "calories": 138
+  },
+  {
+    "id": 628,
+    "name": "Chocolate meio amargo (média) 1 barra pequena",
+    "measure": "",
+    "grams": 25,
+    "carbs": 16,
+    "calories": 119
+  },
+  {
+    "id": 629,
+    "name": "Chocolate quente com leite (Mc’ Donalds®)",
+    "measure": "1 copo pequeno",
+    "grams": 200,
+    "carbs": 15,
+    "calories": 115
+  },
+  {
+    "id": 630,
+    "name": "Chocolate quente com leite (Mc’ Donalds®)",
+    "measure": "1 copo grande",
+    "grams": 300,
+    "carbs": 22,
+    "calories": 173
+  },
+  {
+    "id": 631,
+    "name": "Chocolate Suflair® 5 quadradinhos",
+    "measure": "",
+    "grams": 25,
+    "carbs": 13,
+    "calories": 138
+  },
+  {
+    "id": 632,
+    "name": "Chocolate Talento® 1 barra peq / 4 quad.",
+    "measure": "",
+    "grams": 25,
+    "carbs": 13,
+    "calories": 136
+  },
+  {
+    "id": 633,
+    "name": "Chocotone Bauducco®",
+    "measure": "1 fatia média",
+    "grams": 40,
+    "carbs": 18,
+    "calories": 144
+  },
+  {
+    "id": 634,
+    "name": "Chopp claro 1 tulipa",
+    "measure": "",
+    "grams": 290,
+    "carbs": 11,
+    "calories": 130
+  },
+  {
+    "id": 635,
+    "name": "Chopp escuro 1 tulipa",
+    "measure": "",
+    "grams": 290,
+    "carbs": 12,
+    "calories": 142
+  },
+  {
+    "id": 636,
+    "name": "Chouriço 1 gomo",
+    "measure": "",
+    "grams": 60,
+    "carbs": 1,
+    "calories": 227
+  },
+  {
+    "id": 637,
+    "name": "Chuchu à milanesa",
+    "measure": "1 fatia média",
+    "grams": 70,
+    "carbs": 10,
+    "calories": 127
+  },
+  {
+    "id": 638,
+    "name": "Chuchu ao molho branco",
+    "measure": "1 Colher de Sopa cheia",
+    "grams": 30,
+    "carbs": 3,
+    "calories": 28
+  },
+  {
+    "id": 639,
+    "name": "Chuchu cozido (picado)",
+    "measure": "1 Colher de Sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 640,
+    "name": "Chucrute",
+    "measure": "1 Colher de Sopa",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 641,
+    "name": "Chucrute com salsicha",
+    "measure": "1 porção",
+    "grams": 75,
+    "carbs": 3,
+    "calories": 145
+  },
+  {
+    "id": 642,
+    "name": "Churrasquinho de panela",
+    "measure": "1 Colher de Sopa",
+    "grams": 25,
+    "carbs": 0,
+    "calories": 46
+  },
+  {
+    "id": 643,
+    "name": "Churros com doce de leite",
+    "measure": "1 unidade grande",
+    "grams": 88,
+    "carbs": 38,
+    "calories": 283
+  },
+  {
+    "id": 644,
+    "name": "Cidra",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 10,
+    "calories": 40
+  },
+  {
+    "id": 645,
+    "name": "Ciriguela",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 8
+  },
+  {
+    "id": 646,
+    "name": "Coalhada desnatada Itambé® 1 pote",
+    "measure": "",
+    "grams": 130,
+    "carbs": 5,
+    "calories": 40
+  },
+  {
+    "id": 647,
+    "name": "Coalhada integral Itambé® 1 pote",
+    "measure": "",
+    "grams": 130,
+    "carbs": 17,
+    "calories": 123
+  },
+  {
+    "id": 648,
+    "name": "Coalhada seca natural Alibey",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 1,
+    "calories": 19
+  },
+  {
+    "id": 649,
+    "name": "Coalhada seca natural Alibey®",
+    "measure": "1 Colher de Sopa",
+    "grams": 15,
+    "carbs": 1,
+    "calories": 19
+  },
+  {
+    "id": 650,
+    "name": "Cobertura de chocolate ao leite Garoto® 4 quadradinhos",
+    "measure": "",
+    "grams": 25,
+    "carbs": 14,
+    "calories": 140
+  },
+  {
+    "id": 651,
+    "name": "Coca-Cola Zero®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 652,
+    "name": "Coca-Cola®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 21,
+    "calories": 85
+  },
+  {
+    "id": 653,
+    "name": "Cocada",
+    "measure": "1 unidade média",
+    "grams": 70,
+    "carbs": 40,
+    "calories": 259
+  },
+  {
+    "id": 654,
+    "name": "Cocada queimada Brasil Caipira®",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 17,
+    "calories": 108
+  },
+  {
+    "id": 655,
+    "name": "Cocada Zero açúcar Santa Helena®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 11,
+    "calories": 86
+  },
+  {
+    "id": 656,
+    "name": "Coco fresco ralado",
+    "measure": "1 colher de sopa",
+    "grams": 9,
+    "carbs": 1,
+    "calories": 36
+  },
+  {
+    "id": 657,
+    "name": "Coco in natura",
+    "measure": "1 pedaço médio",
+    "grams": 40,
+    "carbs": 4,
+    "calories": 162
+  },
+  {
+    "id": 658,
+    "name": "Coco ralado seco industrializado",
+    "measure": "1 colher de sopa",
+    "grams": 9,
+    "carbs": 2,
+    "calories": 63
+  },
+  {
+    "id": 659,
+    "name": "Coco, leite de (industrializado)",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 4,
+    "calories": 332
+  },
+  {
+    "id": 660,
+    "name": "Coco-da-baía, água-de",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 11,
+    "calories": 44
+  },
+  {
+    "id": 661,
+    "name": "Coentro",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 4,
+    "calories": 25
+  },
+  {
+    "id": 662,
+    "name": "Cogumelo (champignon) em conserva",
+    "measure": "1 colher de sopa",
+    "grams": 27,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 663,
+    "name": "Colomba Pascal frutas cristalizadas Bauducco®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 29,
+    "calories": 187
+  },
+  {
+    "id": 664,
+    "name": "Colomba Pascal gotas de chocolate Bauducco®",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 29,
+    "calories": 211
+  },
+  {
+    "id": 665,
+    "name": "Colomba Pascal gotas de chocolate Zero açúcar Casa Suíca®",
+    "measure": "1 fatia grande 80 46 328 Colorau 1 colher de sopa",
+    "grams": 16,
+    "carbs": 6,
+    "calories": 51
+  },
+  {
+    "id": 666,
+    "name": "Cominho em pó",
+    "measure": "1 colher de sopa",
+    "grams": 16,
+    "carbs": 7,
+    "calories": 60
+  },
+  {
+    "id": 667,
+    "name": "Confeito de chocolate ao leite M&M’s",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 9,
+    "calories": 61
+  },
+  {
+    "id": 668,
+    "name": "Confeito de chocolate ao leite M&M’s 1/2 pacote pequeno",
+    "measure": "",
+    "grams": 25,
+    "carbs": 18,
+    "calories": 121
+  },
+  {
+    "id": 669,
+    "name": "Conhaque",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 103
+  },
+  {
+    "id": 670,
+    "name": "Cookie cheescake com framboesa (Subway®)",
+    "measure": "1 unidade",
+    "grams": 45,
+    "carbs": 29,
+    "calories": 200
+  },
+  {
+    "id": 671,
+    "name": "Cookie chocolate branco com macadâmia (Subway®)",
+    "measure": "1 unidade 45 28 220 Cookie chocolate com gotas de chocolate (Subway®) 1 unidade",
+    "grams": 45,
+    "carbs": 30,
+    "calories": 210
+  },
+  {
+    "id": 672,
+    "name": "Cookies integrais chocolate Jasmine®",
+    "measure": "6 unidades - porção",
+    "grams": 30,
+    "carbs": 21,
+    "calories": 123
+  },
+  {
+    "id": 673,
+    "name": "Cookies integrais chocolate Jasmine®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 3,
+    "calories": 20
+  },
+  {
+    "id": 674,
+    "name": "Cookies integrais damasco com chocolate zero açúcar Jasmine®",
+    "measure": "8 unidades - porção 30 14 90 Cookies integrais damasco com chocolate zero açúcar Jasmine® 1 unidade 4 2 11 Cookies integral aveia e mel Taeq® 6 unidades - porção",
+    "grams": 30,
+    "carbs": 19,
+    "calories": 108
+  },
+  {
+    "id": 675,
+    "name": "Cookies integral aveia e mel Taeq®",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 3,
+    "calories": 18
+  },
+  {
+    "id": 676,
+    "name": "Cookies original Bauducco®",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 44
+  },
+  {
+    "id": 677,
+    "name": "Coração de frango grelhado",
+    "measure": "1 unidade média",
+    "grams": 5,
+    "carbs": 0,
+    "calories": 10
+  },
+  {
+    "id": 678,
+    "name": "Cosmopolitan",
+    "measure": "1 dose",
+    "grams": 118,
+    "carbs": 17,
+    "calories": 174
+  },
+  {
+    "id": 679,
+    "name": "Costela de boi assada",
+    "measure": "1 pedaço médio",
+    "grams": 40,
+    "carbs": 0,
+    "calories": 149
+  },
+  {
+    "id": 680,
+    "name": "Costela de porco cozida",
+    "measure": "1 pedaço médio",
+    "grams": 25,
+    "carbs": 0,
+    "calories": 100
+  },
+  {
+    "id": 681,
+    "name": "Couve (“Kraut”)",
+    "measure": "1 folha média",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 10
+  },
+  {
+    "id": 682,
+    "name": "Couve manteiga crua",
+    "measure": "1 folha média",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 683,
+    "name": "Couve manteiga crua",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 684,
+    "name": "Couve manteiga refogada",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 18
+  },
+  {
+    "id": 685,
+    "name": "Couve-flor à milanesa 1 ramo médio",
+    "measure": "",
+    "grams": 90,
+    "carbs": 11,
+    "calories": 137
+  },
+  {
+    "id": 686,
+    "name": "Couve-flor cozida 1 ramo médio",
+    "measure": "",
+    "grams": 60,
+    "carbs": 2,
+    "calories": 11
+  },
+  {
+    "id": 687,
+    "name": "Couve-flor cozida",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 688,
+    "name": "Coxa de frango assada",
+    "measure": "1 unidade grande",
+    "grams": 55,
+    "carbs": 0,
+    "calories": 118
+  },
+  {
+    "id": 689,
+    "name": "Coxinha de frango (salgado)",
+    "measure": "1 unidade grande",
+    "grams": 110,
+    "carbs": 38,
+    "calories": 311
+  },
+  {
+    "id": 690,
+    "name": "Coxinha de frango (salgado)",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 17,
+    "calories": 141
+  },
+  {
+    "id": 691,
+    "name": "Coxinha de frango (salgado)",
+    "measure": "1 unidade pequena",
+    "grams": 20,
+    "carbs": 7,
+    "calories": 57
+  },
+  {
+    "id": 692,
+    "name": "Cream Cheese",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 70
+  },
+  {
+    "id": 693,
+    "name": "Cream Cheese light",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 58
+  },
+  {
+    "id": 694,
+    "name": "Creme de abacate sem açúcar",
+    "measure": "1 colher sopa cheia",
+    "grams": 25,
+    "carbs": 3,
+    "calories": 43
+  },
+  {
+    "id": 695,
+    "name": "Creme de amendoim",
+    "measure": "1 colher de sopa rasa",
+    "grams": 15,
+    "carbs": 3,
+    "calories": 91
+  },
+  {
+    "id": 696,
+    "name": "Creme de leite",
+    "measure": "1 colher de servir",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 66
+  },
+  {
+    "id": 697,
+    "name": "Creme de leite light Nestlé®",
+    "measure": "1 colher de servir",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 48
+  },
+  {
+    "id": 698,
+    "name": "Creme de milho",
+    "measure": "1 colher de sopa cheia",
+    "grams": 33,
+    "carbs": 5,
+    "calories": 35
+  },
+  {
+    "id": 699,
+    "name": "Creme vegetal de chantilly Vigor®",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 2,
+    "calories": 55
+  },
+  {
+    "id": 700,
+    "name": "Cremogema tradicional®",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 9,
+    "calories": 36
+  },
+  {
+    "id": 701,
+    "name": "Crepe de banana com chocolate",
+    "measure": "1 unidade grande",
+    "grams": 100,
+    "carbs": 32,
+    "calories": 250
+  },
+  {
+    "id": 702,
+    "name": "Crepe de presunto e queijo",
+    "measure": "1 unidade grande",
+    "grams": 100,
+    "carbs": 13,
+    "calories": 229
+  },
+  {
+    "id": 703,
+    "name": "Croissant",
+    "measure": "1 unidade grande",
+    "grams": 67,
+    "carbs": 32,
+    "calories": 277
+  },
+  {
+    "id": 704,
+    "name": "Croissant",
+    "measure": "1 unidade média",
+    "grams": 40,
+    "carbs": 19,
+    "calories": 165
+  },
+  {
+    "id": 705,
+    "name": "Croissant de chocolate",
+    "measure": "1 unidade grande",
+    "grams": 67,
+    "carbs": 28,
+    "calories": 279
+  },
+  {
+    "id": 706,
+    "name": "Croissant de queijo",
+    "measure": "1 unidade grande",
+    "grams": 67,
+    "carbs": 32,
+    "calories": 277
+  },
+  {
+    "id": 707,
+    "name": "Croquete de Carne frito",
+    "measure": "1 unidade grande",
+    "grams": 55,
+    "carbs": 10,
+    "calories": 191
+  },
+  {
+    "id": 708,
+    "name": "Croquete de Carne frito",
+    "measure": "1 unidade média",
+    "grams": 25,
+    "carbs": 5,
+    "calories": 87
+  },
+  {
+    "id": 709,
+    "name": "Croquete de Carne frito",
+    "measure": "1 unidade pequena",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 35
+  },
+  {
+    "id": 710,
+    "name": "Croquete de milho",
+    "measure": "1 unidade média",
+    "grams": 22,
+    "carbs": 10,
+    "calories": 77
+  },
+  {
+    "id": 711,
+    "name": "Croquete de milho",
+    "measure": "1 unidade pequena",
+    "grams": 10,
+    "carbs": 4,
+    "calories": 35
+  },
+  {
+    "id": 712,
+    "name": "Cuba Libre 1 coquetel",
+    "measure": "",
+    "grams": 210,
+    "carbs": 15,
+    "calories": 152
+  },
+  {
+    "id": 713,
+    "name": "Cuca alemã",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 30,
+    "calories": 200
+  },
+  {
+    "id": 714,
+    "name": "Cup noodles®",
+    "measure": "1 unidade comercial",
+    "grams": 69,
+    "carbs": 39,
+    "calories": 302
+  },
+  {
+    "id": 715,
+    "name": "Cupuaçu (polpa)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 2,
+    "calories": 10
+  },
+  {
+    "id": 716,
+    "name": "Curau de milho",
+    "measure": "2/3 xícara de chá",
+    "grams": 140,
+    "carbs": 19,
+    "calories": 109
+  },
+  {
+    "id": 717,
+    "name": "Curry",
+    "measure": "1 colher de sopa",
+    "grams": 9,
+    "carbs": 5,
+    "calories": 35
+  },
+  {
+    "id": 718,
+    "name": "Cuscuz de milho com sal",
+    "measure": "1 pedaço médio",
+    "grams": 135,
+    "carbs": 34,
+    "calories": 152
+  },
+  {
+    "id": 719,
+    "name": "Cuscuz de milho com sal",
+    "measure": "1 pedaço pequeno",
+    "grams": 85,
+    "carbs": 21,
+    "calories": 96
+  },
+  {
+    "id": 720,
+    "name": "Cuscuz de tapioca",
+    "measure": "1 pedaço médio",
+    "grams": 120,
+    "carbs": 65,
+    "calories": 298
+  },
+  {
+    "id": 721,
+    "name": "Cuscuz de tapioca",
+    "measure": "1 pedaço pequeno",
+    "grams": 60,
+    "carbs": 33,
+    "calories": 149
+  },
+  {
+    "id": 722,
+    "name": "Cuscuz paulista",
+    "measure": "1 pedaço médio",
+    "grams": 150,
+    "carbs": 34,
+    "calories": 213
+  },
+  {
+    "id": 723,
+    "name": "Cuscuz paulista",
+    "measure": "1 colher de sopa",
+    "grams": 35,
+    "carbs": 8,
+    "calories": 50
+  },
+  {
+    "id": 724,
+    "name": "Damasco seco",
+    "measure": "1 unidade",
+    "grams": 7,
+    "carbs": 4,
+    "calories": 18
+  },
+  {
+    "id": 725,
+    "name": "Damasco, geléia Queensberry®",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 14,
+    "calories": 58
+  },
+  {
+    "id": 726,
+    "name": "Danette®",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 15,
+    "calories": 116
+  },
+  {
+    "id": 727,
+    "name": "Danette® chocolate branco",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 19,
+    "calories": 121
+  },
+  {
+    "id": 728,
+    "name": "Danoninho® 1 potinho",
+    "measure": "",
+    "grams": 40,
+    "carbs": 5,
+    "calories": 39
+  },
+  {
+    "id": 729,
+    "name": "Danoninho® 1 sachê /",
+    "measure": "embalagem",
+    "grams": 70,
+    "carbs": 8,
+    "calories": 69
+  },
+  {
+    "id": 730,
+    "name": "Diet Shake® Tradicional morango",
+    "measure": "1 colher medida",
+    "grams": 12,
+    "carbs": 8,
+    "calories": 35
+  },
+  {
+    "id": 731,
+    "name": "Dobradinha",
+    "measure": "1 colher de servir cheia",
+    "grams": 70,
+    "carbs": 0,
+    "calories": 87
+  },
+  {
+    "id": 732,
+    "name": "Dobradinha com feijão branco",
+    "measure": "1 colher de servir cheia",
+    "grams": 70,
+    "carbs": 6,
+    "calories": 78
+  },
+  {
+    "id": 733,
+    "name": "Doce de abacaxi Ritter®",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 10,
+    "calories": 41
+  },
+  {
+    "id": 734,
+    "name": "Doce de abóbora cremoso",
+    "measure": "1 colher de sopa",
+    "grams": 40,
+    "carbs": 29,
+    "calories": 162
+  },
+  {
+    "id": 735,
+    "name": "Doce de abóbora e coco",
+    "measure": "1 colher de sopa",
+    "grams": 40,
+    "carbs": 21,
+    "calories": 97
+  },
+  {
+    "id": 736,
+    "name": "Doce de arroz de leite",
+    "measure": "1 colher de sopa cheia",
+    "grams": 40,
+    "carbs": 13,
+    "calories": 68
+  },
+  {
+    "id": 737,
+    "name": "Doce de banana em barra",
+    "measure": "1 fatia pequena",
+    "grams": 30,
+    "carbs": 23,
+    "calories": 84
+  },
+  {
+    "id": 738,
+    "name": "Doce de batata doce",
+    "measure": "1 fatia pequena",
+    "grams": 30,
+    "carbs": 22,
+    "calories": 121
+  },
+  {
+    "id": 739,
+    "name": "Doce de buriti",
+    "measure": "1 colher de sopa cheia",
+    "grams": 50,
+    "carbs": 35,
+    "calories": 152
+  },
+  {
+    "id": 740,
+    "name": "Doce de cidra",
+    "measure": "1 colher de sopa",
+    "grams": 50,
+    "carbs": 20,
+    "calories": 81
+  },
+  {
+    "id": 741,
+    "name": "Doce de coco",
+    "measure": "1 colher de sopa cheia",
+    "grams": 50,
+    "carbs": 29,
+    "calories": 234
+  },
+  {
+    "id": 742,
+    "name": "Doce de cupuaçu",
+    "measure": "1 colher de sopa",
+    "grams": 40,
+    "carbs": 29,
+    "calories": 112
+  },
+  {
+    "id": 743,
+    "name": "Doce de goiaba",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 16,
+    "calories": 57
+  },
+  {
+    "id": 744,
+    "name": "Doce de goiaba diet Flormel®",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 10,
+    "calories": 39
+  },
+  {
+    "id": 745,
+    "name": "Doce de goiaba em calda sem açúcar Diet House®",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 6,
+    "calories": 24
+  },
+  {
+    "id": 746,
+    "name": "Doce de laranja em calda",
+    "measure": "1 pedaço médio",
+    "grams": 57,
+    "carbs": 48,
+    "calories": 196
+  },
+  {
+    "id": 747,
+    "name": "Doce de laranja sem açúcar Diet House®",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 3,
+    "calories": 12
+  },
+  {
+    "id": 748,
+    "name": "Doce de leite",
+    "measure": "1 colher de sopa cheia",
+    "grams": 40,
+    "carbs": 24,
+    "calories": 122
+  },
+  {
+    "id": 749,
+    "name": "Doce de leite",
+    "measure": "1 colher de sobremesa",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 76
+  },
+  {
+    "id": 750,
+    "name": "Doce de leite zero açúcar Flormel®",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 9,
+    "calories": 46
+  },
+  {
+    "id": 751,
+    "name": "Doce de mamão verde",
+    "measure": "1 colher de sopa",
+    "grams": 40,
+    "carbs": 23,
+    "calories": 84
+  },
+  {
+    "id": 752,
+    "name": "Doce de manga",
+    "measure": "1 colher de sopa cheia",
+    "grams": 50,
+    "carbs": 27,
+    "calories": 140
+  },
+  {
+    "id": 753,
+    "name": "Docinhos variados (média)",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 16,
+    "calories": 125
+  },
+  {
+    "id": 754,
+    "name": "Donuts",
+    "measure": "1 unidade média",
+    "grams": 70,
+    "carbs": 33,
+    "calories": 245
+  },
+  {
+    "id": 755,
+    "name": "Doritos (Elma Chips®)",
+    "measure": "1 xícara",
+    "grams": 17,
+    "carbs": 9,
+    "calories": 80
+  },
+  {
+    "id": 756,
+    "name": "Double barbecue Cheese (Bob’s®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 36,
+    "calories": 401
+  },
+  {
+    "id": 757,
+    "name": "Double cheddar (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 315,
+    "carbs": 32,
+    "calories": 593
+  },
+  {
+    "id": 758,
+    "name": "Double cheddar frango (Bob’s®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 29,
+    "calories": 335
+  },
+  {
+    "id": 759,
+    "name": "Double cheeseburguer (Bob’s®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 25,
+    "calories": 399
+  },
+  {
+    "id": 760,
+    "name": "Drops comum",
+    "measure": "1 unidade",
+    "grams": 3,
+    "carbs": 3,
+    "calories": 11
+  },
+  {
+    "id": 761,
+    "name": "Eclair (bomba de chocolate)",
+    "measure": "1 unidade pequena",
+    "grams": 30,
+    "carbs": 4,
+    "calories": 47
+  },
+  {
+    "id": 762,
+    "name": "Eclair (bomba de chocolate)",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 7,
+    "calories": 79
+  },
+  {
+    "id": 763,
+    "name": "Eclair (bomba de chocolate)",
+    "measure": "1 unidade grande",
+    "grams": 80,
+    "carbs": 10,
+    "calories": 126
+  },
+  {
+    "id": 764,
+    "name": "Edamame cozido",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 2,
+    "calories": 23
+  },
+  {
+    "id": 765,
+    "name": "Edamame cozido",
+    "measure": "1 colher de sopa rasa",
+    "grams": 15,
+    "carbs": 2,
+    "calories": 17
+  },
+  {
+    "id": 766,
+    "name": "Eggs Benedict (prato à base de ovos, bacon, pão, molho holandês)",
+    "measure": "1 porção grande 155 13 428 Eggs Benedict (prato à base de ovos, bacon, pão, molho holandês) 1 porção média 149 13 411 Empada de camarão 1 porção média",
+    "grams": 55,
+    "carbs": 12,
+    "calories": 116
+  },
+  {
+    "id": 767,
+    "name": "Empada de camarão",
+    "measure": "1 porção pequena (de festa)",
+    "grams": 12,
+    "carbs": 3,
+    "calories": 26
+  },
+  {
+    "id": 768,
+    "name": "Empada de frango",
+    "measure": "1 unidade média",
+    "grams": 55,
+    "carbs": 26,
+    "calories": 197
+  },
+  {
+    "id": 769,
+    "name": "Empada de frango",
+    "measure": "1 unidade grande",
+    "grams": 70,
+    "carbs": 33,
+    "calories": 251
+  },
+  {
+    "id": 770,
+    "name": "Empada de frango",
+    "measure": "1 unidade pequena",
+    "grams": 12,
+    "carbs": 6,
+    "calories": 43
+  },
+  {
+    "id": 771,
+    "name": "Empada de palmito",
+    "measure": "1 unidade média",
+    "grams": 55,
+    "carbs": 14,
+    "calories": 129
+  },
+  {
+    "id": 772,
+    "name": "Empada de palmito",
+    "measure": "1 unidade pequena",
+    "grams": 12,
+    "carbs": 3,
+    "calories": 16
+  },
+  {
+    "id": 773,
+    "name": "Empada de palmito",
+    "measure": "1 unidade grande",
+    "grams": 95,
+    "carbs": 24,
+    "calories": 223
+  },
+  {
+    "id": 774,
+    "name": "Empada de queijo",
+    "measure": "1 porção média",
+    "grams": 25,
+    "carbs": 5,
+    "calories": 80
+  },
+  {
+    "id": 775,
+    "name": "Empada de queijo",
+    "measure": "1 porção grande",
+    "grams": 67,
+    "carbs": 14,
+    "calories": 215
+  },
+  {
+    "id": 776,
+    "name": "Empadão goiano",
+    "measure": "1 pedaço médio",
+    "grams": 300,
+    "carbs": 48,
+    "calories": 618
+  },
+  {
+    "id": 777,
+    "name": "Empadinha",
+    "measure": "1 unidade pequena (de festa)",
+    "grams": 12,
+    "carbs": 4,
+    "calories": 56
+  },
+  {
+    "id": 778,
+    "name": "Empanada de carne tradicional",
+    "measure": "1 unidade média",
+    "grams": 90,
+    "carbs": 20,
+    "calories": 263
+  },
+  {
+    "id": 779,
+    "name": "Enchilada com carne, feijões e queijo",
+    "measure": "1 porção média",
+    "grams": 129,
+    "carbs": 23,
+    "calories": 231
+  },
+  {
+    "id": 780,
+    "name": "Enchilada de frango e queijo com molho de tomate",
+    "measure": "1 porção média",
+    "grams": 126,
+    "carbs": 19,
+    "calories": 234
+  },
+  {
+    "id": 781,
+    "name": "Enchilada de queijo",
+    "measure": "1 unidade média",
+    "grams": 163,
+    "carbs": 29,
+    "calories": 319
+  },
+  {
+    "id": 782,
+    "name": "Energético Assault Monster Energy®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 21,
+    "calories": 84
+  },
+  {
+    "id": 783,
+    "name": "Energético Baly® maçã verde",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 25,
+    "calories": 98
+  },
+  {
+    "id": 784,
+    "name": "Energético Baly® maçã verde",
+    "measure": "1 lata grande",
+    "grams": 750,
+    "carbs": 75,
+    "calories": 294
+  },
+  {
+    "id": 785,
+    "name": "Energético Baly® maçã verde",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 20,
+    "calories": 78
+  },
+  {
+    "id": 786,
+    "name": "Energético Baly® maçã verde sem açúcar",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 787,
+    "name": "Energético Baly® maçã verde sem açúcar",
+    "measure": "1 lata grande",
+    "grams": 750,
+    "carbs": 0,
+    "calories": 11
+  },
+  {
+    "id": 788,
+    "name": "Energético Baly® maçã verde sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 0,
+    "calories": 3
+  },
+  {
+    "id": 789,
+    "name": "Energético Baly® melancia",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 25,
+    "calories": 98
+  },
+  {
+    "id": 790,
+    "name": "Energético Baly® melancia",
+    "measure": "1 lata grande",
+    "grams": 750,
+    "carbs": 75,
+    "calories": 294
+  },
+  {
+    "id": 791,
+    "name": "Energético Baly® melancia",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 20,
+    "calories": 78
+  },
+  {
+    "id": 792,
+    "name": "Energético Baly® melancia sem açúcar",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 793,
+    "name": "Energético Baly® melancia sem açúcar",
+    "measure": "1 lata grande",
+    "grams": 750,
+    "carbs": 0,
+    "calories": 11
+  },
+  {
+    "id": 794,
+    "name": "Energético Baly® melancia sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 0,
+    "calories": 3
+  },
+  {
+    "id": 795,
+    "name": "Energético Baly® Tradicional",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 25,
+    "calories": 98
+  },
+  {
+    "id": 796,
+    "name": "Energético Baly® Tradicional",
+    "measure": "1 lata grande",
+    "grams": 750,
+    "carbs": 75,
+    "calories": 294
+  },
+  {
+    "id": 797,
+    "name": "Energético Baly® Tradicional",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 20,
+    "calories": 78
+  },
+  {
+    "id": 798,
+    "name": "Energético Baly® Tradicional sem açúcar",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 799,
+    "name": "Energético Baly® Tradicional sem açúcar",
+    "measure": "1 lata grande",
+    "grams": 750,
+    "carbs": 0,
+    "calories": 11
+  },
+  {
+    "id": 800,
+    "name": "Energético Baly® Tradicional sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 0,
+    "calories": 3
+  },
+  {
+    "id": 801,
+    "name": "Energético Baly® Tropical sem açúcar",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 802,
+    "name": "Energético Baly® Tropical sem açúcar",
+    "measure": "1 lata grande",
+    "grams": 750,
+    "carbs": 0,
+    "calories": 11
+  },
+  {
+    "id": 803,
+    "name": "Energético Baly® Tropical sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 0,
+    "calories": 3
+  },
+  {
+    "id": 804,
+    "name": "Energético Burn®",
+    "measure": "1 lata",
+    "grams": 260,
+    "carbs": 31,
+    "calories": 127
+  },
+  {
+    "id": 805,
+    "name": "Energético Dragon Ice Monster Energy®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 4,
+    "calories": 14
+  },
+  {
+    "id": 806,
+    "name": "Energético Energy Drink TNT®",
+    "measure": "1 lata",
+    "grams": 269,
+    "carbs": 30,
+    "calories": 123
+  },
+  {
+    "id": 807,
+    "name": "Energético Energy Focus Pink Lemonade TNT®",
+    "measure": "1 lata",
+    "grams": 269,
+    "carbs": 1,
+    "calories": 8
+  },
+  {
+    "id": 808,
+    "name": "Energético Flyng Horse®",
+    "measure": "1 lata",
+    "grams": 270,
+    "carbs": 32,
+    "calories": 130
+  },
+  {
+    "id": 809,
+    "name": "Energético Mango Loco Monster Energy®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 26,
+    "calories": 100
+  },
+  {
+    "id": 810,
+    "name": "Energético Monster Energy® Ultra",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 2.3,
+    "calories": 6
+  },
+  {
+    "id": 811,
+    "name": "Energético Monster® pipeline punch",
+    "measure": "1 lata",
+    "grams": 473,
+    "carbs": 43,
+    "calories": 166
+  },
+  {
+    "id": 812,
+    "name": "Energético Psyco Drink Midway®",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 28,
+    "calories": 113
+  },
+  {
+    "id": 813,
+    "name": "Energético Red Bull®",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 28,
+    "calories": 113
+  },
+  {
+    "id": 814,
+    "name": "Energético Reign® (sabores)",
+    "measure": "1 lata",
+    "grams": 473,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 815,
+    "name": "Energético Ultra Violet Monster Energy®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 4,
+    "calories": 16
+  },
+  {
+    "id": 816,
+    "name": "Energético zero açúcar Monster Energy® ultra",
+    "measure": "1 lata",
+    "grams": 475,
+    "carbs": 7,
+    "calories": 19
+  },
+  {
+    "id": 817,
+    "name": "Energético zero açúcar Pow Sour Pink Lemonade®",
+    "measure": "1 lata",
+    "grams": 310,
+    "carbs": 11,
+    "calories": 44
+  },
+  {
+    "id": 818,
+    "name": "Energético zero açúcar Red Bull®",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 0,
+    "calories": 6.7
+  },
+  {
+    "id": 819,
+    "name": "Energético zero açúcar sabor mango Chilli Beans®",
+    "measure": "1 lata",
+    "grams": 310,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 820,
+    "name": "Enrolado de presunto e queijo",
+    "measure": "1 unidade média",
+    "grams": 40,
+    "carbs": 15,
+    "calories": 114
+  },
+  {
+    "id": 821,
+    "name": "Enrolado de salsicha",
+    "measure": "1 unidade média",
+    "grams": 27,
+    "carbs": 3,
+    "calories": 79
+  },
+  {
+    "id": 822,
+    "name": "Enrolado de salsicha",
+    "measure": "1 unidade pequena (de festa)",
+    "grams": 15,
+    "carbs": 2,
+    "calories": 44
+  },
+  {
+    "id": 823,
+    "name": "Ensure em pó (sabores)",
+    "measure": "1 colher medida",
+    "grams": 10,
+    "carbs": 1,
+    "calories": 40
+  },
+  {
+    "id": 824,
+    "name": "Ensure plus (sabores)",
+    "measure": "1 porção (tetra pack)",
+    "grams": 200,
+    "carbs": 40,
+    "calories": 300
+  },
+  {
+    "id": 825,
+    "name": "Ensure plus advance 1 garrafinha",
+    "measure": "",
+    "grams": 220,
+    "carbs": 38,
+    "calories": 330
+  },
+  {
+    "id": 826,
+    "name": "Ensure protein 1 garrafinha",
+    "measure": "",
+    "grams": 220,
+    "carbs": 36,
+    "calories": 275
+  },
+  {
+    "id": 827,
+    "name": "Eqlibri® (minicrackers, original e sabores) 1 pacote",
+    "measure": "",
+    "grams": 22,
+    "carbs": 17,
+    "calories": 100
+  },
+  {
+    "id": 828,
+    "name": "Eqlibri® (panetinini, sabores)",
+    "measure": "1 embalagem",
+    "grams": 40,
+    "carbs": 25,
+    "calories": 175
+  },
+  {
+    "id": 829,
+    "name": "Eqlibri® (torradas) 1 pacotinho individual",
+    "measure": "",
+    "grams": 50,
+    "carbs": 29,
+    "calories": 193
+  },
+  {
+    "id": 830,
+    "name": "Eritritol (possui carboidratos não absorvíveis)",
+    "measure": "1 colher de sobremesa",
+    "grams": 11,
+    "carbs": 11,
+    "calories": 2
+  },
+  {
+    "id": 831,
+    "name": "Eritritol (possui carboidratos não absorvíveis)",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 15,
+    "calories": 3
+  },
+  {
+    "id": 832,
+    "name": "Eritritol (possui carboidratos não absorvíveis)",
+    "measure": "1 colher de chá",
+    "grams": 4,
+    "carbs": 4,
+    "calories": 1
+  },
+  {
+    "id": 833,
+    "name": "Eritritol (possui carboidratos não absorvíveis)",
+    "measure": "1 xícara de chá",
+    "grams": 160,
+    "carbs": 158,
+    "calories": 32
+  },
+  {
+    "id": 834,
+    "name": "Ervilha em conserva",
+    "measure": "1 colher de sopa cheia",
+    "grams": 27,
+    "carbs": 4,
+    "calories": 20
+  },
+  {
+    "id": 835,
+    "name": "Ervilha em conserva",
+    "measure": "1 colher de arroz cheia",
+    "grams": 38,
+    "carbs": 6,
+    "calories": 28
+  },
+  {
+    "id": 836,
+    "name": "Ervilha verde cozida",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 4,
+    "calories": 26
+  },
+  {
+    "id": 837,
+    "name": "Escarola (endivia) crua gramas",
+    "measure": "",
+    "grams": 100,
+    "carbs": 3,
+    "calories": 12
+  },
+  {
+    "id": 838,
+    "name": "Escondidinho de Carne Seca",
+    "measure": "1 porção média",
+    "grams": 200,
+    "carbs": 28,
+    "calories": 339
+  },
+  {
+    "id": 839,
+    "name": "Escondidinho de Carne Seca",
+    "measure": "1 xícara",
+    "grams": 240,
+    "carbs": 34,
+    "calories": 407
+  },
+  {
+    "id": 840,
+    "name": "Esfiha de calabresa (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 75,
+    "carbs": 17,
+    "calories": 130
+  },
+  {
+    "id": 841,
+    "name": "Esfiha de carne aberta",
+    "measure": "1 unidade média",
+    "grams": 75,
+    "carbs": 18,
+    "calories": 125
+  },
+  {
+    "id": 842,
+    "name": "Esfiha de carne fechada",
+    "measure": "1 unidade média",
+    "grams": 80,
+    "carbs": 29,
+    "calories": 203
+  },
+  {
+    "id": 843,
+    "name": "Esfiha de carne fechada",
+    "measure": "1 unidade pequena",
+    "grams": 25,
+    "carbs": 9,
+    "calories": 64
+  },
+  {
+    "id": 844,
+    "name": "Esfiha de espinafre (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 80,
+    "carbs": 17,
+    "calories": 122
+  },
+  {
+    "id": 845,
+    "name": "Esfiha de frango (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 75,
+    "carbs": 18,
+    "calories": 115
+  },
+  {
+    "id": 846,
+    "name": "Esfiha de queijo",
+    "measure": "1 porção média",
+    "grams": 13,
+    "carbs": 5,
+    "calories": 47
+  },
+  {
+    "id": 847,
+    "name": "Esfiha de queijo",
+    "measure": "1 porção pequena",
+    "grams": 73,
+    "carbs": 27,
+    "calories": 263
+  },
+  {
+    "id": 848,
+    "name": "Esfiha folhada de cheddar com pepperoni (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 55,
+    "carbs": 11,
+    "calories": 201
+  },
+  {
+    "id": 849,
+    "name": "Esfiha folhada de chocolate (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 45,
+    "carbs": 16,
+    "calories": 199
+  },
+  {
+    "id": 850,
+    "name": "Esfiha folhada de chocolate com M&M’s® (Habib’s)",
+    "measure": "1 unidade",
+    "grams": 65,
+    "carbs": 28,
+    "calories": 295
+  },
+  {
+    "id": 851,
+    "name": "Eskibon® (picolé clássico)",
+    "measure": "1 unidade",
+    "grams": 48,
+    "carbs": 15,
+    "calories": 147
+  },
+  {
+    "id": 852,
+    "name": "Espaguete ao sugo 1 pegador médio",
+    "measure": "",
+    "grams": 110,
+    "carbs": 24,
+    "calories": 112
+  },
+  {
+    "id": 853,
+    "name": "Espaguete com molho de tomate 1 pegador médio",
+    "measure": "",
+    "grams": 110,
+    "carbs": 23,
+    "calories": 112
+  },
+  {
+    "id": 854,
+    "name": "Espaguete com molho de tomate",
+    "measure": "1 xícara",
+    "grams": 220,
+    "carbs": 48,
+    "calories": 224
+  },
+  {
+    "id": 855,
+    "name": "Espaguete cozido 1 pegador médio",
+    "measure": "",
+    "grams": 110,
+    "carbs": 39,
+    "calories": 112
+  },
+  {
+    "id": 856,
+    "name": "Espaguete cozido",
+    "measure": "1 xícara",
+    "grams": 220,
+    "carbs": 43,
+    "calories": 220
+  },
+  {
+    "id": 857,
+    "name": "Espaguete de trigo integral 1 pegador médio",
+    "measure": "",
+    "grams": 110,
+    "carbs": 19,
+    "calories": 86
+  },
+  {
+    "id": 858,
+    "name": "Espaguete de trigo integral",
+    "measure": "1 xícara",
+    "grams": 220,
+    "carbs": 37,
+    "calories": 172
+  },
+  {
+    "id": 859,
+    "name": "Espinafre cru",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 860,
+    "name": "Espinafre refogado",
+    "measure": "1 colher do sopa cheia",
+    "grams": 25,
+    "carbs": 2,
+    "calories": 27
+  },
+  {
+    "id": 861,
+    "name": "Estrogonoff de filé mignon (Backed Potato®)",
+    "measure": "1 concha",
+    "grams": 85,
+    "carbs": 0,
+    "calories": 146
+  },
+  {
+    "id": 862,
+    "name": "Estrogonoffe de carne",
+    "measure": "1 colher do sopa cheia",
+    "grams": 25,
+    "carbs": 1,
+    "calories": 39
+  },
+  {
+    "id": 863,
+    "name": "Estrogonoffe de carne",
+    "measure": "1 colher de arroz cheia",
+    "grams": 40,
+    "carbs": 2,
+    "calories": 62
+  },
+  {
+    "id": 864,
+    "name": "Estrogonoffe de carne",
+    "measure": "1 concha média cheia",
+    "grams": 170,
+    "carbs": 7,
+    "calories": 266
+  },
+  {
+    "id": 865,
+    "name": "Estrogonoffe de frango",
+    "measure": "1 colher do sopa cheia",
+    "grams": 25,
+    "carbs": 1,
+    "calories": 43
+  },
+  {
+    "id": 866,
+    "name": "Estrogonoffe de frango",
+    "measure": "1 colher de arroz cheia",
+    "grams": 40,
+    "carbs": 2,
+    "calories": 69
+  },
+  {
+    "id": 867,
+    "name": "Estrogonoffe de frango",
+    "measure": "1 concha média cheia",
+    "grams": 170,
+    "carbs": 7,
+    "calories": 293
+  },
+  {
+    "id": 868,
+    "name": "Extrato de malte",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 10,
+    "calories": 42
+  },
+  {
+    "id": 869,
+    "name": "Extrato de tomate",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 2,
+    "calories": 10
+  },
+  {
+    "id": 870,
+    "name": "Faisalim (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 80,
+    "carbs": 35,
+    "calories": 240
+  },
+  {
+    "id": 871,
+    "name": "Falafel",
+    "measure": "1 unidade média",
+    "grams": 40,
+    "carbs": 14,
+    "calories": 84
+  },
+  {
+    "id": 872,
+    "name": "Falafel (bolinho de grâo de bico)",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 10,
+    "calories": 78
+  },
+  {
+    "id": 873,
+    "name": "Fandangos® (salgadinho de milho sabores) 1 pacote de 22g",
+    "measure": "",
+    "grams": 22,
+    "carbs": 15,
+    "calories": 100
+  },
+  {
+    "id": 874,
+    "name": "Fandangos® (salgadinho de milho sabores) 1 pacote de 37g",
+    "measure": "",
+    "grams": 37,
+    "carbs": 20,
+    "calories": 170
+  },
+  {
+    "id": 875,
+    "name": "Fandangos® (salgadinho de milho sabores) 1 pacote de 45g",
+    "measure": "",
+    "grams": 45,
+    "carbs": 30,
+    "calories": 222
+  },
+  {
+    "id": 876,
+    "name": "Fandangos® (salgadinho de milho sabores) 1 pacote de 90g",
+    "measure": "",
+    "grams": 90,
+    "carbs": 59,
+    "calories": 411
+  },
+  {
+    "id": 877,
+    "name": "Fandangos® (salgadinho de milho sabores) 1 pacote de 80g",
+    "measure": "",
+    "grams": 80,
+    "carbs": 52,
+    "calories": 365
+  },
+  {
+    "id": 878,
+    "name": "Fandangos® (salgadinho de milho sabores) 1 pacote de 140g",
+    "measure": "",
+    "grams": 140,
+    "carbs": 59,
+    "calories": 639
+  },
+  {
+    "id": 879,
+    "name": "Fanta laranja",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 22,
+    "calories": 90
+  },
+  {
+    "id": 880,
+    "name": "Fanta laranja",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 39,
+    "calories": 158
+  },
+  {
+    "id": 881,
+    "name": "Farelo de Aveia",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 10,
+    "calories": 60
+  },
+  {
+    "id": 882,
+    "name": "Farelo de Aveia",
+    "measure": "1 colher de sobrememesa",
+    "grams": 8,
+    "carbs": 6,
+    "calories": 32
+  },
+  {
+    "id": 883,
+    "name": "Farelo de Aveia",
+    "measure": "1 colher de chá",
+    "grams": 4,
+    "carbs": 1,
+    "calories": 16
+  },
+  {
+    "id": 884,
+    "name": "Farelo de trigo",
+    "measure": "1 colher de sopa cheia",
+    "grams": 9,
+    "carbs": 5,
+    "calories": 28
+  },
+  {
+    "id": 885,
+    "name": "Farelo de trigo",
+    "measure": "1 colher de sobremesa cheia",
+    "grams": 7,
+    "carbs": 4,
+    "calories": 22
+  },
+  {
+    "id": 886,
+    "name": "Farfalle cozido",
+    "measure": "1 xícara",
+    "grams": 80,
+    "carbs": 60,
+    "calories": 286
+  },
+  {
+    "id": 887,
+    "name": "Farinha d’água-do-pará",
+    "measure": "1 copo descartável pequeno",
+    "grams": 50,
+    "carbs": 41,
+    "calories": 166
+  },
+  {
+    "id": 888,
+    "name": "Farinha de amaranto",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 17,
+    "calories": 91
+  },
+  {
+    "id": 889,
+    "name": "Farinha de amaranto",
+    "measure": "1 colher de sopa rasa",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 37
+  },
+  {
+    "id": 890,
+    "name": "Farinha de amendoas",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 4,
+    "calories": 79
+  },
+  {
+    "id": 891,
+    "name": "Farinha de amendoas",
+    "measure": "1 xícara",
+    "grams": 120,
+    "carbs": 24,
+    "calories": 677
+  },
+  {
+    "id": 892,
+    "name": "Farinha de arroz",
+    "measure": "1 colher de sopa cheia",
+    "grams": 17,
+    "carbs": 14,
+    "calories": 60
+  },
+  {
+    "id": 893,
+    "name": "Farinha de arroz integral",
+    "measure": "1 colher de sopa cheia",
+    "grams": 17,
+    "carbs": 13,
+    "calories": 62
+  },
+  {
+    "id": 894,
+    "name": "Farinha de arroz integral",
+    "measure": "1 xícara",
+    "grams": 158,
+    "carbs": 121,
+    "calories": 574
+  },
+  {
+    "id": 895,
+    "name": "Farinha de centeio integral",
+    "measure": "1 xícara",
+    "grams": 158,
+    "carbs": 130,
+    "calories": 558
+  },
+  {
+    "id": 896,
+    "name": "Farinha de centeio integral",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 11,
+    "calories": 54
+  },
+  {
+    "id": 897,
+    "name": "Farinha de centeio integral",
+    "measure": "1 xícara",
+    "grams": 128,
+    "carbs": 94,
+    "calories": 569
+  },
+  {
+    "id": 898,
+    "name": "Farinha de chia",
+    "measure": "1 colher de sobremesa",
+    "grams": 7,
+    "carbs": 3,
+    "calories": 34
+  },
+  {
+    "id": 899,
+    "name": "Farinha de chia",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 4,
+    "calories": 51
+  },
+  {
+    "id": 900,
+    "name": "Farinha de coco",
+    "measure": "1 colher de chá",
+    "grams": 6,
+    "carbs": 3,
+    "calories": 26
+  },
+  {
+    "id": 901,
+    "name": "Farinha de coco",
+    "measure": "1 colher de sopa rasa",
+    "grams": 10,
+    "carbs": 3,
+    "calories": 44
+  },
+  {
+    "id": 902,
+    "name": "Farinha de coco",
+    "measure": "1 colher de sopa cheia",
+    "grams": 12,
+    "carbs": 7,
+    "calories": 53
+  },
+  {
+    "id": 903,
+    "name": "Farinha de linhaça",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 2,
+    "calories": 72
+  },
+  {
+    "id": 904,
+    "name": "Farinha de linhaça",
+    "measure": "1 colher de sobremesa",
+    "grams": 5,
+    "carbs": 0,
+    "calories": 24
+  },
+  {
+    "id": 905,
+    "name": "Farinha de mandioca",
+    "measure": "1 colher de sopa cheia",
+    "grams": 16,
+    "carbs": 14,
+    "calories": 57
+  },
+  {
+    "id": 906,
+    "name": "Farinha de milho",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 12,
+    "calories": 54
+  },
+  {
+    "id": 907,
+    "name": "Farinha de milho integral",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 11,
+    "calories": 53
+  },
+  {
+    "id": 908,
+    "name": "Farinha de milho integral",
+    "measure": "1 xícara",
+    "grams": 120,
+    "carbs": 88,
+    "calories": 424
+  },
+  {
+    "id": 909,
+    "name": "Farinha de rosca",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 11,
+    "calories": 61
+  },
+  {
+    "id": 910,
+    "name": "Farinha de rosca",
+    "measure": "1 xícara",
+    "grams": 80,
+    "carbs": 59,
+    "calories": 325
+  },
+  {
+    "id": 911,
+    "name": "Farinha de tapioca",
+    "measure": "1 colher de sopa",
+    "grams": 16,
+    "carbs": 14,
+    "calories": 57
+  },
+  {
+    "id": 912,
+    "name": "Farinha de tapioca com coco e açúcar",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 21,
+    "calories": 107
+  },
+  {
+    "id": 913,
+    "name": "Farinha de trigo",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 15,
+    "calories": 71
+  },
+  {
+    "id": 914,
+    "name": "Farinha de trigo",
+    "measure": "1 colher de sopa rasa",
+    "grams": 13,
+    "carbs": 10,
+    "calories": 46
+  },
+  {
+    "id": 915,
+    "name": "Farinha de trigo",
+    "measure": "1 xícara",
+    "grams": 165,
+    "carbs": 124,
+    "calories": 586
+  },
+  {
+    "id": 916,
+    "name": "Farinha de trigo",
+    "measure": "1 colher de sobremesa",
+    "grams": 5,
+    "carbs": 4,
+    "calories": 18
+  },
+  {
+    "id": 917,
+    "name": "Farinha láctea",
+    "measure": "1 colher de sopa rasa",
+    "grams": 8,
+    "carbs": 6,
+    "calories": 30
+  },
+  {
+    "id": 918,
+    "name": "Farofa com linguiça",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 7,
+    "calories": 54
+  },
+  {
+    "id": 919,
+    "name": "Farofa com linguiça",
+    "measure": "1 colher de arroz cheia",
+    "grams": 45,
+    "carbs": 21,
+    "calories": 162
+  },
+  {
+    "id": 920,
+    "name": "Farofa com linguiça",
+    "measure": "1 colher de sobremesa cheia",
+    "grams": 10,
+    "carbs": 5,
+    "calories": 36
+  },
+  {
+    "id": 921,
+    "name": "Farofa com tempero/óleo",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 12,
+    "calories": 71
+  },
+  {
+    "id": 922,
+    "name": "Farofa de farinha de mandioca",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 20,
+    "calories": 96
+  },
+  {
+    "id": 923,
+    "name": "Farofa de farinha de mandioca",
+    "measure": "1 colher de arroz cheia",
+    "grams": 75,
+    "carbs": 60,
+    "calories": 288
+  },
+  {
+    "id": 924,
+    "name": "Farofa simples",
+    "measure": "1 colher de arroz cheia",
+    "grams": 45,
+    "carbs": 36,
+    "calories": 213
+  },
+  {
+    "id": 925,
+    "name": "Farofa simples",
+    "measure": "1 colher de sobremesa",
+    "grams": 8,
+    "carbs": 6,
+    "calories": 32
+  },
+  {
+    "id": 926,
+    "name": "Farofa simples",
+    "measure": "1 colher de sobremesa cheia",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 48
+  },
+  {
+    "id": 927,
+    "name": "Farofa simples",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 12,
+    "calories": 71
+  },
+  {
+    "id": 928,
+    "name": "Fatouche",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 5,
+    "calories": 162
+  },
+  {
+    "id": 929,
+    "name": "Fava, grãos, cozidos",
+    "measure": "1 xícara",
+    "grams": 90,
+    "carbs": 23,
+    "calories": 113
+  },
+  {
+    "id": 930,
+    "name": "Fava, grãos, cozidos",
+    "measure": "1 colher de servir cheia",
+    "grams": 35,
+    "carbs": 8,
+    "calories": 38
+  },
+  {
+    "id": 931,
+    "name": "Fava, grãos, cozidos",
+    "measure": "1 colher de spa cheia",
+    "grams": 31,
+    "carbs": 7,
+    "calories": 34
+  },
+  {
+    "id": 932,
+    "name": "Fava, grãos, cozidos",
+    "measure": "1 concha média cheia",
+    "grams": 140,
+    "carbs": 30,
+    "calories": 154
+  },
+  {
+    "id": 933,
+    "name": "Fava, grãos, cozidos",
+    "measure": "1 concha rasa",
+    "grams": 80,
+    "carbs": 17,
+    "calories": 88
+  },
+  {
+    "id": 934,
+    "name": "Feijão azuki cozido",
+    "measure": "1 colher de sopa",
+    "grams": 17,
+    "carbs": 5,
+    "calories": 22
+  },
+  {
+    "id": 935,
+    "name": "Feijão azuki cozido",
+    "measure": "1 colher de arroz",
+    "grams": 35,
+    "carbs": 9,
+    "calories": 45
+  },
+  {
+    "id": 936,
+    "name": "Feijão azuki cozido",
+    "measure": "1 xícara de chá",
+    "grams": 184,
+    "carbs": 46,
+    "calories": 236
+  },
+  {
+    "id": 937,
+    "name": "Feijão azuki cozido",
+    "measure": "1 colher de sopa",
+    "grams": 17,
+    "carbs": 4,
+    "calories": 22
+  },
+  {
+    "id": 938,
+    "name": "Feijão branco cozido",
+    "measure": "1 concha média rasa",
+    "grams": 80,
+    "carbs": 21,
+    "calories": 112
+  },
+  {
+    "id": 939,
+    "name": "Feijão branco cozido",
+    "measure": "1 colher de sopa",
+    "grams": 17,
+    "carbs": 4,
+    "calories": 20
+  },
+  {
+    "id": 940,
+    "name": "Feijão carioquinha cozido",
+    "measure": "1 colher de sopa cheia",
+    "grams": 17,
+    "carbs": 3,
+    "calories": 19
+  },
+  {
+    "id": 941,
+    "name": "Feijão carioquinha cozido",
+    "measure": "1 concha média rasa",
+    "grams": 80,
+    "carbs": 14,
+    "calories": 89
+  },
+  {
+    "id": 942,
+    "name": "Feijão preto cozido",
+    "measure": "1 colher de sopa cheia",
+    "grams": 17,
+    "carbs": 2,
+    "calories": 13
+  },
+  {
+    "id": 943,
+    "name": "Feijão preto cozido",
+    "measure": "1 concha média rasa",
+    "grams": 80,
+    "carbs": 10,
+    "calories": 61
+  },
+  {
+    "id": 944,
+    "name": "Feijão preto cozido",
+    "measure": "1 concha média cheia",
+    "grams": 140,
+    "carbs": 18,
+    "calories": 107
+  },
+  {
+    "id": 945,
+    "name": "Feijão tropeiro",
+    "measure": "1 concha média rasa",
+    "grams": 70,
+    "carbs": 33,
+    "calories": 206
+  },
+  {
+    "id": 946,
+    "name": "Feijão tropeiro",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 7,
+    "calories": 50
+  },
+  {
+    "id": 947,
+    "name": "Feijão verde cozido",
+    "measure": "1 xícara",
+    "grams": 110,
+    "carbs": 8,
+    "calories": 34
+  },
+  {
+    "id": 948,
+    "name": "Feijão-fradinho cozido",
+    "measure": "1 colher de sopa cheia",
+    "grams": 17,
+    "carbs": 2,
+    "calories": 13
+  },
+  {
+    "id": 949,
+    "name": "Feijoada caseira",
+    "measure": "1 concha média cheia",
+    "grams": 225,
+    "carbs": 24,
+    "calories": 346
+  },
+  {
+    "id": 950,
+    "name": "Feijoada caseira",
+    "measure": "1 colher de sopa cheia",
+    "grams": 35,
+    "carbs": 4,
+    "calories": 54
+  },
+  {
+    "id": 951,
+    "name": "Fermento biológico 1 tablete",
+    "measure": "",
+    "grams": 15,
+    "carbs": 1,
+    "calories": 155
+  },
+  {
+    "id": 952,
+    "name": "Fermento em pó",
+    "measure": "1 colher de sopa rasa",
+    "grams": 10,
+    "carbs": 4,
+    "calories": 17
+  },
+  {
+    "id": 953,
+    "name": "Fettuccine 1 pegador médio",
+    "measure": "",
+    "grams": 110,
+    "carbs": 24,
+    "calories": 150
+  },
+  {
+    "id": 954,
+    "name": "Fettuccine",
+    "measure": "1 xícara",
+    "grams": 140,
+    "carbs": 43,
+    "calories": 100
+  },
+  {
+    "id": 955,
+    "name": "Fettuccine a bolonhesa",
+    "measure": "1 porção média",
+    "grams": 350,
+    "carbs": 49,
+    "calories": 458
+  },
+  {
+    "id": 956,
+    "name": "Fettuccine cozido",
+    "measure": "1 xícara",
+    "grams": 140,
+    "carbs": 43,
+    "calories": 220
+  },
+  {
+    "id": 957,
+    "name": "Fígado de boi grelhado 1 bife médio",
+    "measure": "",
+    "grams": 110,
+    "carbs": 5,
+    "calories": 239
+  },
+  {
+    "id": 958,
+    "name": "Fígado de galinha cru",
+    "measure": "1 unidade média",
+    "grams": 70,
+    "carbs": 4,
+    "calories": 95
+  },
+  {
+    "id": 959,
+    "name": "Figo",
+    "measure": "1 unidade média",
+    "grams": 55,
+    "carbs": 8,
+    "calories": 38
+  },
+  {
+    "id": 960,
+    "name": "Figo cristalizado",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 22,
+    "calories": 86
+  },
+  {
+    "id": 961,
+    "name": "Figo enlatado em calda",
+    "measure": "1 unidade média",
+    "grams": 20,
+    "carbs": 10,
+    "calories": 38
+  },
+  {
+    "id": 962,
+    "name": "Figo seco",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 20,
+    "calories": 75
+  },
+  {
+    "id": 963,
+    "name": "Filé mignon a parmeggiana/ empanado",
+    "measure": "1 unidade média",
+    "grams": 100,
+    "carbs": 10,
+    "calories": 341
+  },
+  {
+    "id": 964,
+    "name": "Filé mignon a parmeggiana/ empanado",
+    "measure": "1 unidade grande",
+    "grams": 125,
+    "carbs": 13,
+    "calories": 427
+  },
+  {
+    "id": 965,
+    "name": "File mignon ao molho madeira",
+    "measure": "1 unidade pequena",
+    "grams": 180,
+    "carbs": 12,
+    "calories": 227
+  },
+  {
+    "id": 966,
+    "name": "Filhós (doce típico da região da Galiza)",
+    "measure": "1 unidade média",
+    "grams": 65,
+    "carbs": 26,
+    "calories": 159
+  },
+  {
+    "id": 967,
+    "name": "Financier de amêndoas",
+    "measure": "1 unidade média",
+    "grams": 10,
+    "carbs": 7,
+    "calories": 54
+  },
+  {
+    "id": 968,
+    "name": "Fios de ovos",
+    "measure": "1 xícara",
+    "grams": 120,
+    "carbs": 37,
+    "calories": 1458
+  },
+  {
+    "id": 969,
+    "name": "Flan dietético, em pó, preparado Lowçucar®",
+    "measure": "1 porção preparada confome descrito pelo fabricante 125 4 125 Flan tradicional (com açúcar) 1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 5,
+    "calories": 33
+  },
+  {
+    "id": 970,
+    "name": "Flan tradicional (com açúcar) (média das marcas Paulista®, Batavo®, Frimesa®, Nestlé®) 1 potinho 100 115 23 Flocos de milho sem açúcar",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 9,
+    "calories": 38
+  },
+  {
+    "id": 971,
+    "name": "Flocos de milho sem açúcar",
+    "measure": "1 xícara",
+    "grams": 28,
+    "carbs": 26,
+    "calories": 107
+  },
+  {
+    "id": 972,
+    "name": "Focaccia",
+    "measure": "1 fatia média",
+    "grams": 57,
+    "carbs": 27,
+    "calories": 182
+  },
+  {
+    "id": 973,
+    "name": "Fofura® (salgadinho de milho sabores) 1 pacote pequeno",
+    "measure": "",
+    "grams": 40,
+    "carbs": 24,
+    "calories": 770
+  },
+  {
+    "id": 974,
+    "name": "Fofura® (salgadinho de milho sabores) 1 pacote grande",
+    "measure": "",
+    "grams": 90,
+    "carbs": 54,
+    "calories": 1731
+  },
+  {
+    "id": 975,
+    "name": "Fogazza de calabresa (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 70,
+    "carbs": 22,
+    "calories": 186
+  },
+  {
+    "id": 976,
+    "name": "Fogazza de mussarela (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 70,
+    "carbs": 21,
+    "calories": 200
+  },
+  {
+    "id": 977,
+    "name": "Folhado de frango",
+    "measure": "1 unidade média",
+    "grams": 40,
+    "carbs": 9,
+    "calories": 109
+  },
+  {
+    "id": 978,
+    "name": "Fondue de carne (somente a carne, sem os acompanhamentos) 1 bife médio 90 0 180 Fondue de chocolate (somente o ganache de chocolate, sem os acompanhamentos)",
+    "measure": "1 colher sopa 30 15 105 Fondue de queijo (somente o queijo, sem os acompanhamentos) 1 colher de sopa do molho",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 70
+  },
+  {
+    "id": 979,
+    "name": "Fondue de queijo (somente o queijo, sem os acompanhamentos)",
+    "measure": "1 xícara 214 8 492 Framboesa 4 unidades médias",
+    "grams": 12,
+    "carbs": 1,
+    "calories": 16
+  },
+  {
+    "id": 980,
+    "name": "Framboesa",
+    "measure": "1 xícara",
+    "grams": 123,
+    "carbs": 15,
+    "calories": 64
+  },
+  {
+    "id": 981,
+    "name": "Framboesa, doce em pasta",
+    "measure": "1 colher de sopa cheia",
+    "grams": 50,
+    "carbs": 35,
+    "calories": 143
+  },
+  {
+    "id": 982,
+    "name": "Framboesa, geléia de",
+    "measure": "1 colher de sopa cheia",
+    "grams": 34,
+    "carbs": 24,
+    "calories": 97
+  },
+  {
+    "id": 983,
+    "name": "Framboesa, geléia de",
+    "measure": "1 colher de sopa rasa",
+    "grams": 22,
+    "carbs": 16,
+    "calories": 62
+  },
+  {
+    "id": 984,
+    "name": "Framboesa, geléia de",
+    "measure": "1 colher de sobremesa cheia",
+    "grams": 26,
+    "carbs": 19,
+    "calories": 73
+  },
+  {
+    "id": 985,
+    "name": "Framboesa, geléia de",
+    "measure": "1 colher de sobremesa rasa",
+    "grams": 11,
+    "carbs": 8,
+    "calories": 31
+  },
+  {
+    "id": 986,
+    "name": "Francesinha (sanduíche de origem portuguesa) 1 sanduiche",
+    "measure": "",
+    "grams": 795,
+    "carbs": 67,
+    "calories": 1130
+  },
+  {
+    "id": 987,
+    "name": "Frango à milanesa",
+    "measure": "1 filé pequeno",
+    "grams": 100,
+    "carbs": 7,
+    "calories": 221
+  },
+  {
+    "id": 988,
+    "name": "Frango à milanesa",
+    "measure": "1 filé grande",
+    "grams": 190,
+    "carbs": 13,
+    "calories": 419
+  },
+  {
+    "id": 989,
+    "name": "Frango à milanesa",
+    "measure": "1 filé médio",
+    "grams": 140,
+    "carbs": 9,
+    "calories": 310
+  },
+  {
+    "id": 990,
+    "name": "Frango à passarinho",
+    "measure": "1 unidade média",
+    "grams": 65,
+    "carbs": 0,
+    "calories": 129
+  },
+  {
+    "id": 991,
+    "name": "Frango à paulista",
+    "measure": "1 filé pequeno",
+    "grams": 90,
+    "carbs": 1,
+    "calories": 207
+  },
+  {
+    "id": 992,
+    "name": "Frango à paulista",
+    "measure": "1 filé médio",
+    "grams": 130,
+    "carbs": 2,
+    "calories": 336
+  },
+  {
+    "id": 993,
+    "name": "Frango à paulista",
+    "measure": "1 filé grande",
+    "grams": 190,
+    "carbs": 2,
+    "calories": 491
+  },
+  {
+    "id": 994,
+    "name": "Frango agridoce 1 coxa de frango com molho",
+    "measure": "",
+    "grams": 90,
+    "carbs": 9,
+    "calories": 69
+  },
+  {
+    "id": 995,
+    "name": "Frango agridoce 1/2 peito de frango com molho",
+    "measure": "",
+    "grams": 131,
+    "carbs": 15,
+    "calories": 117
+  },
+  {
+    "id": 996,
+    "name": "Frango assado 1 sobrecoxa média",
+    "measure": "",
+    "grams": 65,
+    "carbs": 0,
+    "calories": 78
+  },
+  {
+    "id": 997,
+    "name": "Frango assado 1 sobrecoxa grande",
+    "measure": "",
+    "grams": 84,
+    "carbs": 0,
+    "calories": 206
+  },
+  {
+    "id": 998,
+    "name": "Frango assado 1/2 peito médio",
+    "measure": "",
+    "grams": 85,
+    "carbs": 0,
+    "calories": 237
+  },
+  {
+    "id": 999,
+    "name": "Frango assado 1 coxa média",
+    "measure": "",
+    "grams": 49,
+    "carbs": 0,
+    "calories": 81
+  },
+  {
+    "id": 1000,
+    "name": "Frango assado 1 coxa grande",
+    "measure": "",
+    "grams": 65,
+    "carbs": 0,
+    "calories": 1
+  },
+  {
+    "id": 1001,
+    "name": "Frango assado 1 asa média",
+    "measure": "",
+    "grams": 32,
+    "carbs": 0,
+    "calories": 92
+  },
+  {
+    "id": 1002,
+    "name": "Frango com requeijão (Backed Potato®)",
+    "measure": "1 concha",
+    "grams": 85,
+    "carbs": 0,
+    "calories": 139
+  },
+  {
+    "id": 1003,
+    "name": "Frango cozido 1 sobrecoxa média",
+    "measure": "",
+    "grams": 65,
+    "carbs": 0,
+    "calories": 82
+  },
+  {
+    "id": 1004,
+    "name": "Frango cozido",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 33
+  },
+  {
+    "id": 1005,
+    "name": "Frango filé cozido",
+    "measure": "1 filé pequeno",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 163
+  },
+  {
+    "id": 1006,
+    "name": "Frango frito 1 coxa média",
+    "measure": "",
+    "grams": 49,
+    "carbs": 0,
+    "calories": 119
+  },
+  {
+    "id": 1007,
+    "name": "Frango frito 1 coxa grande",
+    "measure": "",
+    "grams": 65,
+    "carbs": 0,
+    "calories": 94
+  },
+  {
+    "id": 1008,
+    "name": "Frango frito 1/2 peito pequeno",
+    "measure": "",
+    "grams": 75,
+    "carbs": 0,
+    "calories": 138
+  },
+  {
+    "id": 1009,
+    "name": "Frango frito 1/2 peito médio",
+    "measure": "",
+    "grams": 86,
+    "carbs": 0,
+    "calories": 158
+  },
+  {
+    "id": 1010,
+    "name": "Frango frito 1/2 peito grande",
+    "measure": "",
+    "grams": 96,
+    "carbs": 0,
+    "calories": 180
+  },
+  {
+    "id": 1011,
+    "name": "Frango Teriyaki",
+    "measure": "1 porção média",
+    "grams": 183,
+    "carbs": 11,
+    "calories": 273
+  },
+  {
+    "id": 1012,
+    "name": "Frango Teriyaki",
+    "measure": "1 xícara",
+    "grams": 244,
+    "carbs": 15,
+    "calories": 364
+  },
+  {
+    "id": 1013,
+    "name": "Frango xadrez",
+    "measure": "1 xícara",
+    "grams": 162,
+    "carbs": 12,
+    "calories": 434
+  },
+  {
+    "id": 1014,
+    "name": "Franlitos (Bob’s®)",
+    "measure": "1 porção com 6 unidades",
+    "grams": 120,
+    "carbs": 28,
+    "calories": 272
+  },
+  {
+    "id": 1015,
+    "name": "Franlitos (Bob’s®)",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 5,
+    "calories": 16
+  },
+  {
+    "id": 1016,
+    "name": "Frigideira de repolho com camarão seco",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 1,
+    "calories": 25
+  },
+  {
+    "id": 1017,
+    "name": "Frittata de Abobrinha",
+    "measure": "1 porção média",
+    "grams": 135,
+    "carbs": 20,
+    "calories": 195
+  },
+  {
+    "id": 1018,
+    "name": "Frittata de batata",
+    "measure": "1 porção média",
+    "grams": 135,
+    "carbs": 31,
+    "calories": 244
+  },
+  {
+    "id": 1019,
+    "name": "Froot Loops® (Alimento à base de cereais com sabor artificial de frutas) 1 pacote individual 20 17 75 Froot Loops® (Alimento à base de cereais com sabor artificial de frutas)",
+    "measure": "1 xícara 30 25 111 Fruta - pão 1 porção",
+    "grams": 100,
+    "carbs": 24,
+    "calories": 96
+  },
+  {
+    "id": 1020,
+    "name": "Fruta do conde, ata ou pinha",
+    "measure": "1 unidade média",
+    "grams": 60,
+    "carbs": 13,
+    "calories": 53
+  },
+  {
+    "id": 1021,
+    "name": "Frutas cristalizadas industrializadas",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 12,
+    "calories": 48
+  },
+  {
+    "id": 1022,
+    "name": "Frutas cristalizadas industrializadas",
+    "measure": "1 xícara",
+    "grams": 150,
+    "carbs": 120,
+    "calories": 600
+  },
+  {
+    "id": 1023,
+    "name": "Frutilly® (picolé sabor flock)",
+    "measure": "1 unidade",
+    "grams": 54,
+    "carbs": 17,
+    "calories": 154
+  },
+  {
+    "id": 1024,
+    "name": "Frutilly® (picolé sabor morango)",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 9,
+    "calories": 49
+  },
+  {
+    "id": 1025,
+    "name": "Fruttare® (picolé sabor abacaxi)",
+    "measure": "1 unidade",
+    "grams": 59,
+    "carbs": 16,
+    "calories": 49
+  },
+  {
+    "id": 1026,
+    "name": "Fruttare® (picolé sabor coco)",
+    "measure": "1 unidade",
+    "grams": 60,
+    "carbs": 14,
+    "calories": 84
+  },
+  {
+    "id": 1027,
+    "name": "Fruttare® (picolé sabor lichia)",
+    "measure": "1 unidade",
+    "grams": 61,
+    "carbs": 12,
+    "calories": 48
+  },
+  {
+    "id": 1028,
+    "name": "Fruttare® (picolé sabor limão)",
+    "measure": "1 unidade",
+    "grams": 58,
+    "carbs": 13,
+    "calories": 52
+  },
+  {
+    "id": 1029,
+    "name": "Fruttare® (picolé sabor manga)",
+    "measure": "1 unidade",
+    "grams": 61,
+    "carbs": 20,
+    "calories": 80
+  },
+  {
+    "id": 1030,
+    "name": "Fruttare® (picolé sabor maracujá)",
+    "measure": "1 unidade",
+    "grams": 58,
+    "carbs": 15,
+    "calories": 60
+  },
+  {
+    "id": 1031,
+    "name": "Fruttare® (picolé sabor uva)",
+    "measure": "1 unidade",
+    "grams": 59,
+    "carbs": 20,
+    "calories": 80
+  },
+  {
+    "id": 1032,
+    "name": "Fruttare® Yogo (picolé)",
+    "measure": "1 unidade",
+    "grams": 71,
+    "carbs": 20,
+    "calories": 128
+  },
+  {
+    "id": 1033,
+    "name": "Fubá",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 16,
+    "calories": 71
+  },
+  {
+    "id": 1034,
+    "name": "Fubá",
+    "measure": "1 colher sopa rasa",
+    "grams": 13,
+    "carbs": 10,
+    "calories": 46
+  },
+  {
+    "id": 1035,
+    "name": "Fubá",
+    "measure": "1 xícara",
+    "grams": 50,
+    "carbs": 40,
+    "calories": 179
+  },
+  {
+    "id": 1036,
+    "name": "Fubá",
+    "measure": "1 colher de sobremesa",
+    "grams": 7,
+    "carbs": 6,
+    "calories": 25
+  },
+  {
+    "id": 1037,
+    "name": "Funghi (cogumelos)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 10,
+    "calories": 71
+  },
+  {
+    "id": 1038,
+    "name": "Furrundu (doce à base de mamão e rapadura)",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 13,
+    "calories": 52
+  },
+  {
+    "id": 1039,
+    "name": "Fusilli Integrale (Spoleto®)",
+    "measure": "1 porção padrão",
+    "grams": 200,
+    "carbs": 75,
+    "calories": 328
+  },
+  {
+    "id": 1040,
+    "name": "Fusilli Integrale (Spoleto®)",
+    "measure": "1/2 porção de massa (porção Bambini) 100 38 164 Galeto assado 1 pedaço pequeno",
+    "grams": 95,
+    "carbs": 0,
+    "calories": 115
+  },
+  {
+    "id": 1041,
+    "name": "Galinha ao molho pardo",
+    "measure": "1 pedaço médio",
+    "grams": 95,
+    "carbs": 0,
+    "calories": 150
+  },
+  {
+    "id": 1042,
+    "name": "Galinhada com pequi",
+    "measure": "1 colher de servir",
+    "grams": 60,
+    "carbs": 13,
+    "calories": 108
+  },
+  {
+    "id": 1043,
+    "name": "Galinhada com pequi",
+    "measure": "1 porção",
+    "grams": 350,
+    "carbs": 16,
+    "calories": 540
+  },
+  {
+    "id": 1044,
+    "name": "Gaspacho",
+    "measure": "1 copo cheio",
+    "grams": 200,
+    "carbs": 4,
+    "calories": 38
+  },
+  {
+    "id": 1045,
+    "name": "Gatorade - média sabores ® 1 garrafa",
+    "measure": "",
+    "grams": 500,
+    "carbs": 12,
+    "calories": 48
+  },
+  {
+    "id": 1046,
+    "name": "Geladinho (sacolé, dindim), c/ leite integral, leite condensado, leite de coco e coco ralado",
+    "measure": "1 unidade 100 29 230 Geladinho (sacolé, dindim), c/ polpa congelada, água, amido de milho, c/ açúcar 1 unidade 100 8 30 Geladinho (sacolé, dindim), c/ suco em pó, água, amido de milho, c/ açúcar, 1 unidade 100 9 37 Gelatina comum pronta (média) 1 potinho",
+    "grams": 100,
+    "carbs": 13,
+    "calories": 62
+  },
+  {
+    "id": 1047,
+    "name": "Gelatina diet pronta (média) 1 potinho",
+    "measure": "",
+    "grams": 100,
+    "carbs": 1,
+    "calories": 9
+  },
+  {
+    "id": 1048,
+    "name": "Gelatina em pó com açúcar",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 12,
+    "calories": 54
+  },
+  {
+    "id": 1049,
+    "name": "Gelatina em pó sem açúcar",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 3,
+    "calories": 36
+  },
+  {
+    "id": 1050,
+    "name": "Gelatina em pó sem sabor",
+    "measure": "1 colher sopa",
+    "grams": 14,
+    "carbs": 0,
+    "calories": 48
+  },
+  {
+    "id": 1051,
+    "name": "Geléia de frutas (média diferentes sabores)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 34,
+    "carbs": 22,
+    "calories": 90
+  },
+  {
+    "id": 1052,
+    "name": "Geléia de mocotó",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 9,
+    "calories": 37
+  },
+  {
+    "id": 1053,
+    "name": "Geléia de mocotó zero açúcar",
+    "measure": "1 colher de sopa rasa",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 1054,
+    "name": "Geléia de morango diet",
+    "measure": "1 colher de sopa rasa",
+    "grams": 22,
+    "carbs": 6,
+    "calories": 25
+  },
+  {
+    "id": 1055,
+    "name": "Geléia de morango diet Linea ®",
+    "measure": "1 colher de sopa rasa",
+    "grams": 25,
+    "carbs": 9,
+    "calories": 18
+  },
+  {
+    "id": 1056,
+    "name": "Geléia Frutas vermelhas diet QueensBerry ®",
+    "measure": "1 colher de sopa rasa",
+    "grams": 20,
+    "carbs": 6,
+    "calories": 26
+  },
+  {
+    "id": 1057,
+    "name": "Geléia Hainich sem açúcar ®",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 9,
+    "calories": 37
+  },
+  {
+    "id": 1058,
+    "name": "Gema de ovo cozida",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 72
+  },
+  {
+    "id": 1059,
+    "name": "Gemada",
+    "measure": "1 colher sopa",
+    "grams": 15,
+    "carbs": 5,
+    "calories": 32
+  },
+  {
+    "id": 1060,
+    "name": "Gengibre em pó",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 11,
+    "calories": 51
+  },
+  {
+    "id": 1061,
+    "name": "Gengibre, raiz, in natura",
+    "measure": "1 colher sopa rasa",
+    "grams": 15,
+    "carbs": 3,
+    "calories": 12
+  },
+  {
+    "id": 1062,
+    "name": "Gergelim (semente)",
+    "measure": "1 colher sopa rasa",
+    "grams": 15,
+    "carbs": 3,
+    "calories": 12
+  },
+  {
+    "id": 1063,
+    "name": "Gergelim Vitao®",
+    "measure": "1 colher sopa",
+    "grams": 15,
+    "carbs": 2,
+    "calories": 87
+  },
+  {
+    "id": 1064,
+    "name": "Germen de trigo Jasmine ®",
+    "measure": "1 colher sopa",
+    "grams": 10,
+    "carbs": 5,
+    "calories": 37
+  },
+  {
+    "id": 1065,
+    "name": "Gim / Gin",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 115
+  },
+  {
+    "id": 1066,
+    "name": "Gin Tônica",
+    "measure": "1 dose",
+    "grams": 100,
+    "carbs": 4,
+    "calories": 109
+  },
+  {
+    "id": 1067,
+    "name": "Gin tônica",
+    "measure": "1 dose",
+    "grams": 225,
+    "carbs": 16,
+    "calories": 171
+  },
+  {
+    "id": 1068,
+    "name": "Gin tônica zero",
+    "measure": "1 dose",
+    "grams": 225,
+    "carbs": 0,
+    "calories": 110
+  },
+  {
+    "id": 1069,
+    "name": "Glicofast ® 1 pastilha",
+    "measure": "",
+    "grams": 3,
+    "carbs": 3,
+    "calories": 12
+  },
+  {
+    "id": 1070,
+    "name": "Glicose de milho",
+    "measure": "1 colher sopa",
+    "grams": 20,
+    "carbs": 16,
+    "calories": 64
+  },
+  {
+    "id": 1071,
+    "name": "Glinstan ® 1 sachê",
+    "measure": "",
+    "grams": 15,
+    "carbs": 15,
+    "calories": 55
+  },
+  {
+    "id": 1072,
+    "name": "Glucerna SR ® em pó",
+    "measure": "1 colher sopa",
+    "grams": 9,
+    "carbs": 5,
+    "calories": 38
+  },
+  {
+    "id": 1073,
+    "name": "Glucerna SR ® líquida 1 garrafinha",
+    "measure": "",
+    "grams": 200,
+    "carbs": 22,
+    "calories": 186
+  },
+  {
+    "id": 1074,
+    "name": "Goiaba inteira",
+    "measure": "1 unidade média",
+    "grams": 100,
+    "carbs": 14,
+    "calories": 50
+  },
+  {
+    "id": 1075,
+    "name": "Goiaba, doce em pasta",
+    "measure": "1 colher sopa rasa",
+    "grams": 22,
+    "carbs": 17,
+    "calories": 64
+  },
+  {
+    "id": 1076,
+    "name": "Goiaba, doce em pasta",
+    "measure": "1 colher sopa cheia",
+    "grams": 34,
+    "carbs": 25,
+    "calories": 99
+  },
+  {
+    "id": 1077,
+    "name": "Goiabada",
+    "measure": "1 fatia média",
+    "grams": 40,
+    "carbs": 25,
+    "calories": 100
+  },
+  {
+    "id": 1078,
+    "name": "Goiabada diet",
+    "measure": "1 colher sopa cheia",
+    "grams": 25,
+    "carbs": 11,
+    "calories": 41
+  },
+  {
+    "id": 1079,
+    "name": "Goiabada diet de colher",
+    "measure": "1 fatia média",
+    "grams": 40,
+    "carbs": 18,
+    "calories": 66
+  },
+  {
+    "id": 1080,
+    "name": "Goiabada Predilecta ®",
+    "measure": "1 fatia pequena",
+    "grams": 40,
+    "carbs": 35,
+    "calories": 140
+  },
+  {
+    "id": 1081,
+    "name": "Goma de mascar (diet) média sabores",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 5,
+    "calories": 18
+  },
+  {
+    "id": 1082,
+    "name": "Goma de mascar com açúcar (média sabores)",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 5,
+    "calories": 19
+  },
+  {
+    "id": 1083,
+    "name": "Goma de tapioca Yoki ®",
+    "measure": "1 colher de sopa cheia",
+    "grams": 17,
+    "carbs": 10,
+    "calories": 37
+  },
+  {
+    "id": 1084,
+    "name": "Gordura vegetal hidrogenada",
+    "measure": "1 colher de sopa cheia",
+    "grams": 19,
+    "carbs": 0,
+    "calories": 71
+  },
+  {
+    "id": 1085,
+    "name": "Gorgonzola, queijo",
+    "measure": "1 fatia pequena",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 97
+  },
+  {
+    "id": 1086,
+    "name": "Gouda, queijo",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 2,
+    "calories": 356
+  },
+  {
+    "id": 1087,
+    "name": "Goulash com sal",
+    "measure": "1 xícara de chá",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 106
+  },
+  {
+    "id": 1088,
+    "name": "Gran picanha Bob’s ®",
+    "measure": "1 unidade",
+    "grams": 203,
+    "carbs": 36,
+    "calories": 502
+  },
+  {
+    "id": 1089,
+    "name": "Granola 7 Grãos Sem Açúcar Da Magrinha®",
+    "measure": "1/2 xícara",
+    "grams": 40,
+    "carbs": 22,
+    "calories": 138
+  },
+  {
+    "id": 1090,
+    "name": "Granola 7 Grãos tradicional Da Magrinha®",
+    "measure": "1/2 xícara",
+    "grams": 40,
+    "carbs": 24,
+    "calories": 139
+  },
+  {
+    "id": 1091,
+    "name": "Granola sem açúcar",
+    "measure": "1 colher sopa",
+    "grams": 11,
+    "carbs": 8,
+    "calories": 42
+  },
+  {
+    "id": 1092,
+    "name": "Granola zero açúcar Tia Sônia®",
+    "measure": "1/4 xícara",
+    "grams": 40,
+    "carbs": 19,
+    "calories": 123
+  },
+  {
+    "id": 1093,
+    "name": "Granola zero açúcar tradicional Jasmine®",
+    "measure": "1/2 xícara",
+    "grams": 40,
+    "carbs": 21,
+    "calories": 156
+  },
+  {
+    "id": 1094,
+    "name": "Granola zero açúcar tradicional Mãe Terra®",
+    "measure": "1/2 xícara",
+    "grams": 40,
+    "carbs": 20,
+    "calories": 163
+  },
+  {
+    "id": 1095,
+    "name": "Granola zero Kobber®",
+    "measure": "1/2 xícara",
+    "grams": 40,
+    "carbs": 22,
+    "calories": 128
+  },
+  {
+    "id": 1096,
+    "name": "Granola, cereais, frutas secas e oleagionosas",
+    "measure": "1/2 xícara chá",
+    "grams": 40,
+    "carbs": 21,
+    "calories": 174
+  },
+  {
+    "id": 1097,
+    "name": "Granola, cereais, frutas secas e oleagionosas",
+    "measure": "1 colher sopa",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 49
+  },
+  {
+    "id": 1098,
+    "name": "Grão de bico cozido, sem caldo",
+    "measure": "1 concha cheia",
+    "grams": 120,
+    "carbs": 25,
+    "calories": 138
+  },
+  {
+    "id": 1099,
+    "name": "Grão de bico cozido, sem caldo",
+    "measure": "1 colher sopa cheia",
+    "grams": 22,
+    "carbs": 5,
+    "calories": 25
+  },
+  {
+    "id": 1100,
+    "name": "Graviola",
+    "measure": "1 pedaço pequeno",
+    "grams": 100,
+    "carbs": 15,
+    "calories": 60
+  },
+  {
+    "id": 1101,
+    "name": "Graviola",
+    "measure": "1 pedaço médio",
+    "grams": 80,
+    "carbs": 13,
+    "calories": 51
+  },
+  {
+    "id": 1102,
+    "name": "Graviola, doce de",
+    "measure": "1 colher sopa cheia",
+    "grams": 25,
+    "carbs": 13,
+    "calories": 52
+  },
+  {
+    "id": 1103,
+    "name": "Graviola, polpa congelada 1 saquinho",
+    "measure": "",
+    "grams": 100,
+    "carbs": 10,
+    "calories": 38
+  },
+  {
+    "id": 1104,
+    "name": "Guacomole com sal",
+    "measure": "1 colher sopa cheia",
+    "grams": 45,
+    "carbs": 3,
+    "calories": 74
+  },
+  {
+    "id": 1105,
+    "name": "Guandú, feijão",
+    "measure": "1 colher de sopa cheia",
+    "grams": 22,
+    "carbs": 14,
+    "calories": 70
+  },
+  {
+    "id": 1106,
+    "name": "Guaraná Antartica ®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 20,
+    "calories": 80
+  },
+  {
+    "id": 1107,
+    "name": "Guaraná diet Antartica ®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 1108,
+    "name": "Guaraná Fruki®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 17,
+    "calories": 66
+  },
+  {
+    "id": 1109,
+    "name": "Guaraná Goianinho®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 36,
+    "calories": 145
+  },
+  {
+    "id": 1110,
+    "name": "Guaraná Jesus®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 39,
+    "calories": 155
+  },
+  {
+    "id": 1111,
+    "name": "Guaraná Kuat ®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 21,
+    "calories": 82
+  },
+  {
+    "id": 1112,
+    "name": "Guaraná Mineiro ®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 38,
+    "calories": 154
+  },
+  {
+    "id": 1113,
+    "name": "Guaraná refrigerante Kuat ®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 13,
+    "calories": 52
+  },
+  {
+    "id": 1114,
+    "name": "Guaraná, pó",
+    "measure": "1 colher café rasa",
+    "grams": 1,
+    "carbs": 1,
+    "calories": 3
+  },
+  {
+    "id": 1115,
+    "name": "Guariroba",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 1116,
+    "name": "Guariroba refogada",
+    "measure": "2 colheres de sopa cheias",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 22
+  },
+  {
+    "id": 1117,
+    "name": "Hamburguer - sanduíche Mc Donalds ®",
+    "measure": "1 unidade",
+    "grams": 101,
+    "carbs": 30,
+    "calories": 249
+  },
+  {
+    "id": 1118,
+    "name": "Hamburguer (sanduíche simples caseiro)",
+    "measure": "1 unidade",
+    "grams": 110,
+    "carbs": 32,
+    "calories": 360
+  },
+  {
+    "id": 1119,
+    "name": "Hamburguer de carne bovina Sadia ®",
+    "measure": "1 unidade",
+    "grams": 53,
+    "carbs": 2,
+    "calories": 150
+  },
+  {
+    "id": 1120,
+    "name": "Hamburguer de frango Sadia ®",
+    "measure": "1 unidade",
+    "grams": 53,
+    "carbs": 1,
+    "calories": 105
+  },
+  {
+    "id": 1121,
+    "name": "Hamburguer de grão de bico",
+    "measure": "1 unidade",
+    "grams": 82,
+    "carbs": 20,
+    "calories": 127
+  },
+  {
+    "id": 1122,
+    "name": "Hamburguer de peru Sadia ®",
+    "measure": "1 unidade",
+    "grams": 53,
+    "carbs": 2,
+    "calories": 93
+  },
+  {
+    "id": 1123,
+    "name": "Hamburguer misto Perdigão ®",
+    "measure": "1 unidade",
+    "grams": 53,
+    "carbs": 1,
+    "calories": 81
+  },
+  {
+    "id": 1124,
+    "name": "Harumaki (rolinho primavera), camarão ou peixe, frito",
+    "measure": "1 unidade 60 10 181 Harumaki (rolinho primavera), camarão, frito 1 unidade",
+    "grams": 60,
+    "carbs": 10,
+    "calories": 180
+  },
+  {
+    "id": 1125,
+    "name": "Harumaki de carne",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 8,
+    "calories": 103
+  },
+  {
+    "id": 1126,
+    "name": "Harumaki de carne Jin Jin Wok ®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 11,
+    "calories": 47
+  },
+  {
+    "id": 1127,
+    "name": "Harumaki de peixe, frito",
+    "measure": "1 unidade",
+    "grams": 60,
+    "carbs": 10,
+    "calories": 190
+  },
+  {
+    "id": 1128,
+    "name": "Harumaki filadélfia",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 8,
+    "calories": 158
+  },
+  {
+    "id": 1129,
+    "name": "Harumaki filadélfia Jin Jin Wok ®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 8,
+    "calories": 56
+  },
+  {
+    "id": 1130,
+    "name": "Herbalife Shake de baunilha ®",
+    "measure": "1 colher sopa",
+    "grams": 10,
+    "carbs": 4,
+    "calories": 36
+  },
+  {
+    "id": 1131,
+    "name": "Hipoglosso (peixe) cozido",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 125
+  },
+  {
+    "id": 1132,
+    "name": "Homus",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 14,
+    "calories": 94
+  },
+  {
+    "id": 1133,
+    "name": "Homus (Habib’s)",
+    "measure": "1 porção",
+    "grams": 240,
+    "carbs": 34,
+    "calories": 360
+  },
+  {
+    "id": 1134,
+    "name": "Homus com pão sírio Habib’s ®",
+    "measure": "1 porção",
+    "grams": 334,
+    "carbs": 83,
+    "calories": 642
+  },
+  {
+    "id": 1135,
+    "name": "Homus de grão de bico Homus",
+    "measure": "1 colher de sopa cheia",
+    "grams": 45,
+    "carbs": 9,
+    "calories": 123
+  },
+  {
+    "id": 1136,
+    "name": "Hortelã, folhas de",
+    "measure": "1 colher sopa cheia",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 1137,
+    "name": "Hossomaki de atum",
+    "measure": "1 unidade pequena",
+    "grams": 15,
+    "carbs": 5,
+    "calories": 38
+  },
+  {
+    "id": 1138,
+    "name": "Hossomaki de atum",
+    "measure": "1 unidade",
+    "grams": 110,
+    "carbs": 26,
+    "calories": 164
+  },
+  {
+    "id": 1139,
+    "name": "Hossomaki de pepino",
+    "measure": "1 unidade pequena",
+    "grams": 15,
+    "carbs": 5,
+    "calories": 24
+  },
+  {
+    "id": 1140,
+    "name": "Hossomaki de pepino",
+    "measure": "1 unidade",
+    "grams": 110,
+    "carbs": 26,
+    "calories": 123
+  },
+  {
+    "id": 1141,
+    "name": "Hossomaki de salmão",
+    "measure": "1 unidade pequena",
+    "grams": 15,
+    "carbs": 9,
+    "calories": 49
+  },
+  {
+    "id": 1142,
+    "name": "Hossomaki de salmão",
+    "measure": "1 unidade",
+    "grams": 110,
+    "carbs": 26,
+    "calories": 155
+  },
+  {
+    "id": 1143,
+    "name": "Hot dog (sanduíche simples)",
+    "measure": "1 unidade",
+    "grams": 125,
+    "carbs": 31,
+    "calories": 330
+  },
+  {
+    "id": 1144,
+    "name": "Hot Filadélfia (hot rol)",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 8,
+    "calories": 82
+  },
+  {
+    "id": 1145,
+    "name": "Inhame cozido",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 28,
+    "calories": 116
+  },
+  {
+    "id": 1146,
+    "name": "Inhame sem casca, assado",
+    "measure": "1 colher sopa cheia",
+    "grams": 35,
+    "carbs": 8,
+    "calories": 32
+  },
+  {
+    "id": 1147,
+    "name": "Inhame sem casca, cozido, drenado",
+    "measure": "1 colher sopa cheia",
+    "grams": 35,
+    "carbs": 7,
+    "calories": 45
+  },
+  {
+    "id": 1148,
+    "name": "Inhame, raiz sem casca de (picado)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 35,
+    "carbs": 8,
+    "calories": 31
+  },
+  {
+    "id": 1149,
+    "name": "Iogurte Gegro frutas amarelas Vigor®",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 17,
+    "calories": 139
+  },
+  {
+    "id": 1150,
+    "name": "Iogurte abacaxi Tirol ®",
+    "measure": "1 unidade",
+    "grams": 200,
+    "carbs": 27,
+    "calories": 175
+  },
+  {
+    "id": 1151,
+    "name": "Iogurte Activa aveia Danone ® 1 garrafinha",
+    "measure": "",
+    "grams": 170,
+    "carbs": 22,
+    "calories": 110
+  },
+  {
+    "id": 1152,
+    "name": "Iogurte Activa morango Danone® 1 garrafinha",
+    "measure": "",
+    "grams": 150,
+    "carbs": 19,
+    "calories": 104
+  },
+  {
+    "id": 1153,
+    "name": "Iogurte Activa morango Danone ®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 25,
+    "calories": 138
+  },
+  {
+    "id": 1154,
+    "name": "Iogurte Activia ameixa Danone ®",
+    "measure": "1 copo",
+    "grams": 150,
+    "carbs": 19,
+    "calories": 104
+  },
+  {
+    "id": 1155,
+    "name": "Iogurte Activia café da manhã Chia e Manga Danone ®",
+    "measure": "1 unidade 170 23 182 Iogurte Activia Café da manhã com Quinoa e frutas vermelhas Danone ® 1pote 170 23 182 Iogurte Activia Café da manhã com Amaranto e Mamão Danone ® 1 pote 170 24 180 Iogurte Activia café da manhã com Quinoa, morango e amora Danone ® 1 unidade 170 22 182 Iogurte Activia natural Danone ® 1 unidade",
+    "grams": 170,
+    "carbs": 22,
+    "calories": 122
+  },
+  {
+    "id": 1156,
+    "name": "Iogurte Activia original Danone ® 1 pote",
+    "measure": "",
+    "grams": 94,
+    "carbs": 12,
+    "calories": 100
+  },
+  {
+    "id": 1157,
+    "name": "Iogurte Activia Polpa Ameixa Danone® 1 pote",
+    "measure": "",
+    "grams": 100,
+    "carbs": 10,
+    "calories": 79
+  },
+  {
+    "id": 1158,
+    "name": "Iogurte Activia Polpa Aveia Danone® 1 pote",
+    "measure": "",
+    "grams": 100,
+    "carbs": 10,
+    "calories": 79
+  },
+  {
+    "id": 1159,
+    "name": "Iogurte Activia Polpa Morango Danone ® 1 pote",
+    "measure": "",
+    "grams": 100,
+    "carbs": 10,
+    "calories": 77
+  },
+  {
+    "id": 1160,
+    "name": "Iogurte Activia zero ameixa Danone ®",
+    "measure": "1 unidade",
+    "grams": 170,
+    "carbs": 6.5,
+    "calories": 40
+  },
+  {
+    "id": 1161,
+    "name": "Iogurte Activia Zero Ameixa Danone ® 1 garrafinha",
+    "measure": "",
+    "grams": 170,
+    "carbs": 25,
+    "calories": 131
+  },
+  {
+    "id": 1162,
+    "name": "Iogurte camadas Banoffe Frimesa ® 1 pote",
+    "measure": "",
+    "grams": 165,
+    "carbs": 21,
+    "calories": 137
+  },
+  {
+    "id": 1163,
+    "name": "Iogurte camadas frutas vermelhas Frimesa®",
+    "measure": "1 unidade",
+    "grams": 165,
+    "carbs": 23,
+    "calories": 137
+  },
+  {
+    "id": 1164,
+    "name": "Iogurte camadas morango Frimesa ®",
+    "measure": "1 unidade",
+    "grams": 165,
+    "carbs": 21,
+    "calories": 137
+  },
+  {
+    "id": 1165,
+    "name": "Iogurte côco Danone ®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 22,
+    "calories": 128
+  },
+  {
+    "id": 1166,
+    "name": "Iogurte com preparado de fruta- laranja, cenoura e mel Danone ®",
+    "measure": "1 unidade 180 20 148 Iogurte Corpus Sleeve Morango Danone ® 1 garrafinha",
+    "grams": 170,
+    "carbs": 13,
+    "calories": 76
+  },
+  {
+    "id": 1167,
+    "name": "Iogurte cremoso - laranja, cenoura e mel Batavo ®",
+    "measure": "1 unidade",
+    "grams": 160,
+    "carbs": 24,
+    "calories": 162
+  },
+  {
+    "id": 1168,
+    "name": "Iogurte cremoso ameixa Batavo ®",
+    "measure": "1 unidade",
+    "grams": 170,
+    "carbs": 25,
+    "calories": 166
+  },
+  {
+    "id": 1169,
+    "name": "Iogurte cremoso natural integral Batavo ®",
+    "measure": "1 unidade",
+    "grams": 200,
+    "carbs": 10,
+    "calories": 146
+  },
+  {
+    "id": 1170,
+    "name": "Iogurte Dan up®",
+    "measure": "1 unidade",
+    "grams": 155,
+    "carbs": 27,
+    "calories": 162
+  },
+  {
+    "id": 1171,
+    "name": "Iogurte de frutas (média) 1 pote",
+    "measure": "",
+    "grams": 100,
+    "carbs": 17,
+    "calories": 90
+  },
+  {
+    "id": 1172,
+    "name": "Iogurte de frutas light/diet (média) 1 pote",
+    "measure": "",
+    "grams": 100,
+    "carbs": 7,
+    "calories": 42
+  },
+  {
+    "id": 1173,
+    "name": "Iogurte desnatado açaí e banana Protein + zero Frimesa ®",
+    "measure": "1 unidade 170 15 128 Iogurte desnatado Batavo ® 1 pote",
+    "grams": 170,
+    "carbs": 9,
+    "calories": 61
+  },
+  {
+    "id": 1174,
+    "name": "Iogurte desnatado Baunilha Protein + zero Frimesa ® 1 pote",
+    "measure": "",
+    "grams": 170,
+    "carbs": 15,
+    "calories": 128
+  },
+  {
+    "id": 1175,
+    "name": "Iogurte desnatado com preparado aveia, ameixa e amaranto Nesfit Nestlé ®",
+    "measure": "1 unidade 170 14 75 Iogurte desnatado com preparado de morango zero Tirol ® 1/2 copo 100 7 40 Iogurte desnatado com preparado de morango zero Tirol ® 1/2 copo 100 7 40 Iogurte desnatado com preparado frutas vermelhas, aveia, e hibisco Nesfit Nestlé ® 1 unidade 150 12 75 Iogurte desnatado Molico triplo zero baunilha Nestlé ® 1 unidade",
+    "grams": 170,
+    "carbs": 7,
+    "calories": 45
+  },
+  {
+    "id": 1176,
+    "name": "Iogurte desnatado Molico triplo zero morango Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 170,
+    "carbs": 7,
+    "calories": 41
+  },
+  {
+    "id": 1177,
+    "name": "Iogurte desnatado Morango Protein + zero Frimesa ® 1 pote",
+    "measure": "",
+    "grams": 170,
+    "carbs": 15,
+    "calories": 128
+  },
+  {
+    "id": 1178,
+    "name": "Iogurte desnatado Whey banana Verde Campo ®",
+    "measure": "1 unidade",
+    "grams": 250,
+    "carbs": 15,
+    "calories": 126
+  },
+  {
+    "id": 1179,
+    "name": "Iogurte desnatado Whey cookies e cream Verde Campo ®",
+    "measure": "1 unidade 250 15 125 Iogurte desnatado Whey doce de leite Verde Campo ® 1 unidade",
+    "grams": 250,
+    "carbs": 21,
+    "calories": 180
+  },
+  {
+    "id": 1180,
+    "name": "Iogurte doce de leite YoPRO Danone ® 1 garrafinha",
+    "measure": "",
+    "grams": 250,
+    "carbs": 13,
+    "calories": 127
+  },
+  {
+    "id": 1181,
+    "name": "Iogurte grãos VIV morango Vigor ®",
+    "measure": "1 copo",
+    "grams": 100,
+    "carbs": 17,
+    "calories": 133
+  },
+  {
+    "id": 1182,
+    "name": "Iogurte Grego flocos Vigor ®",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 16,
+    "calories": 148
+  },
+  {
+    "id": 1183,
+    "name": "Iogurte Grego morango Batavo ®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 15,
+    "calories": 127
+  },
+  {
+    "id": 1184,
+    "name": "Iogurte Grego Nestlé light®",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 10,
+    "calories": 73
+  },
+  {
+    "id": 1185,
+    "name": "Iogurte Grego Nestlé tradicional ®",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 10,
+    "calories": 74
+  },
+  {
+    "id": 1186,
+    "name": "Iogurte Grego Vigor zero ®",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 5,
+    "calories": 49
+  },
+  {
+    "id": 1187,
+    "name": "Iogurte Grego Vigor ®",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 16,
+    "calories": 139
+  },
+  {
+    "id": 1188,
+    "name": "Iogurte Grego zero morango Vigor ®",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 6.5,
+    "calories": 50
+  },
+  {
+    "id": 1189,
+    "name": "Iogurte Molico total cálcio líquido Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 170,
+    "carbs": 8,
+    "calories": 73
+  },
+  {
+    "id": 1190,
+    "name": "Iogurte Molico total cálcio polpa (média) Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 6,
+    "calories": 42
+  },
+  {
+    "id": 1191,
+    "name": "Iogurte morango Protein + zero Frimesa ®",
+    "measure": "1 unidade",
+    "grams": 170,
+    "carbs": 15,
+    "calories": 128
+  },
+  {
+    "id": 1192,
+    "name": "Iogurte morango Tirol®",
+    "measure": "1 unidade",
+    "grams": 200,
+    "carbs": 27,
+    "calories": 175
+  },
+  {
+    "id": 1193,
+    "name": "Iogurte morango YoPRO Danone ®",
+    "measure": "1/2 copo",
+    "grams": 100,
+    "carbs": 5,
+    "calories": 51
+  },
+  {
+    "id": 1194,
+    "name": "Iogurte natural c/ mel Nestlé®",
+    "measure": "1 unidade",
+    "grams": 170,
+    "carbs": 23,
+    "calories": 158
+  },
+  {
+    "id": 1195,
+    "name": "Iogurte natural desnatado (média)",
+    "measure": "1 copo",
+    "grams": 170,
+    "carbs": 11,
+    "calories": 82
+  },
+  {
+    "id": 1196,
+    "name": "Iogurte Natural Desnatado 2 Ingredientes Lacfree",
+    "measure": "1 copo",
+    "grams": 160,
+    "carbs": 10,
+    "calories": 70
+  },
+  {
+    "id": 1197,
+    "name": "Iogurte natural desnatado Fiore ®",
+    "measure": "1 unidade",
+    "grams": 140,
+    "carbs": 6,
+    "calories": 85
+  },
+  {
+    "id": 1198,
+    "name": "Iogurte natural desnatado Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 160,
+    "carbs": 8,
+    "calories": 57
+  },
+  {
+    "id": 1199,
+    "name": "Iogurte natural integral (média)",
+    "measure": "1 copo",
+    "grams": 170,
+    "carbs": 10,
+    "calories": 126
+  },
+  {
+    "id": 1200,
+    "name": "Iogurte Natural Integral 2 Ingredientes Verde Campo ®",
+    "measure": "1 copo",
+    "grams": 160,
+    "carbs": 7.8,
+    "calories": 121
+  },
+  {
+    "id": 1201,
+    "name": "Iogurte natural integral Batavo ®",
+    "measure": "1 unidade",
+    "grams": 170,
+    "carbs": 8,
+    "calories": 102
+  },
+  {
+    "id": 1202,
+    "name": "Iogurte natural integral Danone ®",
+    "measure": "1 unidade",
+    "grams": 180,
+    "carbs": 10,
+    "calories": 121
+  },
+  {
+    "id": 1203,
+    "name": "Iogurte natural integral Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 170,
+    "carbs": 7,
+    "calories": 117
+  },
+  {
+    "id": 1204,
+    "name": "Iogurte Natural Whey Colherável Bicamada Banana com Canela 11g de Proteína Verde Campo 1 pote 140 20 124 Iogurte Natural Whey Colherável Tradicional 14g de Proteína Verde Campo 1 pote 140 10 96 Iogurte Natural Whey Cookies and Cream 28g de Proteína Verde Campo",
+    "measure": "1 copo 200 12 101 Iogurte Natural Whey Morango 21g de Proteína Verde Campo ® 1 copo 250 21 180 Iogurte parcialmente desnatado cenoura, laranja e mel Nestlé ® 1 unidade 170 24 179 Iogurte parcialmente desnatado com calda frutas vermelhas Batavo ® 1 unidade 100 16 97 Iogurte parcialmente desnatado com preparado de mel Nestlé ® 1 unidade 170 23 159 Iogurte parcilamente desnatado Morango com calda Nestlé ® 1 unidade 150 20 127 Iogurte pedaços abacaxi Batavo ® 1 copo",
+    "grams": 200,
+    "carbs": 31,
+    "calories": 203
+  },
+  {
+    "id": 1205,
+    "name": "Iogurte pedaços morango Batavo ®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 28,
+    "calories": 192
+  },
+  {
+    "id": 1206,
+    "name": "Iogurte pedaços pêssego Batavo ®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 28,
+    "calories": 192
+  },
+  {
+    "id": 1207,
+    "name": "Iogurte Pense Zero Batido Tradicional Batavo ®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 8,
+    "calories": 56
+  },
+  {
+    "id": 1208,
+    "name": "Iogurte Pense zero Grego morango Batavo ®",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 6,
+    "calories": 60
+  },
+  {
+    "id": 1209,
+    "name": "Iogurte Pense Zero Grego Tradicional Batavo ® 1 pote",
+    "measure": "",
+    "grams": 100,
+    "carbs": 6,
+    "calories": 61
+  },
+  {
+    "id": 1210,
+    "name": "Iogurte Pense zero morango Batavo ®",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 5,
+    "calories": 34
+  },
+  {
+    "id": 1211,
+    "name": "Iogurte Pense zero Pedaços de morango Batavo ®",
+    "measure": "1 copo",
+    "grams": 100,
+    "carbs": 6,
+    "calories": 40
+  },
+  {
+    "id": 1212,
+    "name": "Iogurte pêssego Tirol ®",
+    "measure": "1 unidade",
+    "grams": 200,
+    "carbs": 27,
+    "calories": 175
+  },
+  {
+    "id": 1213,
+    "name": "Iogurte petit suisse Danoninho morango ®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 5,
+    "calories": 41
+  },
+  {
+    "id": 1214,
+    "name": "Iogurte VIV 3 grãos - chia, quinoa e amaranto - framboesa e limão - Vigor ®",
+    "measure": "1 unidade 170 26 147 Iogurte VIV 3 grãos - chia, quinoa e amaranto - manga e maracujá - Vigor ® 1 unidade 170 26 147 Iogurte VIV 3 grãos - chia, quinoa e amaranto - tradicional - Vigor ® 1 copo 200 34 186 Iogurte VIV 3 grãos - chia, quinoa e amaranto - tradicional - Vigor ® 1 unidade 170 26 147 Iogurte VIV mel Vigor ® 1 unidade",
+    "grams": 150,
+    "carbs": 19,
+    "calories": 134
+  },
+  {
+    "id": 1215,
+    "name": "Iogurte VIV natural Vigor ®",
+    "measure": "1 unidade",
+    "grams": 150,
+    "carbs": 9.2,
+    "calories": 90
+  },
+  {
+    "id": 1216,
+    "name": "Iogurte Yorgus® Kyds Baunilha 1 pouch",
+    "measure": "",
+    "grams": 100,
+    "carbs": 11,
+    "calories": 103
+  },
+  {
+    "id": 1217,
+    "name": "Iogurte Yorgus ® Kyds Morango 1 pouch",
+    "measure": "",
+    "grams": 100,
+    "carbs": 11,
+    "calories": 103
+  },
+  {
+    "id": 1218,
+    "name": "Iogurte Yorgus ® Coco 2 pote",
+    "measure": "",
+    "grams": 130,
+    "carbs": 13,
+    "calories": 138
+  },
+  {
+    "id": 1219,
+    "name": "Iogurte Yorgus ® Completo Morango 1 garrafinha",
+    "measure": "",
+    "grams": 250,
+    "carbs": 16,
+    "calories": 136
+  },
+  {
+    "id": 1220,
+    "name": "Iogurte Yorgus ® Frutas Silvestres (polpa ao fundo) 1 pote",
+    "measure": "",
+    "grams": 130,
+    "carbs": 13,
+    "calories": 100
+  },
+  {
+    "id": 1221,
+    "name": "Iogurte Yorgus ® Maçã e Canela (polpa ao fundo) 1 pote",
+    "measure": "",
+    "grams": 130,
+    "carbs": 13,
+    "calories": 100
+  },
+  {
+    "id": 1222,
+    "name": "Iogurte Yorgus ® Mel 1 pote",
+    "measure": "",
+    "grams": 130,
+    "carbs": 10,
+    "calories": 98
+  },
+  {
+    "id": 1223,
+    "name": "Iogurte Yorgus® Morango sem Lactose (polpa ao fundo) 1 pote 130 12 92 Iogurte Yorgus® Natural 0% Gordura 1 pote",
+    "measure": "",
+    "grams": 130,
+    "carbs": 3,
+    "calories": 70
+  },
+  {
+    "id": 1224,
+    "name": "Iogurte Yorgus® Natural Sem Lactose 1 pote",
+    "measure": "",
+    "grams": 130,
+    "carbs": 2.6,
+    "calories": 70
+  },
+  {
+    "id": 1225,
+    "name": "Iogurte Yorgus®Ultra Morango e Banana 1 garrafinha",
+    "measure": "",
+    "grams": 300,
+    "carbs": 21,
+    "calories": 156
+  },
+  {
+    "id": 1226,
+    "name": "Iogurte zero desnatado ameixa Frimesa",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 10,
+    "calories": 65
+  },
+  {
+    "id": 1227,
+    "name": "Iogurte zero desnatado morango Frimesa",
+    "measure": "1 unidade",
+    "grams": 165,
+    "carbs": 10,
+    "calories": 68
+  },
+  {
+    "id": 1228,
+    "name": "Iogurte zero Itambé Fit ® 1 copinho",
+    "measure": "",
+    "grams": 100,
+    "carbs": 5,
+    "calories": 34
+  },
+  {
+    "id": 1229,
+    "name": "Iogurte zero lactose frutas vermelhas Frimesa®",
+    "measure": "1 unidade",
+    "grams": 170,
+    "carbs": 22,
+    "calories": 130
+  },
+  {
+    "id": 1230,
+    "name": "Iogurte Zero Lactose Nestlé®",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 5,
+    "calories": 58
+  },
+  {
+    "id": 1231,
+    "name": "Isca de carne de porco",
+    "measure": "1 porção média",
+    "grams": 110,
+    "carbs": 4,
+    "calories": 267
+  },
+  {
+    "id": 1232,
+    "name": "Isca frita de pirarucu",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 269
+  },
+  {
+    "id": 1233,
+    "name": "Jabuti, carne (cozida)",
+    "measure": "1 unidade",
+    "grams": 110,
+    "carbs": 0,
+    "calories": 173
+  },
+  {
+    "id": 1234,
+    "name": "Jabuticaba",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 1,
+    "calories": 3
+  },
+  {
+    "id": 1235,
+    "name": "Jabuticaba, Geléia (Helomar)",
+    "measure": "1 colher (sopa)",
+    "grams": 20,
+    "carbs": 13,
+    "calories": 51
+  },
+  {
+    "id": 1236,
+    "name": "Jabuticaba, Geléia (Josepha)",
+    "measure": "1 colher (sopa)",
+    "grams": 20,
+    "carbs": 9,
+    "calories": 37
+  },
+  {
+    "id": 1237,
+    "name": "Jabuticaba, Geléia (Linea Diet)",
+    "measure": "1 colher (sopa)",
+    "grams": 20,
+    "carbs": 7,
+    "calories": 18
+  },
+  {
+    "id": 1238,
+    "name": "Jabuticaba, Geléia (Queensberry Diet)",
+    "measure": "1 colher (sopa)",
+    "grams": 20,
+    "carbs": 7,
+    "calories": 28
+  },
+  {
+    "id": 1239,
+    "name": "Jabuticaba, Geléia (Queensberry)",
+    "measure": "1 colher (sopa)",
+    "grams": 20,
+    "carbs": 14,
+    "calories": 58
+  },
+  {
+    "id": 1240,
+    "name": "Jabuticaba, suco (com açúcar)",
+    "measure": "1 copo americano duplo",
+    "grams": 240,
+    "carbs": 31,
+    "calories": 125
+  },
+  {
+    "id": 1241,
+    "name": "Jabuticaba, suco (sem açúcar)",
+    "measure": "1 copo americano duplo",
+    "grams": 240,
+    "carbs": 12,
+    "calories": 49
+  },
+  {
+    "id": 1242,
+    "name": "Jaca 1 bago médio",
+    "measure": "",
+    "grams": 12,
+    "carbs": 3,
+    "calories": 11
+  },
+  {
+    "id": 1243,
+    "name": "Jaca, carne de (Desfiada)",
+    "measure": "1 colher (sopa)",
+    "grams": 20,
+    "carbs": 5,
+    "calories": 18
+  },
+  {
+    "id": 1244,
+    "name": "Jaca, cozida",
+    "measure": "1 porção média",
+    "grams": 50,
+    "carbs": 13,
+    "calories": 55
+  },
+  {
+    "id": 1245,
+    "name": "Jacaré",
+    "measure": "1 pedaço médio",
+    "grams": 40,
+    "carbs": 0,
+    "calories": 50
+  },
+  {
+    "id": 1246,
+    "name": "Jacked Potato (Outback) ®",
+    "measure": "1 porção",
+    "grams": 350,
+    "carbs": 51,
+    "calories": 309
+  },
+  {
+    "id": 1247,
+    "name": "Jambalaya 1 xicara",
+    "measure": "",
+    "grams": 245,
+    "carbs": 37,
+    "calories": 384
+  },
+  {
+    "id": 1248,
+    "name": "Jambo cru",
+    "measure": "1 unidade média",
+    "grams": 40,
+    "carbs": 3,
+    "calories": 11
+  },
+  {
+    "id": 1249,
+    "name": "Jambu cozido",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 6
+  },
+  {
+    "id": 1250,
+    "name": "Jamelão ou jambolão",
+    "measure": "1 unidade média",
+    "grams": 10,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 1251,
+    "name": "Jaraqui cru",
+    "measure": "1 pedaço médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 129
+  },
+  {
+    "id": 1252,
+    "name": "Jardineira de Legumes",
+    "measure": "1 colher (servir) cheia",
+    "grams": 60,
+    "carbs": 5,
+    "calories": 26
+  },
+  {
+    "id": 1253,
+    "name": "Jardineira de Legumes com carne bovina",
+    "measure": "1 colher (servir) cheia",
+    "grams": 60,
+    "carbs": 4,
+    "calories": 46
+  },
+  {
+    "id": 1254,
+    "name": "Jardineira de Legumes com carne de soja",
+    "measure": "1 colher (servir) cheia",
+    "grams": 60,
+    "carbs": 8,
+    "calories": 58
+  },
+  {
+    "id": 1255,
+    "name": "Jardineira de Legumes com frango",
+    "measure": "1 colher (servir) cheia",
+    "grams": 60,
+    "carbs": 3,
+    "calories": 60
+  },
+  {
+    "id": 1256,
+    "name": "Jenipapo",
+    "measure": "1 unidade pequena",
+    "grams": 60,
+    "carbs": 15,
+    "calories": 68
+  },
+  {
+    "id": 1257,
+    "name": "Jiló",
+    "measure": "1 colher (sopa) cheia",
+    "grams": 60,
+    "carbs": 4,
+    "calories": 16
+  },
+  {
+    "id": 1258,
+    "name": "Jiló com casca (frito)",
+    "measure": "1 colher (sopa) cheia",
+    "grams": 60,
+    "carbs": 5,
+    "calories": 156
+  },
+  {
+    "id": 1259,
+    "name": "Jiló com casca (refogado)",
+    "measure": "1 colher (sopa) cheia",
+    "grams": 60,
+    "carbs": 5,
+    "calories": 25
+  },
+  {
+    "id": 1260,
+    "name": "Joelho de porco (Einsbein)",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 227
+  },
+  {
+    "id": 1261,
+    "name": "Juçara, Palmito",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 4,
+    "calories": 22
+  },
+  {
+    "id": 1262,
+    "name": "Juçara, Palmito",
+    "measure": "1 colher (sopa) cheia",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 3
+  },
+  {
+    "id": 1263,
+    "name": "Jurubeba",
+    "measure": "1 unidade média",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 10
+  },
+  {
+    "id": 1264,
+    "name": "Kafta na bandeja",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 2,
+    "calories": 173
+  },
+  {
+    "id": 1265,
+    "name": "Kani kama cru",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 3,
+    "calories": 21
+  },
+  {
+    "id": 1266,
+    "name": "Kanimaki",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 4,
+    "calories": 21
+  },
+  {
+    "id": 1267,
+    "name": "Kappamaki de pepino",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 6,
+    "calories": 25
+  },
+  {
+    "id": 1268,
+    "name": "Karo®",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 16,
+    "calories": 64
+  },
+  {
+    "id": 1269,
+    "name": "Kasespatzle (macarrão com queijo) 1 pegador",
+    "measure": "",
+    "grams": 130,
+    "carbs": 28,
+    "calories": 290
+  },
+  {
+    "id": 1270,
+    "name": "Kasha (trigo sarraceno torrado)",
+    "measure": "1 xícara de chá",
+    "grams": 168,
+    "carbs": 33,
+    "calories": 155
+  },
+  {
+    "id": 1271,
+    "name": "Kasha (trigo sarraceno torrado)",
+    "measure": "1 colher de sopa",
+    "grams": 35,
+    "carbs": 7,
+    "calories": 32
+  },
+  {
+    "id": 1272,
+    "name": "Kebab de frango tradicional",
+    "measure": "1 unidade média",
+    "grams": 385,
+    "carbs": 76,
+    "calories": 581
+  },
+  {
+    "id": 1273,
+    "name": "Kebab vegetariano (falafel) tradicional",
+    "measure": "1 unidade média",
+    "grams": 380,
+    "carbs": 77,
+    "calories": 475
+  },
+  {
+    "id": 1274,
+    "name": "Kefir com leite de vaca",
+    "measure": "1 copo americano duplo",
+    "grams": 240,
+    "carbs": 6,
+    "calories": 113
+  },
+  {
+    "id": 1275,
+    "name": "Ketchup de tomate",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 6,
+    "calories": 25
+  },
+  {
+    "id": 1276,
+    "name": "Kinder Bueno®",
+    "measure": "1 unidade",
+    "grams": 43,
+    "carbs": 21,
+    "calories": 245
+  },
+  {
+    "id": 1277,
+    "name": "Kinder ovo®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 10,
+    "calories": 110
+  },
+  {
+    "id": 1278,
+    "name": "Kinkan",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 7
+  },
+  {
+    "id": 1279,
+    "name": "Kitkat®, chocolate",
+    "measure": "1 unidade",
+    "grams": 42,
+    "carbs": 24,
+    "calories": 220
+  },
+  {
+    "id": 1280,
+    "name": "Kiwi 1unidade média",
+    "measure": "",
+    "grams": 94,
+    "carbs": 11,
+    "calories": 48
+  },
+  {
+    "id": 1281,
+    "name": "Lagarto bovino",
+    "measure": "1 pedaço médio",
+    "grams": 35,
+    "carbs": 0,
+    "calories": 77
+  },
+  {
+    "id": 1282,
+    "name": "Lagosta",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 83
+  },
+  {
+    "id": 1283,
+    "name": "Laka®, chocolate 4 quadradinhos",
+    "measure": "",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 135
+  },
+  {
+    "id": 1284,
+    "name": "Laranja baía",
+    "measure": "1 unidade media",
+    "grams": 180,
+    "carbs": 20,
+    "calories": 82
+  },
+  {
+    "id": 1285,
+    "name": "Laranja diet, geleia de (média)",
+    "measure": "1 colher de sopa (cheia)",
+    "grams": 20,
+    "carbs": 7,
+    "calories": 27
+  },
+  {
+    "id": 1286,
+    "name": "Laranja lima",
+    "measure": "1 unidade media",
+    "grams": 180,
+    "carbs": 20,
+    "calories": 82
+  },
+  {
+    "id": 1287,
+    "name": "Laranja, geleia de (média)",
+    "measure": "1 colher de sopa (cheia)",
+    "grams": 20,
+    "carbs": 12,
+    "calories": 49
+  },
+  {
+    "id": 1288,
+    "name": "Lasanha (média sabores)",
+    "measure": "1 escumadeira",
+    "grams": 170,
+    "carbs": 23,
+    "calories": 224
+  },
+  {
+    "id": 1289,
+    "name": "Lasanha à bolonhesa",
+    "measure": "1 escumadeira",
+    "grams": 170,
+    "carbs": 28,
+    "calories": 312
+  },
+  {
+    "id": 1290,
+    "name": "Lasanha de berinjela a bolonhesa",
+    "measure": "1 colher de sopa cheia",
+    "grams": 80,
+    "carbs": 4,
+    "calories": 79
+  },
+  {
+    "id": 1291,
+    "name": "Legumes refogados",
+    "measure": "1 colher de servir cheia",
+    "grams": 60,
+    "carbs": 3,
+    "calories": 56
+  },
+  {
+    "id": 1292,
+    "name": "Legumes, seleta",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 3,
+    "calories": 14
+  },
+  {
+    "id": 1293,
+    "name": "Leite achocolatado",
+    "measure": "1 copo médio",
+    "grams": 240,
+    "carbs": 34,
+    "calories": 194
+  },
+  {
+    "id": 1294,
+    "name": "Leite condensado",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 9,
+    "calories": 47
+  },
+  {
+    "id": 1295,
+    "name": "Leite condensado desnatado",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 11,
+    "calories": 40
+  },
+  {
+    "id": 1296,
+    "name": "Leite de amêndoa",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 4,
+    "calories": 66
+  },
+  {
+    "id": 1297,
+    "name": "Leite de arroz",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 12,
+    "calories": 63
+  },
+  {
+    "id": 1298,
+    "name": "Leite de aveia",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 15,
+    "calories": 87
+  },
+  {
+    "id": 1299,
+    "name": "Leite de cabra",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 9,
+    "calories": 161
+  },
+  {
+    "id": 1300,
+    "name": "Leite de castanha",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 3,
+    "calories": 65
+  },
+  {
+    "id": 1301,
+    "name": "Leite de coco industrializado",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 26
+  },
+  {
+    "id": 1302,
+    "name": "Leite de coco industrializado light",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 17
+  },
+  {
+    "id": 1303,
+    "name": "Leite de soja",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 8,
+    "calories": 67
+  },
+  {
+    "id": 1304,
+    "name": "Leite de soja zero",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 3,
+    "calories": 56
+  },
+  {
+    "id": 1305,
+    "name": "Leite de vaca desnatado",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 11,
+    "calories": 78
+  },
+  {
+    "id": 1306,
+    "name": "Leite de vaca desnatado em pó",
+    "measure": "1 colher (sopa) cheia",
+    "grams": 10,
+    "carbs": 5,
+    "calories": 36
+  },
+  {
+    "id": 1307,
+    "name": "Leite de vaca integral em pó",
+    "measure": "1 colher (sopa) cheia",
+    "grams": 16,
+    "carbs": 6,
+    "calories": 80
+  },
+  {
+    "id": 1308,
+    "name": "Leite de vaca integral pasteurizado",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 11,
+    "calories": 154
+  },
+  {
+    "id": 1309,
+    "name": "Leite de vaca semi- desnatado",
+    "measure": "1 copo médio",
+    "grams": 240,
+    "carbs": 11,
+    "calories": 97
+  },
+  {
+    "id": 1310,
+    "name": "Leite de vaca semi- desnatado sem lactose",
+    "measure": "1 copo médio",
+    "grams": 240,
+    "carbs": 11,
+    "calories": 98
+  },
+  {
+    "id": 1311,
+    "name": "Leite fermendato",
+    "measure": "1 unidade",
+    "grams": 80,
+    "carbs": 13,
+    "calories": 56
+  },
+  {
+    "id": 1312,
+    "name": "Leite humano maduro média",
+    "measure": "1 copo americano pequeno",
+    "grams": 165,
+    "carbs": 10,
+    "calories": 112
+  },
+  {
+    "id": 1313,
+    "name": "Leite materno",
+    "measure": "1/2 copo",
+    "grams": 100,
+    "carbs": 7,
+    "calories": 67
+  },
+  {
+    "id": 1314,
+    "name": "Lentilha cozida",
+    "measure": "1 colher sopa (cheia)",
+    "grams": 18,
+    "carbs": 3,
+    "calories": 17
+  },
+  {
+    "id": 1315,
+    "name": "Lichia",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 6
+  },
+  {
+    "id": 1316,
+    "name": "Licor 1 cálice",
+    "measure": "",
+    "grams": 20,
+    "carbs": 7,
+    "calories": 62
+  },
+  {
+    "id": 1317,
+    "name": "Licor 43",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 11,
+    "calories": 150
+  },
+  {
+    "id": 1318,
+    "name": "Licor Amarula",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 18,
+    "calories": 180
+  },
+  {
+    "id": 1319,
+    "name": "Licor Frangélico",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 18,
+    "calories": 172
+  },
+  {
+    "id": 1320,
+    "name": "Licor Lemoncello",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 22,
+    "calories": 171
+  },
+  {
+    "id": 1321,
+    "name": "Limão",
+    "measure": "1 colher de sopa cheia",
+    "grams": 12,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 1322,
+    "name": "Limão, geléia de",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 5,
+    "calories": 22
+  },
+  {
+    "id": 1323,
+    "name": "Limonada s/ açúcar",
+    "measure": "1 copo",
+    "grams": 240,
+    "carbs": 2,
+    "calories": 7
+  },
+  {
+    "id": 1324,
+    "name": "Língua de boi cozida",
+    "measure": "1 fatia média",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 94
+  },
+  {
+    "id": 1325,
+    "name": "Língua de gato Kompenhagen Soul Good®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 3,
+    "calories": 35
+  },
+  {
+    "id": 1326,
+    "name": "Língua de gato Kompenhagen®",
+    "measure": "1 unidade",
+    "grams": 6,
+    "carbs": 3,
+    "calories": 36
+  },
+  {
+    "id": 1327,
+    "name": "Linguado assado",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 133
+  },
+  {
+    "id": 1328,
+    "name": "Linguiça calabresa (média)",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 150
+  },
+  {
+    "id": 1329,
+    "name": "Linguiça calabresa defumada",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 1,
+    "calories": 140
+  },
+  {
+    "id": 1330,
+    "name": "Linguiça de frango 1 gomo",
+    "measure": "",
+    "grams": 60,
+    "carbs": 0,
+    "calories": 122
+  },
+  {
+    "id": 1331,
+    "name": "Linguiça de peru 1 gomo",
+    "measure": "",
+    "grams": 50,
+    "carbs": 2,
+    "calories": 80
+  },
+  {
+    "id": 1332,
+    "name": "Linguiça paio",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 144
+  },
+  {
+    "id": 1333,
+    "name": "Linguiça toscana",
+    "measure": "1/2 unidade",
+    "grams": 50,
+    "carbs": 1,
+    "calories": 90
+  },
+  {
+    "id": 1334,
+    "name": "Linhaça (semente)",
+    "measure": "1 colher de sopa",
+    "grams": 13,
+    "carbs": 6,
+    "calories": 65
+  },
+  {
+    "id": 1335,
+    "name": "Lombo de boi assado",
+    "measure": "1 pedaço médio",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 100
+  },
+  {
+    "id": 1336,
+    "name": "Lombo de porco assado",
+    "measure": "1 pedaço grande",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 210
+  },
+  {
+    "id": 1337,
+    "name": "Lombo de vitela assado/ cozido",
+    "measure": "1 pedaço médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 226
+  },
+  {
+    "id": 1338,
+    "name": "Lula cozida",
+    "measure": "1 unidade média",
+    "grams": 110,
+    "carbs": 0,
+    "calories": 106
+  },
+  {
+    "id": 1339,
+    "name": "M&M´s® amendoim",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 8,
+    "calories": 64
+  },
+  {
+    "id": 1340,
+    "name": "M&M´s® chocolate",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 9,
+    "calories": 61
+  },
+  {
+    "id": 1341,
+    "name": "M&M´s® chocolate (mini) 1 mini tubo",
+    "measure": "",
+    "grams": 30,
+    "carbs": 19,
+    "calories": 147
+  },
+  {
+    "id": 1342,
+    "name": "M&M’s® crispy",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 8,
+    "calories": 57
+  },
+  {
+    "id": 1343,
+    "name": "Maçã com casca",
+    "measure": "1 unidade pequena",
+    "grams": 90,
+    "carbs": 14,
+    "calories": 58
+  },
+  {
+    "id": 1344,
+    "name": "Maçã do amor",
+    "measure": "1 unidade",
+    "grams": 110,
+    "carbs": 31,
+    "calories": 125
+  },
+  {
+    "id": 1345,
+    "name": "Maçã seca crocante Jasmine® 1 pacote",
+    "measure": "",
+    "grams": 40,
+    "carbs": 20,
+    "calories": 82
+  },
+  {
+    "id": 1346,
+    "name": "Maçã verde",
+    "measure": "1 unidade média",
+    "grams": 130,
+    "carbs": 19,
+    "calories": 70
+  },
+  {
+    "id": 1347,
+    "name": "Maçã, suco de (com açúcar)",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 22,
+    "calories": 90
+  },
+  {
+    "id": 1348,
+    "name": "Maçã, suco de (sem açúcar)",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 13,
+    "calories": 51
+  },
+  {
+    "id": 1349,
+    "name": "Macadâmica natural",
+    "measure": "1 porção (punhado)",
+    "grams": 30,
+    "carbs": 4,
+    "calories": 225
+  },
+  {
+    "id": 1350,
+    "name": "Macarrão à bolonhesa",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 25,
+    "calories": 135
+  },
+  {
+    "id": 1351,
+    "name": "Macarrão ao alho e óleo",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 28,
+    "calories": 195
+  },
+  {
+    "id": 1352,
+    "name": "Macarrão carbonara",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 14,
+    "calories": 294
+  },
+  {
+    "id": 1353,
+    "name": "Macarrão com atum",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 21,
+    "calories": 174
+  },
+  {
+    "id": 1354,
+    "name": "Macarrão com molho branco (leite, manteiga e farinha de trigo)",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 27,
+    "calories": 153
+  },
+  {
+    "id": 1355,
+    "name": "Macarrão com molho de tomate",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 22,
+    "calories": 131
+  },
+  {
+    "id": 1356,
+    "name": "Macarrão com molho pesto",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 21,
+    "calories": 254
+  },
+  {
+    "id": 1357,
+    "name": "Macarrão cozido sem molho",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 30,
+    "calories": 138
+  },
+  {
+    "id": 1358,
+    "name": "Macarrão de arroz (sem glúten)",
+    "measure": "1 escumadeira cheia",
+    "grams": 90,
+    "carbs": 21,
+    "calories": 92
+  },
+  {
+    "id": 1359,
+    "name": "Macarrão de arroz e feijão cru Urbano® 1",
+    "measure": "1/2 xícara",
+    "grams": 80,
+    "carbs": 52,
+    "calories": 261
+  },
+  {
+    "id": 1360,
+    "name": "Macarrão de arroz integral Urbano® cru (sem glúten) 1",
+    "measure": "1/2 xícara",
+    "grams": 80,
+    "carbs": 59,
+    "calories": 274
+  },
+  {
+    "id": 1361,
+    "name": "Macarrão de arroz Urbano® cru (sem glúten) 1",
+    "measure": "1/2 xícara",
+    "grams": 80,
+    "carbs": 62,
+    "calories": 280
+  },
+  {
+    "id": 1362,
+    "name": "Macarrão instantâneo Nissin Lámen® sabor Bacon 1 pacote",
+    "measure": "",
+    "grams": 85,
+    "carbs": 50,
+    "calories": 375
+  },
+  {
+    "id": 1363,
+    "name": "Macarrão instantâneo Nissin Lámen® sabor Carne 1 pacote",
+    "measure": "",
+    "grams": 85,
+    "carbs": 54,
+    "calories": 385
+  },
+  {
+    "id": 1364,
+    "name": "Macarrão instantâneo Nissin Lámen® sabor Costela 1 pacote",
+    "measure": "",
+    "grams": 85,
+    "carbs": 53,
+    "calories": 391
+  },
+  {
+    "id": 1365,
+    "name": "Macarrão instantâneo Nissin Lámen® sabor Galinha 1 pacote",
+    "measure": "",
+    "grams": 85,
+    "carbs": 50,
+    "calories": 376
+  },
+  {
+    "id": 1366,
+    "name": "Macarrão instantâneo Nissin Lámen® sabor Legumes 1 pacote",
+    "measure": "",
+    "grams": 85,
+    "carbs": 51,
+    "calories": 385
+  },
+  {
+    "id": 1367,
+    "name": "Macarrão instantâneo Nissin Lámen® sabor Picanha 1 pacote",
+    "measure": "",
+    "grams": 85,
+    "carbs": 50,
+    "calories": 377
+  },
+  {
+    "id": 1368,
+    "name": "Macarrão integral ao alho e óleo",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 28,
+    "calories": 195
+  },
+  {
+    "id": 1369,
+    "name": "Macarrão integral com frutos do mar",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 21,
+    "calories": 143
+  },
+  {
+    "id": 1370,
+    "name": "Macarrão integral com molho de tomate",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 25,
+    "calories": 124
+  },
+  {
+    "id": 1371,
+    "name": "Macarrão mini fusilli piccolini Barrila® cru",
+    "measure": "1 prato",
+    "grams": 80,
+    "carbs": 58,
+    "calories": 282
+  },
+  {
+    "id": 1372,
+    "name": "Macaúba crua",
+    "measure": "2 unidades",
+    "grams": 90,
+    "carbs": 13,
+    "calories": 362
+  },
+  {
+    "id": 1373,
+    "name": "Macaxeira cozida (aipim ou mandioca)",
+    "measure": "1 pedaço grande",
+    "grams": 100,
+    "carbs": 30,
+    "calories": 125
+  },
+  {
+    "id": 1374,
+    "name": "Macaxeira frita (aipim ou mandioca)",
+    "measure": "1 pedaço grande",
+    "grams": 100,
+    "carbs": 30,
+    "calories": 225
+  },
+  {
+    "id": 1375,
+    "name": "Maionese de batata com legumes",
+    "measure": "1 colher de sopa cheia",
+    "grams": 38,
+    "carbs": 3,
+    "calories": 155
+  },
+  {
+    "id": 1376,
+    "name": "Maionese Heinz®",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 0,
+    "calories": 80
+  },
+  {
+    "id": 1377,
+    "name": "Maionese Hellmann’s®",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 1,
+    "calories": 37
+  },
+  {
+    "id": 1378,
+    "name": "Maionese industrializada",
+    "measure": "1 colher de sopa cheia",
+    "grams": 17,
+    "carbs": 1,
+    "calories": 52
+  },
+  {
+    "id": 1379,
+    "name": "Maionese industrializada light",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 1,
+    "calories": 49
+  },
+  {
+    "id": 1380,
+    "name": "Maionese light Hellmann’s®",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 1,
+    "calories": 21
+  },
+  {
+    "id": 1381,
+    "name": "Maionese Liza® receita tipo caseira",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 1,
+    "calories": 37
+  },
+  {
+    "id": 1382,
+    "name": "Maionese Liza® tradicional",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 1,
+    "calories": 16
+  },
+  {
+    "id": 1383,
+    "name": "Maionese vegana Helmann’s®",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 0,
+    "calories": 35
+  },
+  {
+    "id": 1384,
+    "name": "Maizena®",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 17,
+    "calories": 70
+  },
+  {
+    "id": 1385,
+    "name": "Mamão formosa",
+    "measure": "1 fatia grande",
+    "grams": 170,
+    "carbs": 20,
+    "calories": 79
+  },
+  {
+    "id": 1386,
+    "name": "Mamão formosa",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 12,
+    "calories": 47
+  },
+  {
+    "id": 1387,
+    "name": "Mamão papaia",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 10,
+    "calories": 43
+  },
+  {
+    "id": 1388,
+    "name": "Mamão papaia",
+    "measure": "1/2 unidade",
+    "grams": 160,
+    "carbs": 16,
+    "calories": 68
+  },
+  {
+    "id": 1389,
+    "name": "Mandioca cozida (aipim ou macaxeira)",
+    "measure": "1 pedaço médio",
+    "grams": 60,
+    "carbs": 18,
+    "calories": 75
+  },
+  {
+    "id": 1390,
+    "name": "Mandioca cozida (aipim ou macaxeira)",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 6,
+    "calories": 25
+  },
+  {
+    "id": 1391,
+    "name": "Mandioca frita (aipim ou macaxeira)",
+    "measure": "1 pedaço grande",
+    "grams": 100,
+    "carbs": 30,
+    "calories": 225
+  },
+  {
+    "id": 1392,
+    "name": "Mandioca frita (aipim ou macaxeira)",
+    "measure": "1 pedaço médio",
+    "grams": 60,
+    "carbs": 18,
+    "calories": 135
+  },
+  {
+    "id": 1393,
+    "name": "Mandioquinha ou batata- baroa cozida",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 5,
+    "calories": 33
+  },
+  {
+    "id": 1394,
+    "name": "Mané pelado",
+    "measure": "1 pedaço médio",
+    "grams": 70,
+    "carbs": 37,
+    "calories": 226
+  },
+  {
+    "id": 1395,
+    "name": "Manga",
+    "measure": "1 porção média",
+    "grams": 100,
+    "carbs": 16,
+    "calories": 64
+  },
+  {
+    "id": 1396,
+    "name": "Manga Espada",
+    "measure": "1 porção média",
+    "grams": 100,
+    "carbs": 17,
+    "calories": 72
+  },
+  {
+    "id": 1397,
+    "name": "Manga Haden",
+    "measure": "1 porção média",
+    "grams": 100,
+    "carbs": 17,
+    "calories": 67
+  },
+  {
+    "id": 1398,
+    "name": "Manga Palmer",
+    "measure": "1 porção média",
+    "grams": 100,
+    "carbs": 19,
+    "calories": 77
+  },
+  {
+    "id": 1399,
+    "name": "Mangaba",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 3,
+    "calories": 11
+  },
+  {
+    "id": 1400,
+    "name": "Maniçoba",
+    "measure": "1 fatia média",
+    "grams": 120,
+    "carbs": 4,
+    "calories": 151
+  },
+  {
+    "id": 1401,
+    "name": "Manjar de coco",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 35,
+    "calories": 196
+  },
+  {
+    "id": 1402,
+    "name": "Manjar de coco",
+    "measure": "1 colher de servir",
+    "grams": 60,
+    "carbs": 21,
+    "calories": 117
+  },
+  {
+    "id": 1403,
+    "name": "Manteiga",
+    "measure": "1 colher de sopa rasa",
+    "grams": 19,
+    "carbs": 0,
+    "calories": 127
+  },
+  {
+    "id": 1404,
+    "name": "Manteiga",
+    "measure": "1 colher de chá rasa",
+    "grams": 4,
+    "carbs": 0,
+    "calories": 26
+  },
+  {
+    "id": 1405,
+    "name": "Manteiga light",
+    "measure": "1 colher de chá rasa",
+    "grams": 4,
+    "carbs": 0,
+    "calories": 17
+  },
+  {
+    "id": 1406,
+    "name": "Maracujá, polpa de",
+    "measure": "1 unidade pequena",
+    "grams": 45,
+    "carbs": 6,
+    "calories": 33
+  },
+  {
+    "id": 1407,
+    "name": "Margarina",
+    "measure": "1 colher de chá rasa",
+    "grams": 4,
+    "carbs": 0,
+    "calories": 25
+  },
+  {
+    "id": 1408,
+    "name": "Margarina",
+    "measure": "1 colher de sopa rasa",
+    "grams": 19,
+    "carbs": 0,
+    "calories": 121
+  },
+  {
+    "id": 1409,
+    "name": "Margarina light",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 32
+  },
+  {
+    "id": 1410,
+    "name": "Margarita",
+    "measure": "1 dose",
+    "grams": 77,
+    "carbs": 11,
+    "calories": 168
+  },
+  {
+    "id": 1411,
+    "name": "Maria mole",
+    "measure": "1 porção",
+    "grams": 60,
+    "carbs": 38,
+    "calories": 180
+  },
+  {
+    "id": 1412,
+    "name": "Marmelada",
+    "measure": "1 fatia média",
+    "grams": 40,
+    "carbs": 28,
+    "calories": 111
+  },
+  {
+    "id": 1413,
+    "name": "Marreco assado",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 201
+  },
+  {
+    "id": 1414,
+    "name": "Marron glacê",
+    "measure": "1 fatia média",
+    "grams": 50,
+    "carbs": 35,
+    "calories": 141
+  },
+  {
+    "id": 1415,
+    "name": "Marshmallow Fini®",
+    "measure": "4 unidades",
+    "grams": 20,
+    "carbs": 16,
+    "calories": 67
+  },
+  {
+    "id": 1416,
+    "name": "Martini",
+    "measure": "1 dose",
+    "grams": 70,
+    "carbs": 0,
+    "calories": 160
+  },
+  {
+    "id": 1417,
+    "name": "Massa de panqueca sem recheio",
+    "measure": "1 unidade pequena",
+    "grams": 30,
+    "carbs": 9,
+    "calories": 79
+  },
+  {
+    "id": 1418,
+    "name": "Massa de pizza integral Wickbold®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 20,
+    "calories": 115
+  },
+  {
+    "id": 1419,
+    "name": "Massa para pizza",
+    "measure": "1 fatia média",
+    "grams": 20,
+    "carbs": 11,
+    "calories": 57
+  },
+  {
+    "id": 1420,
+    "name": "Massa para pizza brotinho",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 19,
+    "calories": 113
+  },
+  {
+    "id": 1421,
+    "name": "Massa pronta para pastel 1 pastel",
+    "measure": "",
+    "grams": 30,
+    "carbs": 13,
+    "calories": 89
+  },
+  {
+    "id": 1422,
+    "name": "Matrinxã",
+    "measure": "1 pedaço médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 188
+  },
+  {
+    "id": 1423,
+    "name": "Maxixe cozido com casca",
+    "measure": "1 colher de sopa cheia",
+    "grams": 40,
+    "carbs": 2,
+    "calories": 8
+  },
+  {
+    "id": 1424,
+    "name": "Mc Torta de Maçã®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 29,
+    "calories": 205
+  },
+  {
+    "id": 1425,
+    "name": "McChicken (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 37,
+    "calories": 396
+  },
+  {
+    "id": 1426,
+    "name": "McChicken Bacon (Mc Donald’s®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 37,
+    "calories": 448
+  },
+  {
+    "id": 1427,
+    "name": "McChicken Duplo (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 53,
+    "calories": 665
+  },
+  {
+    "id": 1428,
+    "name": "McChicken Junior (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 38,
+    "calories": 343
+  },
+  {
+    "id": 1429,
+    "name": "McColosso caramelo (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 52,
+    "calories": 269
+  },
+  {
+    "id": 1430,
+    "name": "McColosso chocolate (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 48,
+    "calories": 265
+  },
+  {
+    "id": 1431,
+    "name": "McCrispy Chicken Deluxe (Mc Donald’s®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 54,
+    "calories": 625
+  },
+  {
+    "id": 1432,
+    "name": "McCrispy Chicken Legend (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 66,
+    "calories": 964
+  },
+  {
+    "id": 1433,
+    "name": "McCrispy Chicken Melt & Bacon (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 54,
+    "calories": 651
+  },
+  {
+    "id": 1434,
+    "name": "McFlurry Kit Kat Chocolate com Coco Caramelo (Mc’ Donalds®)",
+    "measure": "1 porção 0 72 476 McFlurry Kit Kat Chocolate com Coco Chocolate (Mc’ Donalds®) 1 porção 0 73 511 McFlurry Kit Kat Chocolate com Coco Morango (Mc’ Donalds®) 1 porção 0 78 512 McFlurry Kit Kat Triple Chocolate (Mc’ Donalds®) 1 porção",
+    "grams": 0,
+    "carbs": 67,
+    "calories": 480
+  },
+  {
+    "id": 1435,
+    "name": "McFlurry M&Ms Caramelo (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 86,
+    "calories": 504
+  },
+  {
+    "id": 1436,
+    "name": "McFlurry M&Ms Chocolate (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 81,
+    "calories": 502
+  },
+  {
+    "id": 1437,
+    "name": "McFlurry M&Ms Morango (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 80,
+    "calories": 467
+  },
+  {
+    "id": 1438,
+    "name": "McFlurry Ovomaltine Caramelo (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 88,
+    "calories": 473
+  },
+  {
+    "id": 1439,
+    "name": "McFlurry Ovomaltine Chocolate (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 81,
+    "calories": 468
+  },
+  {
+    "id": 1440,
+    "name": "McFlurry Ovomaltine Morango (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 86,
+    "calories": 453
+  },
+  {
+    "id": 1441,
+    "name": "McFritas Cheddar Bacon (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 38,
+    "calories": 431
+  },
+  {
+    "id": 1442,
+    "name": "McFritas Grande (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 50,
+    "calories": 422
+  },
+  {
+    "id": 1443,
+    "name": "McFritas Kids (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 11,
+    "calories": 92
+  },
+  {
+    "id": 1444,
+    "name": "McFritas Média (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 35,
+    "calories": 295
+  },
+  {
+    "id": 1445,
+    "name": "McFritas Pequena (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 25,
+    "calories": 211
+  },
+  {
+    "id": 1446,
+    "name": "McNífico Bacon (Mc’ Donalds®)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 36,
+    "calories": 640
+  },
+  {
+    "id": 1447,
+    "name": "McNuggets 10 (Mc’ Donalds®)",
+    "measure": "1 porção (10 unidades)",
+    "grams": 0,
+    "carbs": 24,
+    "calories": 414
+  },
+  {
+    "id": 1448,
+    "name": "McNuggets 15 (Mc’ Donalds®)",
+    "measure": "1 porção (15 unidades)",
+    "grams": 0,
+    "carbs": 39,
+    "calories": 521
+  },
+  {
+    "id": 1449,
+    "name": "McNuggets 4 (Mc’ Donalds®)",
+    "measure": "1 porção (4 unidades)",
+    "grams": 0,
+    "carbs": 10,
+    "calories": 166
+  },
+  {
+    "id": 1450,
+    "name": "McNuggets 6 (Mc’ Donalds®)",
+    "measure": "1 porção (6 unidades)",
+    "grams": 0,
+    "carbs": 15,
+    "calories": 249
+  },
+  {
+    "id": 1451,
+    "name": "McShake Caramelo com farofa crocante de amendoim (Mc Donald’s®)",
+    "measure": "1 porção 400 79 437 McShake Grimace (Mc Donald’s®) 1 porção",
+    "grams": 400,
+    "carbs": 65,
+    "calories": 350
+  },
+  {
+    "id": 1452,
+    "name": "McShake Kopenhagen (Mc Donald’s®)",
+    "measure": "1 porção",
+    "grams": 400,
+    "carbs": 110,
+    "calories": 758
+  },
+  {
+    "id": 1453,
+    "name": "McShake Morango (Mc Donald’s®)",
+    "measure": "1 porção",
+    "grams": 400,
+    "carbs": 81,
+    "calories": 425
+  },
+  {
+    "id": 1454,
+    "name": "McShake Ovomaltine (Mc Donald’s®)",
+    "measure": "1 porção",
+    "grams": 400,
+    "carbs": 106,
+    "calories": 562
+  },
+  {
+    "id": 1455,
+    "name": "Mel",
+    "measure": "1 colher de sopa rasa",
+    "grams": 15,
+    "carbs": 12,
+    "calories": 49
+  },
+  {
+    "id": 1456,
+    "name": "Mel 1 sachê pequeno",
+    "measure": "",
+    "grams": 5,
+    "carbs": 5,
+    "calories": 16
+  },
+  {
+    "id": 1457,
+    "name": "Melado",
+    "measure": "1 colher de sopa rasa",
+    "grams": 16,
+    "carbs": 12,
+    "calories": 49
+  },
+  {
+    "id": 1458,
+    "name": "Melancia",
+    "measure": "1 fatia média",
+    "grams": 200,
+    "carbs": 13,
+    "calories": 58
+  },
+  {
+    "id": 1459,
+    "name": "Melão",
+    "measure": "1 fatia grande",
+    "grams": 115,
+    "carbs": 9,
+    "calories": 33
+  },
+  {
+    "id": 1460,
+    "name": "Merengue",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 23,
+    "calories": 95
+  },
+  {
+    "id": 1461,
+    "name": "Merengue com frutas vermelhas 2/3 de",
+    "measure": "xícara de chá",
+    "grams": 100,
+    "carbs": 41,
+    "calories": 216
+  },
+  {
+    "id": 1462,
+    "name": "Merluza assada",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 116
+  },
+  {
+    "id": 1463,
+    "name": "Michui de filé mingnon (Almanara®)",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 2,
+    "calories": 89
+  },
+  {
+    "id": 1464,
+    "name": "Michui de frango (Almanara®)",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 2,
+    "calories": 91
+  },
+  {
+    "id": 1465,
+    "name": "Michui de peixe (Almanara®)",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 2,
+    "calories": 99
+  },
+  {
+    "id": 1466,
+    "name": "Milho verde",
+    "measure": "1 unidade grande",
+    "grams": 100,
+    "carbs": 29,
+    "calories": 138
+  },
+  {
+    "id": 1467,
+    "name": "Milho verde cozido debulhado",
+    "measure": "1 colher de sopa cheia",
+    "grams": 24,
+    "carbs": 6,
+    "calories": 33
+  },
+  {
+    "id": 1468,
+    "name": "Milho verde em conserva enlatado",
+    "measure": "1 colher de sopa cheia",
+    "grams": 24,
+    "carbs": 5,
+    "calories": 25
+  },
+  {
+    "id": 1469,
+    "name": "Milk shake (média)",
+    "measure": "1 copo",
+    "grams": 300,
+    "carbs": 55,
+    "calories": 336
+  },
+  {
+    "id": 1470,
+    "name": "Milk shake crocante (Bob’s®)",
+    "measure": "1 copo grande",
+    "grams": 700,
+    "carbs": 74,
+    "calories": 551
+  },
+  {
+    "id": 1471,
+    "name": "Milk shake crocante (Bob’s®)",
+    "measure": "1 copo médio",
+    "grams": 500,
+    "carbs": 52,
+    "calories": 381
+  },
+  {
+    "id": 1472,
+    "name": "Milk shake crocante (Bob’s®)",
+    "measure": "1 copo pequeno",
+    "grams": 300,
+    "carbs": 31,
+    "calories": 225
+  },
+  {
+    "id": 1473,
+    "name": "Milk shake de baunilha",
+    "measure": "1 porção pequena",
+    "grams": 300,
+    "carbs": 46,
+    "calories": 333
+  },
+  {
+    "id": 1474,
+    "name": "Milk shake de baunilha",
+    "measure": "1 porção pequena",
+    "grams": 300,
+    "carbs": 46,
+    "calories": 333
+  },
+  {
+    "id": 1475,
+    "name": "Milk shake de baunilha",
+    "measure": "1 porção média",
+    "grams": 500,
+    "carbs": 76,
+    "calories": 555
+  },
+  {
+    "id": 1476,
+    "name": "Milk shake de baunilha",
+    "measure": "1 porção grande",
+    "grams": 700,
+    "carbs": 106,
+    "calories": 777
+  },
+  {
+    "id": 1477,
+    "name": "Milk shake de chocolate",
+    "measure": "1 porção pequena",
+    "grams": 300,
+    "carbs": 49,
+    "calories": 355
+  },
+  {
+    "id": 1478,
+    "name": "Milk shake de chocolate",
+    "measure": "1 porção média",
+    "grams": 500,
+    "carbs": 81,
+    "calories": 592
+  },
+  {
+    "id": 1479,
+    "name": "Milk shake de chocolate",
+    "measure": "1 porção grande",
+    "grams": 700,
+    "carbs": 113,
+    "calories": 829
+  },
+  {
+    "id": 1480,
+    "name": "Milk shake de chocolate (Bob’s®)",
+    "measure": "1 copo grande",
+    "grams": 700,
+    "carbs": 70,
+    "calories": 886
+  },
+  {
+    "id": 1481,
+    "name": "Milk shake de chocolate (Bob’s®)",
+    "measure": "1 copo médio",
+    "grams": 500,
+    "carbs": 48,
+    "calories": 340
+  },
+  {
+    "id": 1482,
+    "name": "Milk shake de chocolate (Bob’s®)",
+    "measure": "1 copo pequeno",
+    "grams": 300,
+    "carbs": 29,
+    "calories": 204
+  },
+  {
+    "id": 1483,
+    "name": "Milk shake de morango",
+    "measure": "1 porção pequena",
+    "grams": 300,
+    "carbs": 68,
+    "calories": 430
+  },
+  {
+    "id": 1484,
+    "name": "Milk shake de morango",
+    "measure": "1 porção média",
+    "grams": 500,
+    "carbs": 113,
+    "calories": 717
+  },
+  {
+    "id": 1485,
+    "name": "Milk shake de morango",
+    "measure": "1 porção grande",
+    "grams": 700,
+    "carbs": 159,
+    "calories": 1000
+  },
+  {
+    "id": 1486,
+    "name": "Milk shake de morango (Bob’s®)",
+    "measure": "1 copo grande",
+    "grams": 700,
+    "carbs": 141,
+    "calories": 800
+  },
+  {
+    "id": 1487,
+    "name": "Milk shake de morango (Bob’s®)",
+    "measure": "1 copo médio",
+    "grams": 500,
+    "carbs": 101,
+    "calories": 571
+  },
+  {
+    "id": 1488,
+    "name": "Milk shake de morango (Bob’s®)",
+    "measure": "1 copo pequeno",
+    "grams": 300,
+    "carbs": 53,
+    "calories": 308
+  },
+  {
+    "id": 1489,
+    "name": "Milk shake Nuts (Bob’s®)",
+    "measure": "1 copo pequeno",
+    "grams": 300,
+    "carbs": 29,
+    "calories": 312
+  },
+  {
+    "id": 1490,
+    "name": "Milk shake Nuts (Bob’s®)",
+    "measure": "1 copo médio",
+    "grams": 500,
+    "carbs": 48,
+    "calories": 556
+  },
+  {
+    "id": 1491,
+    "name": "Milk shake Nuts (Bob’s®)",
+    "measure": "1 copo grande",
+    "grams": 700,
+    "carbs": 73,
+    "calories": 814
+  },
+  {
+    "id": 1492,
+    "name": "Minestrone (sopa)",
+    "measure": "1 prato fundo",
+    "grams": 300,
+    "carbs": 26,
+    "calories": 159
+  },
+  {
+    "id": 1493,
+    "name": "Mingau (média)",
+    "measure": "1 colher de sopa",
+    "grams": 37,
+    "carbs": 8,
+    "calories": 50
+  },
+  {
+    "id": 1494,
+    "name": "Mingau de amido de milho (maisena) com açúcar",
+    "measure": "1 prato raso",
+    "grams": 195,
+    "carbs": 59,
+    "calories": 301
+  },
+  {
+    "id": 1495,
+    "name": "Mingau de amido de milho (maisena) sem açúcar",
+    "measure": "1 prato raso",
+    "grams": 195,
+    "carbs": 44,
+    "calories": 268
+  },
+  {
+    "id": 1496,
+    "name": "Mingau de aveia com açúcar",
+    "measure": "1 xícara de chá",
+    "grams": 200,
+    "carbs": 30,
+    "calories": 219
+  },
+  {
+    "id": 1497,
+    "name": "Mingau de aveia sem açúcar",
+    "measure": "1 xícara de chá",
+    "grams": 200,
+    "carbs": 25,
+    "calories": 145
+  },
+  {
+    "id": 1498,
+    "name": "Mini Bomba de Chocolate",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 7,
+    "calories": 60
+  },
+  {
+    "id": 1499,
+    "name": "Mini cenouras",
+    "measure": "1 xícara de chá",
+    "grams": 100,
+    "carbs": 10,
+    "calories": 42
+  },
+  {
+    "id": 1500,
+    "name": "Mini churro de doce de leite (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 9,
+    "calories": 56
+  },
+  {
+    "id": 1501,
+    "name": "Mini esfiha de carne",
+    "measure": "1 unidade",
+    "grams": 35,
+    "carbs": 12,
+    "calories": 90
+  },
+  {
+    "id": 1502,
+    "name": "Mini Eski-bon (Kibon®)",
+    "measure": "1 porção (9 bombons)",
+    "grams": 60,
+    "carbs": 20,
+    "calories": 219
+  },
+  {
+    "id": 1503,
+    "name": "Mini hamburguer (com pão)",
+    "measure": "1 unidade",
+    "grams": 60,
+    "carbs": 15,
+    "calories": 123
+  },
+  {
+    "id": 1504,
+    "name": "Mini hot dog",
+    "measure": "1 unidade",
+    "grams": 60,
+    "carbs": 15,
+    "calories": 165
+  },
+  {
+    "id": 1505,
+    "name": "Mini kibe",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 5,
+    "calories": 4
+  },
+  {
+    "id": 1506,
+    "name": "Mini kibe frito de cremely (Habib’s®)",
+    "measure": "1 unidade",
+    "grams": 45,
+    "carbs": 8,
+    "calories": 100
+  },
+  {
+    "id": 1507,
+    "name": "Mini Oreo® 1 pacote",
+    "measure": "",
+    "grams": 35,
+    "carbs": 23,
+    "calories": 161
+  },
+  {
+    "id": 1508,
+    "name": "Mini pizza",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 14,
+    "calories": 73
+  },
+  {
+    "id": 1509,
+    "name": "Mini Torta de Limão",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 12,
+    "calories": 108
+  },
+  {
+    "id": 1510,
+    "name": "Mini Torta de Maçã",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 18,
+    "calories": 144
+  },
+  {
+    "id": 1511,
+    "name": "Mini Torta de Morango",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 18,
+    "calories": 109
+  },
+  {
+    "id": 1512,
+    "name": "Mini Trakinas® sabor chocolate 1 sachê (8 mini biscoitos)",
+    "measure": "",
+    "grams": 25,
+    "carbs": 16,
+    "calories": 121
+  },
+  {
+    "id": 1513,
+    "name": "Mini Trakinas® sabor morango 1 sachê (8 mini biscoitos)",
+    "measure": "",
+    "grams": 25,
+    "carbs": 17,
+    "calories": 123
+  },
+  {
+    "id": 1514,
+    "name": "Mirtilo (ou blueberry)",
+    "measure": "1/2 xícara de chá",
+    "grams": 100,
+    "carbs": 14,
+    "calories": 57
+  },
+  {
+    "id": 1515,
+    "name": "Missoshiro",
+    "measure": "1 porção",
+    "grams": 200,
+    "carbs": 5,
+    "calories": 72
+  },
+  {
+    "id": 1516,
+    "name": "Misto quente",
+    "measure": "1 unidade",
+    "grams": 85,
+    "carbs": 29,
+    "calories": 212
+  },
+  {
+    "id": 1517,
+    "name": "Miúdos de boi (dobradinha, livrelho)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 35,
+    "carbs": 0,
+    "calories": 44
+  },
+  {
+    "id": 1518,
+    "name": "Mix 7 grãos Quaker®",
+    "measure": "1 colher de sopa1/2 xícara",
+    "grams": 40,
+    "carbs": 22,
+    "calories": 137
+  },
+  {
+    "id": 1519,
+    "name": "Mix de Soja Natural Jasmine® 1 pacote",
+    "measure": "",
+    "grams": 40,
+    "carbs": 6,
+    "calories": 188
+  },
+  {
+    "id": 1520,
+    "name": "Mix Sementes e Frutas Jasmine® 1 pacote",
+    "measure": "",
+    "grams": 40,
+    "carbs": 16,
+    "calories": 151
+  },
+  {
+    "id": 1521,
+    "name": "Mix Sementes e Nuts Jasmine® 1 pacote",
+    "measure": "",
+    "grams": 40,
+    "carbs": 15,
+    "calories": 189
+  },
+  {
+    "id": 1522,
+    "name": "Mix Sementes Tradicional Jasmine® 1 pacote",
+    "measure": "",
+    "grams": 40,
+    "carbs": 14,
+    "calories": 209
+  },
+  {
+    "id": 1523,
+    "name": "MixDip M&M’s (Mc’ Donalds®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 110,
+    "calories": 628
+  },
+  {
+    "id": 1524,
+    "name": "Mjadra Almanara®",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 7,
+    "calories": 39
+  },
+  {
+    "id": 1525,
+    "name": "Moela",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 0,
+    "calories": 31
+  },
+  {
+    "id": 1526,
+    "name": "Mojito 1 coquetel",
+    "measure": "",
+    "grams": 225,
+    "carbs": 25,
+    "calories": 217
+  },
+  {
+    "id": 1527,
+    "name": "Molho à bolonhesa",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 22
+  },
+  {
+    "id": 1528,
+    "name": "Molho agridoce",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 5,
+    "calories": 20
+  },
+  {
+    "id": 1529,
+    "name": "Molho agridoce (Mc’ Donalds®)",
+    "measure": "1 porção (blister)",
+    "grams": 23,
+    "carbs": 11,
+    "calories": 46
+  },
+  {
+    "id": 1530,
+    "name": "Molho barbecue (Mc’ Donalds®)",
+    "measure": "1 porção (blister)",
+    "grams": 23,
+    "carbs": 10,
+    "calories": 44
+  },
+  {
+    "id": 1531,
+    "name": "Molho barbecue (Mc’ Donalds®)",
+    "measure": "1 porção (blister)",
+    "grams": 23,
+    "carbs": 10,
+    "calories": 44
+  },
+  {
+    "id": 1532,
+    "name": "Molho branco",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 13
+  },
+  {
+    "id": 1533,
+    "name": "Molho Caesar",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 2,
+    "calories": 62
+  },
+  {
+    "id": 1534,
+    "name": "Molho caipira (Mc’ Donalds®)",
+    "measure": "1 porção (blister)",
+    "grams": 23,
+    "carbs": 7,
+    "calories": 52
+  },
+  {
+    "id": 1535,
+    "name": "Molho caseiro azeite/ vinagre",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 43
+  },
+  {
+    "id": 1536,
+    "name": "Molho de iogurte",
+    "measure": "1 colher de sopa cheia",
+    "grams": 35,
+    "carbs": 2,
+    "calories": 38
+  },
+  {
+    "id": 1537,
+    "name": "Molho de mostarda e mel",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 2,
+    "calories": 14
+  },
+  {
+    "id": 1538,
+    "name": "Molho de pimenta",
+    "measure": "1 colher de chá",
+    "grams": 5,
+    "carbs": 0,
+    "calories": 1
+  },
+  {
+    "id": 1539,
+    "name": "Molho de tomate caseiro",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 9
+  },
+  {
+    "id": 1540,
+    "name": "Molho de tomate tradicional industrializado",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 2,
+    "calories": 8
+  },
+  {
+    "id": 1541,
+    "name": "Molho inglês",
+    "measure": "1 colher de sopa",
+    "grams": 14,
+    "carbs": 1,
+    "calories": 6
+  },
+  {
+    "id": 1542,
+    "name": "Molho madeira",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 1,
+    "calories": 11
+  },
+  {
+    "id": 1543,
+    "name": "Molho pesto",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 80
+  },
+  {
+    "id": 1544,
+    "name": "Molho pesto",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 96
+  },
+  {
+    "id": 1545,
+    "name": "Molho Ranch (Mc Donald’s®)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 23,
+    "carbs": 1,
+    "calories": 111
+  },
+  {
+    "id": 1546,
+    "name": "Molho shoyo",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 1,
+    "calories": 8
+  },
+  {
+    "id": 1547,
+    "name": "Molho tártaro gourmet",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 34
+  },
+  {
+    "id": 1548,
+    "name": "Mondongo (dobradinha)",
+    "measure": "1 colher de servir cheia",
+    "grams": 70,
+    "carbs": 0,
+    "calories": 87
+  },
+  {
+    "id": 1549,
+    "name": "Moqueca de peixe",
+    "measure": "1 colher de servir cheia",
+    "grams": 60,
+    "carbs": 2,
+    "calories": 79
+  },
+  {
+    "id": 1550,
+    "name": "Morango",
+    "measure": "1 unidade",
+    "grams": 12,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 1551,
+    "name": "Mortadela",
+    "measure": "1 fatia",
+    "grams": 20,
+    "carbs": 3,
+    "calories": 53
+  },
+  {
+    "id": 1552,
+    "name": "Mortadela light",
+    "measure": "1 fatia",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 46
+  },
+  {
+    "id": 1553,
+    "name": "Moscow mule 1 coquetel",
+    "measure": "",
+    "grams": 225,
+    "carbs": 26,
+    "calories": 216
+  },
+  {
+    "id": 1554,
+    "name": "Mostarda",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 0,
+    "calories": 7
+  },
+  {
+    "id": 1555,
+    "name": "Mostarda folha cozida",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 0,
+    "calories": 6
+  },
+  {
+    "id": 1556,
+    "name": "Mousse de chocolate",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 5,
+    "calories": 71
+  },
+  {
+    "id": 1557,
+    "name": "Mousse de maracujá",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 9,
+    "calories": 65
+  },
+  {
+    "id": 1558,
+    "name": "Mousse de Peixe",
+    "measure": "1 colher de servir rasa",
+    "grams": 50,
+    "carbs": 2,
+    "calories": 86
+  },
+  {
+    "id": 1559,
+    "name": "Mucilon de arroz",
+    "measure": "1 colher de sopa cheia",
+    "grams": 7,
+    "carbs": 6,
+    "calories": 28
+  },
+  {
+    "id": 1560,
+    "name": "Mucilon de milho",
+    "measure": "1 colher de sopa cheia",
+    "grams": 7,
+    "carbs": 6,
+    "calories": 26
+  },
+  {
+    "id": 1561,
+    "name": "Muesli",
+    "measure": "1 colher de sopa",
+    "grams": 14,
+    "carbs": 11,
+    "calories": 52
+  },
+  {
+    "id": 1562,
+    "name": "Muffin (média)",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 17,
+    "calories": 121
+  },
+  {
+    "id": 1563,
+    "name": "Muffin de banana Suavipan®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 21,
+    "calories": 147
+  },
+  {
+    "id": 1564,
+    "name": "Muffin de chocolate Suavipan®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 21,
+    "calories": 142
+  },
+  {
+    "id": 1565,
+    "name": "Muffin de laranja Suavipan®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 20,
+    "calories": 147
+  },
+  {
+    "id": 1566,
+    "name": "Munguzá",
+    "measure": "1 concha",
+    "grams": 100,
+    "carbs": 39,
+    "calories": 185
+  },
+  {
+    "id": 1567,
+    "name": "Murici",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 5,
+    "calories": 21
+  },
+  {
+    "id": 1568,
+    "name": "Nabo cozido (picado)",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 1569,
+    "name": "Nachos",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 14,
+    "calories": 120
+  },
+  {
+    "id": 1570,
+    "name": "Nectarina",
+    "measure": "1 unidade média",
+    "grams": 100,
+    "carbs": 14,
+    "calories": 60
+  },
+  {
+    "id": 1571,
+    "name": "Negroni",
+    "measure": "1 dose",
+    "grams": 70,
+    "carbs": 0,
+    "calories": 182
+  },
+  {
+    "id": 1572,
+    "name": "Negroni",
+    "measure": "1 dose",
+    "grams": 200,
+    "carbs": 14,
+    "calories": 228
+  },
+  {
+    "id": 1573,
+    "name": "Nescau®",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 36
+  },
+  {
+    "id": 1574,
+    "name": "Nescau® 33% menos açúcares",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 35
+  },
+  {
+    "id": 1575,
+    "name": "Nescau® Ball 1 sachê",
+    "measure": "",
+    "grams": 75,
+    "carbs": 40,
+    "calories": 356
+  },
+  {
+    "id": 1576,
+    "name": "Nescau® Cereal",
+    "measure": "1 porção (3/4 de xícara)",
+    "grams": 30,
+    "carbs": 23,
+    "calories": 116
+  },
+  {
+    "id": 1577,
+    "name": "Nescau® Cereal Duo",
+    "measure": "1 porção (3/4 de xícara)",
+    "grams": 30,
+    "carbs": 23,
+    "calories": 117
+  },
+  {
+    "id": 1578,
+    "name": "Nescau® Cereal Extra Cacau",
+    "measure": "1 porção (3/4 de xícara)",
+    "grams": 30,
+    "carbs": 116,
+    "calories": 24
+  },
+  {
+    "id": 1579,
+    "name": "Nescau® Chocolate Branco",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 8,
+    "calories": 38
+  },
+  {
+    "id": 1580,
+    "name": "Nescau® Cookie",
+    "measure": "1 porção",
+    "grams": 20,
+    "carbs": 13,
+    "calories": 98
+  },
+  {
+    "id": 1581,
+    "name": "Nescau® Extra Cacau 30%",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 36
+  },
+  {
+    "id": 1582,
+    "name": "Nescau® Extra Cacau 60%",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 5,
+    "calories": 36
+  },
+  {
+    "id": 1583,
+    "name": "Nescau® Extra Cacau pronto pra beber",
+    "measure": "1 unidade",
+    "grams": 270,
+    "carbs": 28,
+    "calories": 178
+  },
+  {
+    "id": 1584,
+    "name": "Nescau® Nescafé Dolce Gusgo 1 cápsula",
+    "measure": "",
+    "grams": 17,
+    "carbs": 9,
+    "calories": 73
+  },
+  {
+    "id": 1585,
+    "name": "Nescau® Prontinho",
+    "measure": "1 unidade",
+    "grams": 180,
+    "carbs": 20,
+    "calories": 120
+  },
+  {
+    "id": 1586,
+    "name": "Nescau® Prontinho 3 em 1",
+    "measure": "1 unidade",
+    "grams": 180,
+    "carbs": 16,
+    "calories": 115
+  },
+  {
+    "id": 1587,
+    "name": "Nescau® pronto pra beber",
+    "measure": "1 unidade",
+    "grams": 270,
+    "carbs": 26,
+    "calories": 176
+  },
+  {
+    "id": 1588,
+    "name": "Nêspera",
+    "measure": "1 unidade média",
+    "grams": 90,
+    "carbs": 10,
+    "calories": 37
+  },
+  {
+    "id": 1589,
+    "name": "Nesquick bebida láctea sabor morango (Nestlé®)",
+    "measure": "1 unidade",
+    "grams": 200,
+    "carbs": 19,
+    "calories": 120
+  },
+  {
+    "id": 1590,
+    "name": "Nesquick em pó sabor morango (Nestlé®)",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 28
+  },
+  {
+    "id": 1591,
+    "name": "Neston 3 Cereais (Nestlé®)",
+    "measure": "1 colher de sopa",
+    "grams": 7,
+    "carbs": 5,
+    "calories": 26
+  },
+  {
+    "id": 1592,
+    "name": "Neston bebida láctea sabor maçã, banana e mamão (Nestlé®)",
+    "measure": "1 unidade 280 35 216 Nhoque 1 escumadeira cheia",
+    "grams": 100,
+    "carbs": 37,
+    "calories": 184
+  },
+  {
+    "id": 1593,
+    "name": "Nhoque",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 7,
+    "calories": 36
+  },
+  {
+    "id": 1594,
+    "name": "Nhoque de batata",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 6,
+    "calories": 35
+  },
+  {
+    "id": 1595,
+    "name": "Niguiri de atum",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 10,
+    "calories": 60
+  },
+  {
+    "id": 1596,
+    "name": "Niguiri de camarão",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 10,
+    "calories": 65
+  },
+  {
+    "id": 1597,
+    "name": "Niguiri sushi de atum",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 10,
+    "calories": 59
+  },
+  {
+    "id": 1598,
+    "name": "Niguiri sushi de kani",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 10,
+    "calories": 51
+  },
+  {
+    "id": 1599,
+    "name": "Niguiri sushi de salmão",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 10,
+    "calories": 57
+  },
+  {
+    "id": 1600,
+    "name": "Niguiri sushi de salmão",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 10,
+    "calories": 57
+  },
+  {
+    "id": 1601,
+    "name": "Ninho soleil sabor morango (Nestlé®)",
+    "measure": "1 unidade",
+    "grams": 170,
+    "carbs": 31,
+    "calories": 170
+  },
+  {
+    "id": 1602,
+    "name": "Noz",
+    "measure": "1 unidade",
+    "grams": 5,
+    "carbs": 1,
+    "calories": 35
+  },
+  {
+    "id": 1603,
+    "name": "Nuggets (média)",
+    "measure": "1 unidade",
+    "grams": 26,
+    "carbs": 4,
+    "calories": 64
+  },
+  {
+    "id": 1604,
+    "name": "Nuggets de frango tradicional Sadia®",
+    "measure": "1 unidade",
+    "grams": 22,
+    "carbs": 3,
+    "calories": 40
+  },
+  {
+    "id": 1605,
+    "name": "Nuggets de legumes Sadia®",
+    "measure": "1 unidade",
+    "grams": 21,
+    "carbs": 4,
+    "calories": 36
+  },
+  {
+    "id": 1606,
+    "name": "Nutella",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 12,
+    "calories": 107
+  },
+  {
+    "id": 1607,
+    "name": "Nutella PREMIUM",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 12,
+    "calories": 107
+  },
+  {
+    "id": 1608,
+    "name": "Nutren® Active",
+    "measure": "1 colher de sopa",
+    "grams": 16,
+    "carbs": 9,
+    "calories": 56
+  },
+  {
+    "id": 1609,
+    "name": "Nutren® Control Baunilha em pó",
+    "measure": "1 colher de sopa",
+    "grams": 14,
+    "carbs": 2,
+    "calories": 36
+  },
+  {
+    "id": 1610,
+    "name": "Nutren® Control Baunilha pronto pra beber 1 frasco",
+    "measure": "",
+    "grams": 200,
+    "carbs": 14,
+    "calories": 212
+  },
+  {
+    "id": 1611,
+    "name": "Nutren® Control Chocolate® pronto pra beber 1 frasco 200 14 208 Nutridrink® Protein em pó",
+    "measure": "1 porção",
+    "grams": 30,
+    "carbs": 18,
+    "calories": 111
+  },
+  {
+    "id": 1612,
+    "name": "Óleo de Babaçu",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 72
+  },
+  {
+    "id": 1613,
+    "name": "Óleo de Canola",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 72
+  },
+  {
+    "id": 1614,
+    "name": "Óleo de Coco",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 71
+  },
+  {
+    "id": 1615,
+    "name": "Óleo de Gergelim",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 72
+  },
+  {
+    "id": 1616,
+    "name": "Óleo de Girassol",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 72
+  },
+  {
+    "id": 1617,
+    "name": "Óleo de Linhaça",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 72
+  },
+  {
+    "id": 1618,
+    "name": "Óleo de Milho",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 72
+  },
+  {
+    "id": 1619,
+    "name": "Óleo de Soja",
+    "measure": "1 colher de sopa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 72
+  },
+  {
+    "id": 1620,
+    "name": "Óleos vegetais",
+    "measure": "1 colher de sopa cheia",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 72
+  },
+  {
+    "id": 1621,
+    "name": "Olho de Sogra",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 5,
+    "calories": 34
+  },
+  {
+    "id": 1622,
+    "name": "Omelete 1 ovo",
+    "measure": "",
+    "grams": 65,
+    "carbs": 2,
+    "calories": 110
+  },
+  {
+    "id": 1623,
+    "name": "Onion rings (Burguer King)®",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 52,
+    "calories": 460
+  },
+  {
+    "id": 1624,
+    "name": "Ora pro nobis",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 5,
+    "calories": 26
+  },
+  {
+    "id": 1625,
+    "name": "Orégano seco",
+    "measure": "1 colher café cheia",
+    "grams": 4,
+    "carbs": 3,
+    "calories": 10
+  },
+  {
+    "id": 1626,
+    "name": "Original (Burguer King) ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 32,
+    "calories": 714
+  },
+  {
+    "id": 1627,
+    "name": "Original Cheddar (Burguer King) ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 33,
+    "calories": 541
+  },
+  {
+    "id": 1628,
+    "name": "Ovo de codorna",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 16
+  },
+  {
+    "id": 1629,
+    "name": "Ovo de galinha frito",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 117
+  },
+  {
+    "id": 1630,
+    "name": "Ovo de galinha inteiro (cozido)",
+    "measure": "1 unidade média",
+    "grams": 45,
+    "carbs": 0,
+    "calories": 71
+  },
+  {
+    "id": 1631,
+    "name": "Ovo de galinha mexido",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 84
+  },
+  {
+    "id": 1632,
+    "name": "Ovo de galinha, clara cozida",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 15
+  },
+  {
+    "id": 1633,
+    "name": "Ovo de galinha, gema cozida",
+    "measure": "1 unidade média",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 53
+  },
+  {
+    "id": 1634,
+    "name": "Ovo de Páscoa (média)",
+    "measure": "1 pedaço médio",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 134
+  },
+  {
+    "id": 1635,
+    "name": "Ovo de Páscoa Amandita ®",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 135
+  },
+  {
+    "id": 1636,
+    "name": "Ovo de Páscoa Bis ®",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 130
+  },
+  {
+    "id": 1637,
+    "name": "Ovo de páscoa Diamante Negro ®",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 16,
+    "calories": 128
+  },
+  {
+    "id": 1638,
+    "name": "Ovo de Páscoa Ferrero Rocher ®",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 9,
+    "calories": 151
+  },
+  {
+    "id": 1639,
+    "name": "Ovo de Páscoa Kinder Ovo Maxi ®",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 13,
+    "calories": 143
+  },
+  {
+    "id": 1640,
+    "name": "Ovo de Páscoa Lacta ®",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 131
+  },
+  {
+    "id": 1641,
+    "name": "Ovo de Páscoa Lacta Diet ®",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 111
+  },
+  {
+    "id": 1642,
+    "name": "Ovo de Páscoa Shot ®",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 14,
+    "calories": 134
+  },
+  {
+    "id": 1643,
+    "name": "Ovo de Páscoa Sonho de Valsa ®",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 134
+  },
+  {
+    "id": 1644,
+    "name": "Ovomaltine ®",
+    "measure": "1 colher de sopa cheia",
+    "grams": 14,
+    "carbs": 12,
+    "calories": 53
+  },
+  {
+    "id": 1645,
+    "name": "Ovos Benedict com presunto",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 13,
+    "calories": 218
+  },
+  {
+    "id": 1646,
+    "name": "Paçoca",
+    "measure": "1 unidade",
+    "grams": 32,
+    "carbs": 17,
+    "calories": 156
+  },
+  {
+    "id": 1647,
+    "name": "Paçoca diet Airon",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 7,
+    "calories": 79
+  },
+  {
+    "id": 1648,
+    "name": "Paçoquita ®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 10,
+    "calories": 103
+  },
+  {
+    "id": 1649,
+    "name": "Paçoquita zero ®",
+    "measure": "1 unidade",
+    "grams": 18,
+    "carbs": 8,
+    "calories": 100
+  },
+  {
+    "id": 1650,
+    "name": "Pacu inteiro cru",
+    "measure": "1 pedaço médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 292
+  },
+  {
+    "id": 1651,
+    "name": "Paio",
+    "measure": "1 unidade",
+    "grams": 160,
+    "carbs": 5,
+    "calories": 363
+  },
+  {
+    "id": 1652,
+    "name": "Palha italiana",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 65,
+    "calories": 407
+  },
+  {
+    "id": 1653,
+    "name": "Palmito em conserva",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 1,
+    "calories": 3
+  },
+  {
+    "id": 1654,
+    "name": "Pamonha",
+    "measure": "1 unidade",
+    "grams": 160,
+    "carbs": 69,
+    "calories": 413
+  },
+  {
+    "id": 1655,
+    "name": "Pamonha doce",
+    "measure": "1 unidade pequena",
+    "grams": 130,
+    "carbs": 47,
+    "calories": 335
+  },
+  {
+    "id": 1656,
+    "name": "Panettone frutas",
+    "measure": "1 fatia pequena",
+    "grams": 25,
+    "carbs": 14,
+    "calories": 88
+  },
+  {
+    "id": 1657,
+    "name": "Panettone Frutas Zero (Wickbold) ®",
+    "measure": "1 fatia",
+    "grams": 80,
+    "carbs": 38,
+    "calories": 250
+  },
+  {
+    "id": 1658,
+    "name": "Panqueca carne",
+    "measure": "1 unidade média",
+    "grams": 80,
+    "carbs": 18,
+    "calories": 229
+  },
+  {
+    "id": 1659,
+    "name": "Panqueca de batata (Kartoffelpuffer)",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 22,
+    "calories": 97
+  },
+  {
+    "id": 1660,
+    "name": "Pão 3 queijos ( Subway) ®",
+    "measure": "1 porção",
+    "grams": 83,
+    "carbs": 36,
+    "calories": 244
+  },
+  {
+    "id": 1661,
+    "name": "Pão 9 grãos ( Subway) ®",
+    "measure": "1 porção",
+    "grams": 78,
+    "carbs": 41,
+    "calories": 216
+  },
+  {
+    "id": 1662,
+    "name": "Pão 9 grãos com aveia e mel ( Subway) ®",
+    "measure": "1 porção",
+    "grams": 88,
+    "carbs": 38,
+    "calories": 216
+  },
+  {
+    "id": 1663,
+    "name": "Pão careca doce",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 28,
+    "calories": 134
+  },
+  {
+    "id": 1664,
+    "name": "Pão colonial italiano",
+    "measure": "1 fatia grande",
+    "grams": 50,
+    "carbs": 27,
+    "calories": 128
+  },
+  {
+    "id": 1665,
+    "name": "Pão com tucumã",
+    "measure": "1 unidade",
+    "grams": 85,
+    "carbs": 28,
+    "calories": 241
+  },
+  {
+    "id": 1666,
+    "name": "Pão de batata-inglesa",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 29,
+    "calories": 137
+  },
+  {
+    "id": 1667,
+    "name": "Pão de cachorro-quente",
+    "measure": "1 unidade",
+    "grams": 58,
+    "carbs": 31,
+    "calories": 170
+  },
+  {
+    "id": 1668,
+    "name": "Pão de centeio integral",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 23,
+    "calories": 116
+  },
+  {
+    "id": 1669,
+    "name": "Pão de forma 100% integral ( Wickbold) ®",
+    "measure": "1 fatia",
+    "grams": 25,
+    "carbs": 8,
+    "calories": 68
+  },
+  {
+    "id": 1670,
+    "name": "Pão de forma 100% Integral Girassol e Castanha ( Wickbold) ®",
+    "measure": "1 fatia 25 9 61 Pão de Forma 12 Grãos 100% Integral ( Pullman) ® 1 fatia",
+    "grams": 25,
+    "carbs": 9,
+    "calories": 60
+  },
+  {
+    "id": 1671,
+    "name": "Pão de forma branco",
+    "measure": "1 fatia",
+    "grams": 25,
+    "carbs": 12,
+    "calories": 62
+  },
+  {
+    "id": 1672,
+    "name": "Pão de forma de aveia",
+    "measure": "1 fatia",
+    "grams": 25,
+    "carbs": 15,
+    "calories": 85
+  },
+  {
+    "id": 1673,
+    "name": "Pão de forma de centeio",
+    "measure": "1 fatia",
+    "grams": 27,
+    "carbs": 13,
+    "calories": 75
+  },
+  {
+    "id": 1674,
+    "name": "Pão de Forma Grãos e Castanhas ( Pullman ) ®",
+    "measure": "1 fatia",
+    "grams": 33,
+    "carbs": 13,
+    "calories": 82
+  },
+  {
+    "id": 1675,
+    "name": "Pão de forma integral",
+    "measure": "1 fatia",
+    "grams": 25,
+    "carbs": 11,
+    "calories": 58
+  },
+  {
+    "id": 1676,
+    "name": "Pão de hambúrguer",
+    "measure": "1 unidade",
+    "grams": 70,
+    "carbs": 40,
+    "calories": 188
+  },
+  {
+    "id": 1677,
+    "name": "Pão de Hot Dog (Pullman) ®",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 25,
+    "calories": 129
+  },
+  {
+    "id": 1678,
+    "name": "Pão de leite",
+    "measure": "1 unidade",
+    "grams": 54,
+    "carbs": 30,
+    "calories": 149
+  },
+  {
+    "id": 1679,
+    "name": "Pão de mel",
+    "measure": "1 unidade média",
+    "grams": 15,
+    "carbs": 13,
+    "calories": 76
+  },
+  {
+    "id": 1680,
+    "name": "Pão de mel ( Bauducco) ®",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 21,
+    "calories": 115
+  },
+  {
+    "id": 1681,
+    "name": "Pão de mel ( média)",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 20,
+    "calories": 135
+  },
+  {
+    "id": 1682,
+    "name": "Pão de mel (Wickbold) ®",
+    "measure": "1 unidade",
+    "grams": 35,
+    "carbs": 19,
+    "calories": 155
+  },
+  {
+    "id": 1683,
+    "name": "Pão de mel doce de leite Cacau Show",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 30,
+    "calories": 190
+  },
+  {
+    "id": 1684,
+    "name": "Pão de milho caseiro",
+    "measure": "1 fatia média",
+    "grams": 70,
+    "carbs": 43,
+    "calories": 200
+  },
+  {
+    "id": 1685,
+    "name": "Pão de milho com 50% de farinha de trigo",
+    "measure": "1 unidade",
+    "grams": 70,
+    "carbs": 42,
+    "calories": 204
+  },
+  {
+    "id": 1686,
+    "name": "Pão de milho de forma Panco ®",
+    "measure": "1 fatia",
+    "grams": 50,
+    "carbs": 29,
+    "calories": 155
+  },
+  {
+    "id": 1687,
+    "name": "Pão de milho industrializado",
+    "measure": "1 unidade",
+    "grams": 70,
+    "carbs": 43,
+    "calories": 201
+  },
+  {
+    "id": 1688,
+    "name": "Pão de passas",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 26,
+    "calories": 136
+  },
+  {
+    "id": 1689,
+    "name": "Pão de queijo",
+    "measure": "1 unidade lanche",
+    "grams": 45,
+    "carbs": 20,
+    "calories": 196
+  },
+  {
+    "id": 1690,
+    "name": "Pão de queijo",
+    "measure": "1 unidade tradicional",
+    "grams": 25,
+    "carbs": 11,
+    "calories": 109
+  },
+  {
+    "id": 1691,
+    "name": "Pão de queijo",
+    "measure": "1 unidade super lanche",
+    "grams": 90,
+    "carbs": 40,
+    "calories": 391
+  },
+  {
+    "id": 1692,
+    "name": "Pão de queijo",
+    "measure": "1 unidade pequena",
+    "grams": 20,
+    "carbs": 9,
+    "calories": 87
+  },
+  {
+    "id": 1693,
+    "name": "Pão de queijo light Forno de Minas ®",
+    "measure": "1 unidade média",
+    "grams": 27,
+    "carbs": 9,
+    "calories": 55
+  },
+  {
+    "id": 1694,
+    "name": "Pão de torresmo",
+    "measure": "1 fatia",
+    "grams": 70,
+    "carbs": 33,
+    "calories": 375
+  },
+  {
+    "id": 1695,
+    "name": "Pão Do Forno 100% Integral ( Wickbold) ®",
+    "measure": "1 fatia",
+    "grams": 33,
+    "carbs": 11,
+    "calories": 77
+  },
+  {
+    "id": 1696,
+    "name": "Pão doce",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 28,
+    "calories": 134
+  },
+  {
+    "id": 1697,
+    "name": "Pão francês",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 29,
+    "calories": 135
+  },
+  {
+    "id": 1698,
+    "name": "Pão francês integral",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 23,
+    "calories": 123
+  },
+  {
+    "id": 1699,
+    "name": "Pão integral sem gluten Jasmine ®",
+    "measure": "1 fatia",
+    "grams": 25,
+    "carbs": 5,
+    "calories": 33
+  },
+  {
+    "id": 1700,
+    "name": "Pão italiano",
+    "measure": "1 fatia",
+    "grams": 50,
+    "carbs": 28,
+    "calories": 125
+  },
+  {
+    "id": 1701,
+    "name": "Pão italiano branco (Subway) ®",
+    "measure": "1 porção",
+    "grams": 73,
+    "carbs": 36,
+    "calories": 194
+  },
+  {
+    "id": 1702,
+    "name": "Pão multigrãos sem gluten Jasmine ®",
+    "measure": "1 fatia",
+    "grams": 25,
+    "carbs": 8.5,
+    "calories": 50
+  },
+  {
+    "id": 1703,
+    "name": "Pão parmesão e orégano (Subway) ®",
+    "measure": "1 porção",
+    "grams": 76,
+    "carbs": 36,
+    "calories": 210
+  },
+  {
+    "id": 1704,
+    "name": "Pão sem Gluten com coco Jasmine®",
+    "measure": "1 fatia",
+    "grams": 25,
+    "carbs": 9,
+    "calories": 52
+  },
+  {
+    "id": 1705,
+    "name": "Pão sem gluten Jasmine ®",
+    "measure": "1 fatia",
+    "grams": 25,
+    "carbs": 11,
+    "calories": 63
+  },
+  {
+    "id": 1706,
+    "name": "Pão sírio ( Habib’s) ®",
+    "measure": "1 porção",
+    "grams": 80,
+    "carbs": 42,
+    "calories": 260
+  },
+  {
+    "id": 1707,
+    "name": "Pão sírio integral Pita Bread ®",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 24,
+    "calories": 124
+  },
+  {
+    "id": 1708,
+    "name": "Pão sírio Pita Bread ®",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 28,
+    "calories": 139
+  },
+  {
+    "id": 1709,
+    "name": "Pão tostado na chapa (Habib’s) ®",
+    "measure": "1 porção",
+    "grams": 75,
+    "carbs": 31,
+    "calories": 236
+  },
+  {
+    "id": 1710,
+    "name": "Papinha de macarrão carne e legumes Nestlé ® 1 pote",
+    "measure": "",
+    "grams": 170,
+    "carbs": 16,
+    "calories": 128
+  },
+  {
+    "id": 1711,
+    "name": "Papinha de banana e aveia Nestlé ® 1 pote",
+    "measure": "",
+    "grams": 120,
+    "carbs": 13,
+    "calories": 62
+  },
+  {
+    "id": 1712,
+    "name": "Páprica",
+    "measure": "1 colher de café cheia",
+    "grams": 4,
+    "carbs": 2,
+    "calories": 13
+  },
+  {
+    "id": 1713,
+    "name": "Pasta de amendoim integral Power one ®",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 3,
+    "calories": 91
+  },
+  {
+    "id": 1714,
+    "name": "Pasta de atum",
+    "measure": "1 colher de sopa cheia",
+    "grams": 35,
+    "carbs": 2,
+    "calories": 112
+  },
+  {
+    "id": 1715,
+    "name": "Pasta de tofu",
+    "measure": "1 colher de sopa cheia",
+    "grams": 26,
+    "carbs": 2,
+    "calories": 45
+  },
+  {
+    "id": 1716,
+    "name": "Pastel de belém (Habib´s) ®",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 19,
+    "calories": 146
+  },
+  {
+    "id": 1717,
+    "name": "Pastel de carne",
+    "measure": "1 unidade média",
+    "grams": 32,
+    "carbs": 5,
+    "calories": 84
+  },
+  {
+    "id": 1718,
+    "name": "Pastel de carne (Habib’s) ®",
+    "measure": "1 unidade",
+    "grams": 75,
+    "carbs": 19,
+    "calories": 223
+  },
+  {
+    "id": 1719,
+    "name": "Pastel de queijo",
+    "measure": "1 unidade média",
+    "grams": 25,
+    "carbs": 5,
+    "calories": 75
+  },
+  {
+    "id": 1720,
+    "name": "Pastel de queijo (Habib’s) ®",
+    "measure": "1 unidade",
+    "grams": 75,
+    "carbs": 18,
+    "calories": 252
+  },
+  {
+    "id": 1721,
+    "name": "Pastel de queijo de forno",
+    "measure": "1 unidade grande",
+    "grams": 40,
+    "carbs": 15,
+    "calories": 185
+  },
+  {
+    "id": 1722,
+    "name": "Pastel português",
+    "measure": "1 unidade média",
+    "grams": 35,
+    "carbs": 10,
+    "calories": 149
+  },
+  {
+    "id": 1723,
+    "name": "Pastelzinho",
+    "measure": "1 unidade pequena",
+    "grams": 8,
+    "carbs": 3,
+    "calories": 24
+  },
+  {
+    "id": 1724,
+    "name": "Patê de atum Coqueiro ®",
+    "measure": "1 colher de chá",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 14
+  },
+  {
+    "id": 1725,
+    "name": "Patê de atum ligth Gomes da Costa ®",
+    "measure": "1 colher de chá",
+    "grams": 10,
+    "carbs": 1,
+    "calories": 12
+  },
+  {
+    "id": 1726,
+    "name": "Patê de Foie Gras, enlatado, defumado",
+    "measure": "1 colher de cha cheia",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 22
+  },
+  {
+    "id": 1727,
+    "name": "Patê de frango com ervas finas Excelsior ®",
+    "measure": "1 colher de chá",
+    "grams": 10,
+    "carbs": 1,
+    "calories": 20
+  },
+  {
+    "id": 1728,
+    "name": "Patê de peito de peru defumado Sadia ®",
+    "measure": "1 colher de chá",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 22
+  },
+  {
+    "id": 1729,
+    "name": "Pato no tucupi assado 1 sobrecoxa",
+    "measure": "",
+    "grams": 100,
+    "carbs": 3,
+    "calories": 303
+  },
+  {
+    "id": 1730,
+    "name": "Pavê de chocolate",
+    "measure": "1 pedaço médio",
+    "grams": 85,
+    "carbs": 16,
+    "calories": 154
+  },
+  {
+    "id": 1731,
+    "name": "Pavê de chocolate branco Amor aos Pedaços ®",
+    "measure": "1 fatia",
+    "grams": 60,
+    "carbs": 22,
+    "calories": 226
+  },
+  {
+    "id": 1732,
+    "name": "Pé-de-moleque",
+    "measure": "1 unidade média",
+    "grams": 17,
+    "carbs": 10,
+    "calories": 88
+  },
+  {
+    "id": 1733,
+    "name": "Pé-de-moleque (Norte)",
+    "measure": "1 pedaço médio",
+    "grams": 100,
+    "carbs": 45,
+    "calories": 336
+  },
+  {
+    "id": 1734,
+    "name": "Pé-de-moleque diet Airon ®",
+    "measure": "1 unidade média",
+    "grams": 14,
+    "carbs": 6,
+    "calories": 61
+  },
+  {
+    "id": 1735,
+    "name": "Pé-de-moleque Santa Helena ®",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 10,
+    "calories": 73
+  },
+  {
+    "id": 1736,
+    "name": "Peito de peru defumado ligth Sadia ®",
+    "measure": "1 fatia",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 21
+  },
+  {
+    "id": 1737,
+    "name": "Peito de peru defumado Perdigão ®",
+    "measure": "1 fatia",
+    "grams": 25,
+    "carbs": 0,
+    "calories": 41
+  },
+  {
+    "id": 1738,
+    "name": "Peixe de água doce cozido (média)",
+    "measure": "1 filé médio",
+    "grams": 120,
+    "carbs": 0,
+    "calories": 117
+  },
+  {
+    "id": 1739,
+    "name": "Peixe do mar cozido (média)",
+    "measure": "1 filé médio",
+    "grams": 120,
+    "carbs": 0,
+    "calories": 117
+  },
+  {
+    "id": 1740,
+    "name": "Peixe grelhado 1 posta ou",
+    "measure": "filé",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 180
+  },
+  {
+    "id": 1741,
+    "name": "Peixe na telha 1 posta média",
+    "measure": "",
+    "grams": 230,
+    "carbs": 7,
+    "calories": 262
+  },
+  {
+    "id": 1742,
+    "name": "Pepino com casca (picles)",
+    "measure": "1/4 xícara de chá",
+    "grams": 50,
+    "carbs": 2,
+    "calories": 12
+  },
+  {
+    "id": 1743,
+    "name": "Pepino cru",
+    "measure": "1 fatia pequena",
+    "grams": 3,
+    "carbs": 0,
+    "calories": 1
+  },
+  {
+    "id": 1744,
+    "name": "Pequi refogado",
+    "measure": "4 unidades médias",
+    "grams": 70,
+    "carbs": 9,
+    "calories": 143
+  },
+  {
+    "id": 1745,
+    "name": "Pera",
+    "measure": "1 unidade média",
+    "grams": 130,
+    "carbs": 19,
+    "calories": 80
+  },
+  {
+    "id": 1746,
+    "name": "Pernil assado",
+    "measure": "1 fatia",
+    "grams": 100,
+    "carbs": 1,
+    "calories": 94
+  },
+  {
+    "id": 1747,
+    "name": "Pernil suíno temperado Seara ®",
+    "measure": "1 fatia",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 169
+  },
+  {
+    "id": 1748,
+    "name": "Peru (carne branca assada)",
+    "measure": "1 pedaço médio",
+    "grams": 32,
+    "carbs": 0,
+    "calories": 57
+  },
+  {
+    "id": 1749,
+    "name": "Pescada inteira crua",
+    "measure": "1 pedaço médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 111
+  },
+  {
+    "id": 1750,
+    "name": "Pescoço de Peru Perdigão®",
+    "measure": "1 porção",
+    "grams": 76,
+    "carbs": 1,
+    "calories": 125
+  },
+  {
+    "id": 1751,
+    "name": "Pêssego amarelo",
+    "measure": "1 unidade média",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 29
+  },
+  {
+    "id": 1752,
+    "name": "Pessego em calda Schramm ® 1 metade",
+    "measure": "",
+    "grams": 30,
+    "carbs": 10,
+    "calories": 41
+  },
+  {
+    "id": 1753,
+    "name": "Petit Gateau de chocolate ( Habib’s) ®",
+    "measure": "1 unidade",
+    "grams": 185,
+    "carbs": 64,
+    "calories": 634
+  },
+  {
+    "id": 1754,
+    "name": "Picolé abacaxi Kibon ®",
+    "measure": "1 unidade",
+    "grams": 59,
+    "carbs": 16,
+    "calories": 65
+  },
+  {
+    "id": 1755,
+    "name": "Picolé chicabon Kibon ®",
+    "measure": "1 unidade",
+    "grams": 65,
+    "carbs": 19,
+    "calories": 106
+  },
+  {
+    "id": 1756,
+    "name": "Picolé Chicabon zero Kibon ®",
+    "measure": "1 unidade",
+    "grams": 63,
+    "carbs": 13,
+    "calories": 74
+  },
+  {
+    "id": 1757,
+    "name": "Picolé de açai linha leve Oggi®",
+    "measure": "1 unidade",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 41
+  },
+  {
+    "id": 1758,
+    "name": "Picolé de amendoim linha leve Oggi®",
+    "measure": "1 unidade",
+    "grams": 57,
+    "carbs": 9,
+    "calories": 41
+  },
+  {
+    "id": 1759,
+    "name": "Picolé de chocolate linha leve Oggi®",
+    "measure": "1 unidade",
+    "grams": 57,
+    "carbs": 4,
+    "calories": 73
+  },
+  {
+    "id": 1760,
+    "name": "Picolé de coco linha leve Oggi®",
+    "measure": "1 unidade",
+    "grams": 57,
+    "carbs": 8,
+    "calories": 70
+  },
+  {
+    "id": 1761,
+    "name": "Picolé de coco la frutta Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 58,
+    "carbs": 13,
+    "calories": 90
+  },
+  {
+    "id": 1762,
+    "name": "Picolé de limão linha leve Oggi®",
+    "measure": "1 unidade",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 27
+  },
+  {
+    "id": 1763,
+    "name": "Picolé de milho linha leve Oggi®",
+    "measure": "1 unidade",
+    "grams": 57,
+    "carbs": 9,
+    "calories": 71
+  },
+  {
+    "id": 1764,
+    "name": "Picolé de morango la frutta Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 60,
+    "carbs": 8,
+    "calories": 36
+  },
+  {
+    "id": 1765,
+    "name": "Picolé de uva la frutta Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 61,
+    "carbs": 15,
+    "calories": 62
+  },
+  {
+    "id": 1766,
+    "name": "Picolé de uva linha leve Oggi®",
+    "measure": "1 unidade",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 31
+  },
+  {
+    "id": 1767,
+    "name": "Picolé fruttare coco Kibon ®",
+    "measure": "1 unidade",
+    "grams": 60,
+    "carbs": 14,
+    "calories": 84
+  },
+  {
+    "id": 1768,
+    "name": "Picolé fruttare limão Kibon ®",
+    "measure": "1 unidade",
+    "grams": 58,
+    "carbs": 13,
+    "calories": 51
+  },
+  {
+    "id": 1769,
+    "name": "Picolé fruttare manga Kibon ®",
+    "measure": "1 unidade",
+    "grams": 83,
+    "carbs": 22,
+    "calories": 92
+  },
+  {
+    "id": 1770,
+    "name": "Picolé fruttare uva Kibon®",
+    "measure": "1 unidade",
+    "grams": 59,
+    "carbs": 15,
+    "calories": 60
+  },
+  {
+    "id": 1771,
+    "name": "Picolé linha leve sabor açaí Oggi® 1 picolé",
+    "measure": "",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 41
+  },
+  {
+    "id": 1772,
+    "name": "Picolé linha leve sabor amendoim Oggi® 1 picolé",
+    "measure": "",
+    "grams": 60,
+    "carbs": 8,
+    "calories": 80
+  },
+  {
+    "id": 1773,
+    "name": "Picolé linha leve sabor chocolate Oggi® 1 picolé",
+    "measure": "",
+    "grams": 60,
+    "carbs": 9,
+    "calories": 73
+  },
+  {
+    "id": 1774,
+    "name": "Picolé linha leve sabor coco Oggi® 1 picolé",
+    "measure": "",
+    "grams": 60,
+    "carbs": 8,
+    "calories": 70
+  },
+  {
+    "id": 1775,
+    "name": "Picolé linha leve sabor limão Oggi® 1 picolé",
+    "measure": "",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 27
+  },
+  {
+    "id": 1776,
+    "name": "Picolé linha leve sabor milho Oggi® 1 picolé",
+    "measure": "",
+    "grams": 60,
+    "carbs": 9,
+    "calories": 71
+  },
+  {
+    "id": 1777,
+    "name": "Picolé linha leve sabor uva Oggi® 1 picolé",
+    "measure": "",
+    "grams": 60,
+    "carbs": 8,
+    "calories": 34
+  },
+  {
+    "id": 1778,
+    "name": "Picolé linha zero Itália® sabor chocolate 1 picolé",
+    "measure": "",
+    "grams": 58,
+    "carbs": 14,
+    "calories": 99
+  },
+  {
+    "id": 1779,
+    "name": "Picolé linha zero Itália® sabor manga 1 picolé",
+    "measure": "",
+    "grams": 58,
+    "carbs": 12,
+    "calories": 49
+  },
+  {
+    "id": 1780,
+    "name": "Picolé linha zero Itália® sabor mcoco 1 picolé",
+    "measure": "",
+    "grams": 58,
+    "carbs": 13,
+    "calories": 104
+  },
+  {
+    "id": 1781,
+    "name": "Picolé linha zero Itália® sabor morango 1 picolé",
+    "measure": "",
+    "grams": 58,
+    "carbs": 12,
+    "calories": 88
+  },
+  {
+    "id": 1782,
+    "name": "Picolé mega clássico Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 73,
+    "carbs": 26,
+    "calories": 240
+  },
+  {
+    "id": 1783,
+    "name": "Picolé mega trufas Nestlé ®",
+    "measure": "1 unidade",
+    "grams": 71,
+    "carbs": 27,
+    "calories": 240
+  },
+  {
+    "id": 1784,
+    "name": "Pimenta-do-reino",
+    "measure": "1 colher de sopa",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 1785,
+    "name": "Pimenta-malagueta",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 1,
+    "calories": 6
+  },
+  {
+    "id": 1786,
+    "name": "Pimentão amarelo",
+    "measure": "1 colher sopa cheia",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 1787,
+    "name": "Pimentão verde",
+    "measure": "1 colher de sopa cheia",
+    "grams": 13,
+    "carbs": 1,
+    "calories": 7
+  },
+  {
+    "id": 1788,
+    "name": "Pimentão vermelho",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 1789,
+    "name": "Pina colada",
+    "measure": "1 dose",
+    "grams": 165,
+    "carbs": 18,
+    "calories": 243
+  },
+  {
+    "id": 1790,
+    "name": "Pina colada",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 22,
+    "calories": 298
+  },
+  {
+    "id": 1791,
+    "name": "Pinha",
+    "measure": "1 unidade",
+    "grams": 60,
+    "carbs": 13,
+    "calories": 53
+  },
+  {
+    "id": 1792,
+    "name": "Pinhão",
+    "measure": "1 unidade média",
+    "grams": 10,
+    "carbs": 5,
+    "calories": 25
+  },
+  {
+    "id": 1793,
+    "name": "Pinhão cozido",
+    "measure": "1 concha",
+    "grams": 100,
+    "carbs": 44,
+    "calories": 174
+  },
+  {
+    "id": 1794,
+    "name": "Pipoca doce Yoki ®",
+    "measure": "1/2 xícara de chá",
+    "grams": 25,
+    "carbs": 19,
+    "calories": 113
+  },
+  {
+    "id": 1795,
+    "name": "Pipoca no óleo/manteiga com sal 1 saco médio",
+    "measure": "",
+    "grams": 20,
+    "carbs": 14,
+    "calories": 90
+  },
+  {
+    "id": 1796,
+    "name": "Pipoca salgada 1 saco médio",
+    "measure": "",
+    "grams": 20,
+    "carbs": 14,
+    "calories": 90
+  },
+  {
+    "id": 1797,
+    "name": "Piquiá",
+    "measure": "1 unidade pequena",
+    "grams": 50,
+    "carbs": 15,
+    "calories": 179
+  },
+  {
+    "id": 1798,
+    "name": "Pirão de farinha de mandioca",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 9,
+    "calories": 36
+  },
+  {
+    "id": 1799,
+    "name": "Pirarucu",
+    "measure": "1 filé médio",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 120
+  },
+  {
+    "id": 1800,
+    "name": "Pirarucu de casaca",
+    "measure": "1 escumadeira cheia",
+    "grams": 110,
+    "carbs": 25,
+    "calories": 293
+  },
+  {
+    "id": 1801,
+    "name": "Pirulito",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 19,
+    "calories": 74
+  },
+  {
+    "id": 1802,
+    "name": "Pistache",
+    "measure": "1 unidade",
+    "grams": 1,
+    "carbs": 0,
+    "calories": 4
+  },
+  {
+    "id": 1803,
+    "name": "Pitanga",
+    "measure": "1 unidade",
+    "grams": 15,
+    "carbs": 1,
+    "calories": 7
+  },
+  {
+    "id": 1804,
+    "name": "Pitaya",
+    "measure": "1 unidade",
+    "grams": 80,
+    "carbs": 10,
+    "calories": 41
+  },
+  {
+    "id": 1805,
+    "name": "Pitomba",
+    "measure": "10 unidades",
+    "grams": 60,
+    "carbs": 5,
+    "calories": 20
+  },
+  {
+    "id": 1806,
+    "name": "Pizza a moda da casa Habib’s ®",
+    "measure": "1 fatia",
+    "grams": 93,
+    "carbs": 28,
+    "calories": 282
+  },
+  {
+    "id": 1807,
+    "name": "Pizza Brasileira",
+    "measure": "1 fatia média",
+    "grams": 111,
+    "carbs": 25,
+    "calories": 268
+  },
+  {
+    "id": 1808,
+    "name": "Pizza Califórnia",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 26,
+    "calories": 213
+  },
+  {
+    "id": 1809,
+    "name": "Pizza de Alcachofra",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 21,
+    "calories": 273
+  },
+  {
+    "id": 1810,
+    "name": "Pizza de atum",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 21,
+    "calories": 258
+  },
+  {
+    "id": 1811,
+    "name": "Pizza de bacon",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 22,
+    "calories": 288
+  },
+  {
+    "id": 1812,
+    "name": "Pizza de bacon com requeijão",
+    "measure": "1 fatia média",
+    "grams": 123,
+    "carbs": 26,
+    "calories": 244
+  },
+  {
+    "id": 1813,
+    "name": "Pizza de bacon com requeijão (Pan) ®",
+    "measure": "1 fatia média",
+    "grams": 122,
+    "carbs": 24,
+    "calories": 324
+  },
+  {
+    "id": 1814,
+    "name": "Pizza de banana com canela",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 40,
+    "calories": 207
+  },
+  {
+    "id": 1815,
+    "name": "Pizza de brigadeiro",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 59,
+    "calories": 402
+  },
+  {
+    "id": 1816,
+    "name": "Pizza de calabresa",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 21,
+    "calories": 240
+  },
+  {
+    "id": 1817,
+    "name": "Pizza de camarão",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 21,
+    "calories": 268
+  },
+  {
+    "id": 1818,
+    "name": "Pizza de champignon",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 22,
+    "calories": 222
+  },
+  {
+    "id": 1819,
+    "name": "Pizza de chocolate ao leite",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 54,
+    "calories": 483
+  },
+  {
+    "id": 1820,
+    "name": "Pizza de chocolate branco",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 41,
+    "calories": 443
+  },
+  {
+    "id": 1821,
+    "name": "Pizza de doce de leite",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 51,
+    "calories": 423
+  },
+  {
+    "id": 1822,
+    "name": "Pizza de Escarola",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 22,
+    "calories": 294
+  },
+  {
+    "id": 1823,
+    "name": "Pizza de frango",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 22,
+    "calories": 229
+  },
+  {
+    "id": 1824,
+    "name": "Pizza de frango com catupiry",
+    "measure": "1 fatia média",
+    "grams": 111,
+    "carbs": 25,
+    "calories": 274
+  },
+  {
+    "id": 1825,
+    "name": "Pizza de marguerita",
+    "measure": "1 fatia média",
+    "grams": 119,
+    "carbs": 27,
+    "calories": 274
+  },
+  {
+    "id": 1826,
+    "name": "Pizza de mussarela",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 22,
+    "calories": 278
+  },
+  {
+    "id": 1827,
+    "name": "Pizza de mussarela de búfala, rúcula e tomate seco",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 22,
+    "calories": 165
+  },
+  {
+    "id": 1828,
+    "name": "Pizza de palmito com mussarela",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 25,
+    "calories": 220
+  },
+  {
+    "id": 1829,
+    "name": "Pizza de pepperoni",
+    "measure": "1 fatia média",
+    "grams": 102,
+    "carbs": 26,
+    "calories": 274
+  },
+  {
+    "id": 1830,
+    "name": "Pizza de portuguesa",
+    "measure": "1 fatia média",
+    "grams": 125,
+    "carbs": 24,
+    "calories": 246
+  },
+  {
+    "id": 1831,
+    "name": "Pizza de Prestígio",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 55,
+    "calories": 420
+  },
+  {
+    "id": 1832,
+    "name": "Pizza de quatro queijos",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 27,
+    "calories": 277
+  },
+  {
+    "id": 1833,
+    "name": "Pizza de quatro queijos com catupiry Habib’s ®",
+    "measure": "1 fatia média",
+    "grams": 105,
+    "carbs": 17,
+    "calories": 270
+  },
+  {
+    "id": 1834,
+    "name": "Pizza de Romeu e Julieta",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 27,
+    "calories": 266
+  },
+  {
+    "id": 1835,
+    "name": "Pizza de Rúcula",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 22,
+    "calories": 255
+  },
+  {
+    "id": 1836,
+    "name": "Pizza Napolitana",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 20,
+    "calories": 207
+  },
+  {
+    "id": 1837,
+    "name": "Pizza Toscana",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 20,
+    "calories": 227
+  },
+  {
+    "id": 1838,
+    "name": "Pizza Vegetariana",
+    "measure": "1 fatia média",
+    "grams": 111,
+    "carbs": 22,
+    "calories": 192
+  },
+  {
+    "id": 1839,
+    "name": "Polenguinho ®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 2,
+    "calories": 72
+  },
+  {
+    "id": 1840,
+    "name": "Polenguinho light ®",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 2,
+    "calories": 51
+  },
+  {
+    "id": 1841,
+    "name": "Polenta com molho de carne",
+    "measure": "1 escumadeira",
+    "grams": 100,
+    "carbs": 8,
+    "calories": 59
+  },
+  {
+    "id": 1842,
+    "name": "Polenta cozida",
+    "measure": "1 pedaço médio",
+    "grams": 30,
+    "carbs": 3,
+    "calories": 20
+  },
+  {
+    "id": 1843,
+    "name": "Polenta frita",
+    "measure": "1 pedaço pequeno",
+    "grams": 20,
+    "carbs": 2,
+    "calories": 18
+  },
+  {
+    "id": 1844,
+    "name": "Polenta mole",
+    "measure": "1 concha pequena",
+    "grams": 100,
+    "carbs": 8,
+    "calories": 59
+  },
+  {
+    "id": 1845,
+    "name": "Polpetone a parmeggiana",
+    "measure": "1 unidade",
+    "grams": 150,
+    "carbs": 12,
+    "calories": 280
+  },
+  {
+    "id": 1846,
+    "name": "Polvilho",
+    "measure": "1 colher de sopa cheia",
+    "grams": 16,
+    "carbs": 14,
+    "calories": 56
+  },
+  {
+    "id": 1847,
+    "name": "Polvo cru",
+    "measure": "1 porção",
+    "grams": 200,
+    "carbs": 4,
+    "calories": 160
+  },
+  {
+    "id": 1848,
+    "name": "Porco frito com rodelas de limão",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 311
+  },
+  {
+    "id": 1849,
+    "name": "Prato do chef picanha 160g (Bob’s) ®",
+    "measure": "1 porção",
+    "grams": 300,
+    "carbs": 29,
+    "calories": 608
+  },
+  {
+    "id": 1850,
+    "name": "Prato primavera (Habib’s) com pão sirio ®",
+    "measure": "1 porção",
+    "grams": 559,
+    "carbs": 83,
+    "calories": 772
+  },
+  {
+    "id": 1851,
+    "name": "Prato verão (Habib’s) ®",
+    "measure": "1 porção",
+    "grams": 451,
+    "carbs": 76,
+    "calories": 723
+  },
+  {
+    "id": 1852,
+    "name": "Premium salad (Mc’Donalds) ®",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 3,
+    "calories": 104
+  },
+  {
+    "id": 1853,
+    "name": "Presunto cozido",
+    "measure": "1 fatia média",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 22
+  },
+  {
+    "id": 1854,
+    "name": "Presunto de peru",
+    "measure": "1 fatia média",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 15
+  },
+  {
+    "id": 1855,
+    "name": "Pringles original ®",
+    "measure": "1 unidade",
+    "grams": 2,
+    "carbs": 1,
+    "calories": 10
+  },
+  {
+    "id": 1856,
+    "name": "Pringles sabor cebola ®",
+    "measure": "1 porção",
+    "grams": 25,
+    "carbs": 14,
+    "calories": 129
+  },
+  {
+    "id": 1857,
+    "name": "Proteína texturizada de soja",
+    "measure": "1 xícara ou 1 hambúrguer",
+    "grams": 50,
+    "carbs": 15,
+    "calories": 171
+  },
+  {
+    "id": 1858,
+    "name": "Pudim de leite",
+    "measure": "1 fatia média",
+    "grams": 50,
+    "carbs": 12,
+    "calories": 91
+  },
+  {
+    "id": 1859,
+    "name": "Pudim de leite condensado",
+    "measure": "1 fatia média",
+    "grams": 70,
+    "carbs": 24,
+    "calories": 171
+  },
+  {
+    "id": 1860,
+    "name": "Pudim de passas",
+    "measure": "1 fatia média",
+    "grams": 50,
+    "carbs": 14,
+    "calories": 95
+  },
+  {
+    "id": 1861,
+    "name": "Pudim de tapioca",
+    "measure": "1 fatia grande",
+    "grams": 110,
+    "carbs": 19,
+    "calories": 263
+  },
+  {
+    "id": 1862,
+    "name": "Pudim de tapioca com leite condensado",
+    "measure": "1 fatia grande",
+    "grams": 90,
+    "carbs": 40,
+    "calories": 150
+  },
+  {
+    "id": 1863,
+    "name": "Pupunha",
+    "measure": "1 unidade média",
+    "grams": 25,
+    "carbs": 5,
+    "calories": 41
+  },
+  {
+    "id": 1864,
+    "name": "Purê de batata",
+    "measure": "1 colher de sopa cheia",
+    "grams": 45,
+    "carbs": 8,
+    "calories": 56
+  },
+  {
+    "id": 1865,
+    "name": "Purê de batata",
+    "measure": "1 concha",
+    "grams": 140,
+    "carbs": 22,
+    "calories": 152
+  },
+  {
+    "id": 1866,
+    "name": "Purê de inhame",
+    "measure": "1 colher de sopa cheia",
+    "grams": 40,
+    "carbs": 7,
+    "calories": 49
+  },
+  {
+    "id": 1867,
+    "name": "Purê de tomate",
+    "measure": "1 colher de sopa cheia",
+    "grams": 45,
+    "carbs": 5,
+    "calories": 22
+  },
+  {
+    "id": 1868,
+    "name": "Quarteirão Sanduíche Mc’Donalds®",
+    "measure": "1 unidade padrão",
+    "grams": 0,
+    "carbs": 34,
+    "calories": 549
+  },
+  {
+    "id": 1869,
+    "name": "Quebra-Queixo",
+    "measure": "1 pedaço pequeno",
+    "grams": 30,
+    "carbs": 22,
+    "calories": 180
+  },
+  {
+    "id": 1870,
+    "name": "Queijadinha",
+    "measure": "1 unidade pequena",
+    "grams": 20,
+    "carbs": 10,
+    "calories": 70
+  },
+  {
+    "id": 1871,
+    "name": "Queijo Brie",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 112
+  },
+  {
+    "id": 1872,
+    "name": "Queijo Camembert",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 114
+  },
+  {
+    "id": 1873,
+    "name": "Queijo Canastra",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 111
+  },
+  {
+    "id": 1874,
+    "name": "Queijo Catupiry® Original",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 80
+  },
+  {
+    "id": 1875,
+    "name": "Queijo Cheddar",
+    "measure": "1 fatia fina",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 53
+  },
+  {
+    "id": 1876,
+    "name": "Queijo Coalho",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 106
+  },
+  {
+    "id": 1877,
+    "name": "Queijo Cottage",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 37
+  },
+  {
+    "id": 1878,
+    "name": "Queijo de Cabra",
+    "measure": "1 porção",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 135
+  },
+  {
+    "id": 1879,
+    "name": "Queijo Edam Tirolez®",
+    "measure": "1 pedaço",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 104
+  },
+  {
+    "id": 1880,
+    "name": "Queijo Emental Vigor®",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 125
+  },
+  {
+    "id": 1881,
+    "name": "Queijo Gorgonzola nacional",
+    "measure": "1 fatia média",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 105
+  },
+  {
+    "id": 1882,
+    "name": "Queijo Gouda",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 115
+  },
+  {
+    "id": 1883,
+    "name": "Queijo Gruyere Polenghi®",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 113
+  },
+  {
+    "id": 1884,
+    "name": "Queijo minas frescal light Polenghi®",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 1,
+    "calories": 33
+  },
+  {
+    "id": 1885,
+    "name": "Queijo Minas meia cura",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 96
+  },
+  {
+    "id": 1886,
+    "name": "Queijo Minas Padrão (média)",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 107
+  },
+  {
+    "id": 1887,
+    "name": "Queijo Minas Padrão Vegano VidaVeg®",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 9,
+    "calories": 93
+  },
+  {
+    "id": 1888,
+    "name": "Queijo Muçarela",
+    "measure": "1 fatia fina",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 65
+  },
+  {
+    "id": 1889,
+    "name": "Queijo muçarela de búfala",
+    "measure": "1 fatia média",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 43
+  },
+  {
+    "id": 1890,
+    "name": "Queijo Muçarela Light",
+    "measure": "1 fatia",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 38
+  },
+  {
+    "id": 1891,
+    "name": "Queijo Muçarela Vegano VidaVeg®",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 9,
+    "calories": 95
+  },
+  {
+    "id": 1892,
+    "name": "Queijo parmesão",
+    "measure": "1 fatia",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 116
+  },
+  {
+    "id": 1893,
+    "name": "Queijo parmesão ralado",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 70
+  },
+  {
+    "id": 1894,
+    "name": "Queijo Polenghinho® Light",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 35
+  },
+  {
+    "id": 1895,
+    "name": "Queijo prato",
+    "measure": "1 fatia fina",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 59
+  },
+  {
+    "id": 1896,
+    "name": "Queijo provolone",
+    "measure": "1 fatia média",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 52
+  },
+  {
+    "id": 1897,
+    "name": "Queijo provolone Tirolez®",
+    "measure": "1 fatia",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 56
+  },
+  {
+    "id": 1898,
+    "name": "Queijo ricota",
+    "measure": "1 fatia média",
+    "grams": 35,
+    "carbs": 1,
+    "calories": 54
+  },
+  {
+    "id": 1899,
+    "name": "Queijo roquefort",
+    "measure": "1 fatia pequena",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 71
+  },
+  {
+    "id": 1900,
+    "name": "Queijo roquefort nacional",
+    "measure": "1 fatia média",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 120
+  },
+  {
+    "id": 1901,
+    "name": "Queijo suiço",
+    "measure": "1 fatia média",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 120
+  },
+  {
+    "id": 1902,
+    "name": "Queijo tipo requeijão",
+    "measure": "1 fatia média",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 89
+  },
+  {
+    "id": 1903,
+    "name": "Queijo tofu",
+    "measure": "1 pedaço pequeno",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 7
+  },
+  {
+    "id": 1904,
+    "name": "Queijo-de-minas frescal",
+    "measure": "1 fatia média",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 73
+  },
+  {
+    "id": 1905,
+    "name": "Queijo-de-minas frescal light",
+    "measure": "1 fatia média",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 71
+  },
+  {
+    "id": 1906,
+    "name": "Queijo-do-reino Tirolez®",
+    "measure": "1 pedaço pequeno",
+    "grams": 30,
+    "carbs": 0,
+    "calories": 108
+  },
+  {
+    "id": 1907,
+    "name": "Quentão",
+    "measure": "1/2 copo",
+    "grams": 100,
+    "carbs": 34,
+    "calories": 295
+  },
+  {
+    "id": 1908,
+    "name": "Quiabo cozido",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 1,
+    "calories": 6
+  },
+  {
+    "id": 1909,
+    "name": "Quibe assado",
+    "measure": "1 porção\\pedaço médio",
+    "grams": 100,
+    "carbs": 15,
+    "calories": 172
+  },
+  {
+    "id": 1910,
+    "name": "Quibe cru",
+    "measure": "1 porção\\pedaço médio",
+    "grams": 100,
+    "carbs": 20,
+    "calories": 126
+  },
+  {
+    "id": 1911,
+    "name": "Quibe frito",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 9,
+    "calories": 127
+  },
+  {
+    "id": 1912,
+    "name": "Quibe frito (festa)",
+    "measure": "1 unidade pequena",
+    "grams": 12,
+    "carbs": 2,
+    "calories": 31
+  },
+  {
+    "id": 1913,
+    "name": "Quibe frito (Habib’s)®",
+    "measure": "1 unidade padrão\\ média",
+    "grams": 85,
+    "carbs": 14,
+    "calories": 152
+  },
+  {
+    "id": 1914,
+    "name": "Quibebe (Purê de abóbora)",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 3,
+    "calories": 22
+  },
+  {
+    "id": 1915,
+    "name": "Quiche de Espinafre",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 14,
+    "calories": 155
+  },
+  {
+    "id": 1916,
+    "name": "Quiche de Presunto e Queijo",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 10,
+    "calories": 259
+  },
+  {
+    "id": 1917,
+    "name": "Quiche de Queijo",
+    "measure": "1 unidade pequena",
+    "grams": 20,
+    "carbs": 4,
+    "calories": 78
+  },
+  {
+    "id": 1918,
+    "name": "Quiche de Queijo Sadia®",
+    "measure": "1 fatia",
+    "grams": 113,
+    "carbs": 21,
+    "calories": 357
+  },
+  {
+    "id": 1919,
+    "name": "Quindim",
+    "measure": "1 unidade média",
+    "grams": 35,
+    "carbs": 15,
+    "calories": 111
+  },
+  {
+    "id": 1920,
+    "name": "Quindim",
+    "measure": "1 unidade grande",
+    "grams": 70,
+    "carbs": 30,
+    "calories": 222
+  },
+  {
+    "id": 1921,
+    "name": "Quindim",
+    "measure": "1 unidade pequena",
+    "grams": 18,
+    "carbs": 8,
+    "calories": 56
+  },
+  {
+    "id": 1922,
+    "name": "Quinoa (Grãos)",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 10,
+    "calories": 53
+  },
+  {
+    "id": 1923,
+    "name": "Quinoa em grãos Mãe Terra®",
+    "measure": "1/4 xícara de chá",
+    "grams": 45,
+    "carbs": 26,
+    "calories": 153
+  },
+  {
+    "id": 1924,
+    "name": "Rã, carne de (desfiada)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 7
+  },
+  {
+    "id": 1925,
+    "name": "Rabada",
+    "measure": "1 unidade média",
+    "grams": 40,
+    "carbs": 1,
+    "calories": 155
+  },
+  {
+    "id": 1926,
+    "name": "Rabada de Boi",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 365
+  },
+  {
+    "id": 1927,
+    "name": "Rabanada",
+    "measure": "1 unidade média",
+    "grams": 60,
+    "carbs": 19,
+    "calories": 175
+  },
+  {
+    "id": 1928,
+    "name": "Rabanada (preparada com vinho tinto)",
+    "measure": "1 unidade média",
+    "grams": 60,
+    "carbs": 19,
+    "calories": 149
+  },
+  {
+    "id": 1929,
+    "name": "Rabanada assada (preparada com leite condensado)",
+    "measure": "1 unidade média 55 22 126 Rabanada com açúcar e canela em pó 1 porção",
+    "grams": 100,
+    "carbs": 31,
+    "calories": 293
+  },
+  {
+    "id": 1930,
+    "name": "Rabanada frita simples (preparada com leite)",
+    "measure": "1 unidade média",
+    "grams": 65,
+    "carbs": 20,
+    "calories": 159
+  },
+  {
+    "id": 1931,
+    "name": "Rabanete cru",
+    "measure": "1 colher de sopa cheia",
+    "grams": 35,
+    "carbs": 1,
+    "calories": 8
+  },
+  {
+    "id": 1932,
+    "name": "Rabanete cru",
+    "measure": "1 prato de sobremesa",
+    "grams": 100,
+    "carbs": 3,
+    "calories": 14
+  },
+  {
+    "id": 1933,
+    "name": "Rap Comum Pullman®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 20,
+    "calories": 110
+  },
+  {
+    "id": 1934,
+    "name": "Rap Integral Pullman®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 20,
+    "calories": 120
+  },
+  {
+    "id": 1935,
+    "name": "Rap Light Pullman®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 17,
+    "calories": 83
+  },
+  {
+    "id": 1936,
+    "name": "Rap10 Chocolate (Bimbo®)",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 18,
+    "calories": 106
+  },
+  {
+    "id": 1937,
+    "name": "Rap10 Fibras (Bimbo®)",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 17,
+    "calories": 109
+  },
+  {
+    "id": 1938,
+    "name": "Rap10 Fit (Bimbo®)",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 21,
+    "calories": 101
+  },
+  {
+    "id": 1939,
+    "name": "Rap10 Original (Bimbo®)",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 18,
+    "calories": 110
+  },
+  {
+    "id": 1940,
+    "name": "Rapadura",
+    "measure": "1 pedaço médio",
+    "grams": 55,
+    "carbs": 48,
+    "calories": 194
+  },
+  {
+    "id": 1941,
+    "name": "Rapadura de Minas Rapadurinha®",
+    "measure": "1 unidade",
+    "grams": 25,
+    "carbs": 22,
+    "calories": 86
+  },
+  {
+    "id": 1942,
+    "name": "Ratatouille",
+    "measure": "1 porção",
+    "grams": 107,
+    "carbs": 6,
+    "calories": 77
+  },
+  {
+    "id": 1943,
+    "name": "Ravióli de carne",
+    "measure": "1 escumadeira",
+    "grams": 50,
+    "carbs": 25,
+    "calories": 141
+  },
+  {
+    "id": 1944,
+    "name": "Ravióli de queijo",
+    "measure": "1 escumadeira",
+    "grams": 50,
+    "carbs": 19,
+    "calories": 149
+  },
+  {
+    "id": 1945,
+    "name": "Red Bull ® - bebida energética tradicional",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 28,
+    "calories": 110
+  },
+  {
+    "id": 1946,
+    "name": "Red Bull ® Sugar Free bebida energética",
+    "measure": "1 lata",
+    "grams": 250,
+    "carbs": 2,
+    "calories": 10
+  },
+  {
+    "id": 1947,
+    "name": "Refresco comum com açúcar (média) - refresco de saquinho em pó",
+    "measure": "1 copo 200 15 56 Refresco Diet Clight® 1 copo",
+    "grams": 200,
+    "carbs": 0,
+    "calories": 5
+  },
+  {
+    "id": 1948,
+    "name": "Refrigerante citrus (Schweppes)®",
+    "measure": "1 lata",
+    "grams": 350,
+    "carbs": 42,
+    "calories": 170
+  },
+  {
+    "id": 1949,
+    "name": "Refrigerante comum (média)",
+    "measure": "1 copo duplo",
+    "grams": 240,
+    "carbs": 24,
+    "calories": 96
+  },
+  {
+    "id": 1950,
+    "name": "Refrigerante diet (média)",
+    "measure": "1 copo duplo",
+    "grams": 240,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 1951,
+    "name": "Refrigerante zero (média)",
+    "measure": "1 copo duplo",
+    "grams": 240,
+    "carbs": 0,
+    "calories": 0
+  },
+  {
+    "id": 1952,
+    "name": "Repolho cozido (picado)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 1
+  },
+  {
+    "id": 1953,
+    "name": "Repolho cru (picado)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 1954,
+    "name": "Requeijão comum cremoso (média padrão)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 106
+  },
+  {
+    "id": 1955,
+    "name": "Requeijão cremoso Light",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 54
+  },
+  {
+    "id": 1956,
+    "name": "Requeijão Itambé® - sabores Ervas Finas ou Cheddar 1 e 1\\",
+    "measure": "2 colher de sopa",
+    "grams": 45,
+    "carbs": 1,
+    "calories": 126
+  },
+  {
+    "id": 1957,
+    "name": "Requeijão Tradicional Vegano VidaVeg® de Castanha de Caju",
+    "measure": "1 colher de sopa 30 2 83 Risole (salgado) 1 unidade média",
+    "grams": 35,
+    "carbs": 14,
+    "calories": 145
+  },
+  {
+    "id": 1958,
+    "name": "Risole de Queijo",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 8,
+    "calories": 112
+  },
+  {
+    "id": 1959,
+    "name": "Risoto (média)",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 6,
+    "calories": 41
+  },
+  {
+    "id": 1960,
+    "name": "Risoto à grega Tio João®",
+    "measure": "1 colher de sopa rasa",
+    "grams": 15,
+    "carbs": 12,
+    "calories": 53
+  },
+  {
+    "id": 1961,
+    "name": "Risoto de Camarão",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 6,
+    "calories": 45
+  },
+  {
+    "id": 1962,
+    "name": "Risoto de Frango",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 6,
+    "calories": 45
+  },
+  {
+    "id": 1963,
+    "name": "Rocombole Baunilha com recheio Chocolate Bauducco®",
+    "measure": "1 fatia 60 24 193 Rocombole de Doce de Leite 1 pedaço médio",
+    "grams": 80,
+    "carbs": 45,
+    "calories": 232
+  },
+  {
+    "id": 1964,
+    "name": "Rocombole doce Pullman® (média)",
+    "measure": "1 fatia",
+    "grams": 50,
+    "carbs": 31,
+    "calories": 180
+  },
+  {
+    "id": 1965,
+    "name": "Rolinho Primavera",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 9,
+    "calories": 174
+  },
+  {
+    "id": 1966,
+    "name": "Roll cake de chocolate",
+    "measure": "1 unidade",
+    "grams": 38,
+    "carbs": 22,
+    "calories": 143
+  },
+  {
+    "id": 1967,
+    "name": "Romã",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 7,
+    "calories": 28
+  },
+  {
+    "id": 1968,
+    "name": "Rosbife",
+    "measure": "1 fatia",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 83
+  },
+  {
+    "id": 1969,
+    "name": "Rosquinha 7 grãos Da Magrinha® (média dos sabores)",
+    "measure": "1 unidade 8 4 22 Rosquinha de Cacau Cacau Suavipan® 1 pacote pequeno",
+    "grams": 30,
+    "carbs": 18,
+    "calories": 98
+  },
+  {
+    "id": 1970,
+    "name": "Rosquinha de Coco Light Suavipan® 1 pacote",
+    "measure": "",
+    "grams": 35,
+    "carbs": 21,
+    "calories": 117
+  },
+  {
+    "id": 1971,
+    "name": "Rosquinhas de leite (média)",
+    "measure": "1 unidade média",
+    "grams": 7,
+    "carbs": 4,
+    "calories": 27
+  },
+  {
+    "id": 1972,
+    "name": "Rúcula",
+    "measure": "1 pires cheio",
+    "grams": 15,
+    "carbs": 2,
+    "calories": 6
+  },
+  {
+    "id": 1973,
+    "name": "Ruffles® Batata Chips 1\\",
+    "measure": "2 xícara de chá",
+    "grams": 25,
+    "carbs": 12,
+    "calories": 136
+  },
+  {
+    "id": 1974,
+    "name": "Ruffles® Batata Chips 1 pacote pequeno",
+    "measure": "",
+    "grams": 60,
+    "carbs": 29,
+    "calories": 338
+  },
+  {
+    "id": 1975,
+    "name": "Rum (40% álcool)",
+    "measure": "1 dose padrão",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 115
+  },
+  {
+    "id": 1976,
+    "name": "Sagu cru",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 27,
+    "calories": 105
+  },
+  {
+    "id": 1977,
+    "name": "Sagu de leite, tradicional",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 6,
+    "calories": 40
+  },
+  {
+    "id": 1978,
+    "name": "Sagu tradicional, em vinho",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 6,
+    "calories": 29
+  },
+  {
+    "id": 1979,
+    "name": "Salada Agadir",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 3,
+    "calories": 167
+  },
+  {
+    "id": 1980,
+    "name": "Salada Almanara",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 9,
+    "calories": 156
+  },
+  {
+    "id": 1981,
+    "name": "Salada Caesar",
+    "measure": "1 porção grande",
+    "grams": 180,
+    "carbs": 12,
+    "calories": 152
+  },
+  {
+    "id": 1982,
+    "name": "Salada Caesar",
+    "measure": "1 porção pequena",
+    "grams": 80,
+    "carbs": 10,
+    "calories": 97
+  },
+  {
+    "id": 1983,
+    "name": "Salada com carne (Bob’s®)",
+    "measure": "1 porção",
+    "grams": 160,
+    "carbs": 3,
+    "calories": 483
+  },
+  {
+    "id": 1984,
+    "name": "Salada com frango empanado (Bob’s®)",
+    "measure": "1 porção",
+    "grams": 180,
+    "carbs": 17,
+    "calories": 418
+  },
+  {
+    "id": 1985,
+    "name": "Salada de batata com maionese",
+    "measure": "1 colher de sopa cheia",
+    "grams": 38,
+    "carbs": 4,
+    "calories": 41
+  },
+  {
+    "id": 1986,
+    "name": "Salada de batata com maionese",
+    "measure": "1 Porção média",
+    "grams": 90,
+    "carbs": 10,
+    "calories": 97
+  },
+  {
+    "id": 1987,
+    "name": "Salada de frutas sem açúcar (laranja, banana, maçã e mamão)",
+    "measure": "1 copo pequeno 150 24 99 Salada de frutas sem açúcar (laranja, banana, maçã e mamão) 1 colher de sopa cheia",
+    "grams": 38,
+    "carbs": 6,
+    "calories": 24
+  },
+  {
+    "id": 1988,
+    "name": "Salada de legumes com maionese (batata, cenoura e vagem)",
+    "measure": "1 colher de sopa cheia",
+    "grams": 38,
+    "carbs": 3,
+    "calories": 36
+  },
+  {
+    "id": 1989,
+    "name": "Salada de legumes cozida no vapor (couve- flor,cenoura, brócolis, batata e vagem)",
+    "measure": "1 Colher de sopa cheia",
+    "grams": 38,
+    "carbs": 3,
+    "calories": 13
+  },
+  {
+    "id": 1990,
+    "name": "Salada Veggie (Bob’s®)",
+    "measure": "1 porção",
+    "grams": 0,
+    "carbs": 6,
+    "calories": 184
+  },
+  {
+    "id": 1991,
+    "name": "Salame",
+    "measure": "1 fatia média",
+    "grams": 5,
+    "carbs": 0,
+    "calories": 20
+  },
+  {
+    "id": 1992,
+    "name": "Salgadinho Pingo d’ouro sabor bacon Elma Chips ® 1 e",
+    "measure": "1/2 xícara",
+    "grams": 25,
+    "carbs": 8,
+    "calories": 90
+  },
+  {
+    "id": 1993,
+    "name": "Salmão defumado",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 112
+  },
+  {
+    "id": 1994,
+    "name": "Salmão filé a milanesa (farinha de rosca e ovo)",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 17,
+    "calories": 362
+  },
+  {
+    "id": 1995,
+    "name": "Salmão filé cozido ao molho branco (farinha de trigo, manteiga e leite)",
+    "measure": "1 filé médio 100 4 199 Salmão grelhado 1 fatia média",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 243
+  },
+  {
+    "id": 1996,
+    "name": "Salpicão de frango",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 1,
+    "calories": 37
+  },
+  {
+    "id": 1997,
+    "name": "Salsa crua",
+    "measure": "1 colher de sopa cheia",
+    "grams": 5,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 1998,
+    "name": "Salsão cru",
+    "measure": "1 colher de sopa cheia",
+    "grams": 19,
+    "carbs": 0,
+    "calories": 3
+  },
+  {
+    "id": 1999,
+    "name": "Salsicha Comum",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 1,
+    "calories": 104
+  },
+  {
+    "id": 2000,
+    "name": "Salsicha comum com molho de tomate (tomate, óleo, cebola e alho)",
+    "measure": "1 unidade 50 3 111 Salsicha de frango Sadia® 1 unidade média",
+    "grams": 50,
+    "carbs": 1,
+    "calories": 99
+  },
+  {
+    "id": 2001,
+    "name": "Salsicha de peru Sadia®",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 2,
+    "calories": 104
+  },
+  {
+    "id": 2002,
+    "name": "Salsicha envasada (em conserva) Oderich®",
+    "measure": "1 unidade média",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 70
+  },
+  {
+    "id": 2003,
+    "name": "Salsicha light",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 3,
+    "calories": 36
+  },
+  {
+    "id": 2004,
+    "name": "Salsichão",
+    "measure": "1 unidade média",
+    "grams": 60,
+    "carbs": 2,
+    "calories": 139
+  },
+  {
+    "id": 2005,
+    "name": "Sanduíche americano (pão com presunto, queijo, alface, tomate, ovo e maionese)",
+    "measure": "1 unidade média 210 30 446 Sanduiche BMT italiano (Subway®) 1 porção de 15cm",
+    "grams": 216,
+    "carbs": 47,
+    "calories": 405
+  },
+  {
+    "id": 2006,
+    "name": "Sanduiche de almondegas (Subway®)",
+    "measure": "1 porção de 15cm",
+    "grams": 379,
+    "carbs": 61,
+    "calories": 498
+  },
+  {
+    "id": 2007,
+    "name": "Sanduiche de atum (Subway®)",
+    "measure": "1 porção de 15cm",
+    "grams": 233,
+    "carbs": 47,
+    "calories": 337
+  },
+  {
+    "id": 2008,
+    "name": "Sanduiche de carne e queijo (Subway®)",
+    "measure": "1 porção de 15cm",
+    "grams": 234,
+    "carbs": 48,
+    "calories": 344
+  },
+  {
+    "id": 2009,
+    "name": "Sanduíche de frango (pão de forma, peito de frango grelhado, alface americana, cenoura crua e tomate)",
+    "measure": "1 unidade média 140 26 229 Sanduiche de frango (Subway®) 1 porção de 15cm",
+    "grams": 228,
+    "carbs": 48,
+    "calories": 331
+  },
+  {
+    "id": 2010,
+    "name": "Sanduiche de frango defumado c/ cream cheese (Subway®)",
+    "measure": "1 porção de 15cm 232 47 372 Sanduiche de frango teriyaki (Subway®) 1 porção de 15cm",
+    "grams": 237,
+    "carbs": 61,
+    "calories": 361
+  },
+  {
+    "id": 2011,
+    "name": "Sanduíche de pão francês com salame",
+    "measure": "1 unidade",
+    "grams": 80,
+    "carbs": 32,
+    "calories": 270
+  },
+  {
+    "id": 2012,
+    "name": "Sanduíche de pão francês, c/ presunto, queijo muçarela, alface e tomate",
+    "measure": "1 unidade média 140 33 287 Sanduíche de pão sirio com queijo minas, alface e tomate 1 unidade média 130 38 256 Sanduiche de peito de peru (Subway®) 1 porção de 15cm",
+    "grams": 219,
+    "carbs": 47,
+    "calories": 289
+  },
+  {
+    "id": 2013,
+    "name": "Sanduiche de presunto (Subway®)",
+    "measure": "1 porção de 15cm",
+    "grams": 204,
+    "carbs": 46,
+    "calories": 273
+  },
+  {
+    "id": 2014,
+    "name": "Sanduiche de rosbife (Subway®)",
+    "measure": "1 porção de 15cm",
+    "grams": 222,
+    "carbs": 45,
+    "calories": 304
+  },
+  {
+    "id": 2015,
+    "name": "Sanduíche misto quente (pão forma integral, c/ presunto e queijo muçarela)",
+    "measure": "1 unidade 110 26 257 Sanduíche queijo quente (pão branco tradicional, queijo muçarela e manteiga) 1 unidade 90 24 299 Sanduíche Salada de frango (Bob’s®) 1 unidade",
+    "grams": 0,
+    "carbs": 31,
+    "calories": 331
+  },
+  {
+    "id": 2016,
+    "name": "Sanduiche Steak churrasco (Subway®)",
+    "measure": "1 porção de 15cm",
+    "grams": 226,
+    "carbs": 51,
+    "calories": 378
+  },
+  {
+    "id": 2017,
+    "name": "Sanduiche Subway Club (Subway®)",
+    "measure": "1 porção de 15cm",
+    "grams": 260,
+    "carbs": 47,
+    "calories": 335
+  },
+  {
+    "id": 2018,
+    "name": "Sanduiche vegetariano Sub Veg (Subway®)",
+    "measure": "1 porção de 15cm",
+    "grams": 283,
+    "carbs": 48,
+    "calories": 654
+  },
+  {
+    "id": 2019,
+    "name": "Sanduíche, cheese salada (hambúrguer bovino grelhado c/ pão hambúrguer, queijo prato, alface e tomate",
+    "measure": "1 unidade 210 49 499 Sanduíche, hambúrguer bovino grelhado (c/ pão hambúrguer, alface e tomate 1 unidade 160 47 334 Sanduíche, hambúrguer de grão de bico (pão vegano), alface e tomate, c/ maionese vegana 1 unidade 100 32 236 Sanduíche, pão forma tradicional, atum em conserva e maionese 1 unidade 100 28 225 Sangria (vinho tinto, água com gás e frutas) 1 copo",
+    "grams": 150,
+    "carbs": 15,
+    "calories": 140
+  },
+  {
+    "id": 2020,
+    "name": "Sapoti",
+    "measure": "1 unidade pequena",
+    "grams": 50,
+    "carbs": 13,
+    "calories": 48
+  },
+  {
+    "id": 2021,
+    "name": "Saquê ou Sakê",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 3,
+    "calories": 67
+  },
+  {
+    "id": 2022,
+    "name": "Sarapatel",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 1,
+    "calories": 123
+  },
+  {
+    "id": 2023,
+    "name": "Sardinha assada",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 164
+  },
+  {
+    "id": 2024,
+    "name": "Sardinha enlatada em molho de tomate",
+    "measure": "1 unidade média",
+    "grams": 41,
+    "carbs": 0,
+    "calories": 108
+  },
+  {
+    "id": 2025,
+    "name": "Sardinha enlatada em óleo",
+    "measure": "1 unidade média",
+    "grams": 41,
+    "carbs": 0,
+    "calories": 116
+  },
+  {
+    "id": 2026,
+    "name": "Sardinha frita",
+    "measure": "1 unidade média",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 257
+  },
+  {
+    "id": 2027,
+    "name": "Sashimi de atum",
+    "measure": "1 fatia",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 12
+  },
+  {
+    "id": 2028,
+    "name": "Sashimi de salmão",
+    "measure": "1 fatia",
+    "grams": 10,
+    "carbs": 0,
+    "calories": 15
+  },
+  {
+    "id": 2029,
+    "name": "Semente de abóbora",
+    "measure": "1 colher de sopa rasa",
+    "grams": 7,
+    "carbs": 1,
+    "calories": 32
+  },
+  {
+    "id": 2030,
+    "name": "Semente de chia",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 6,
+    "calories": 66
+  },
+  {
+    "id": 2031,
+    "name": "Semente de Gergelim",
+    "measure": "1 colher de sopa cheia",
+    "grams": 6,
+    "carbs": 1,
+    "calories": 37
+  },
+  {
+    "id": 2032,
+    "name": "Semente de girassol com casca",
+    "measure": "1 colher de sopa cheia",
+    "grams": 5,
+    "carbs": 1,
+    "calories": 33
+  },
+  {
+    "id": 2033,
+    "name": "Semente de girassol sem casca",
+    "measure": "1 colher de sopa cheia",
+    "grams": 5,
+    "carbs": 1,
+    "calories": 31
+  },
+  {
+    "id": 2034,
+    "name": "Semente de linhaça dourada",
+    "measure": "1 colher de sobremesa rasa",
+    "grams": 8,
+    "carbs": 3,
+    "calories": 42
+  },
+  {
+    "id": 2035,
+    "name": "Semente de linhaça marrom",
+    "measure": "1 colher de sobremesa rasa",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 32
+  },
+  {
+    "id": 2036,
+    "name": "Semente de linhaça moída",
+    "measure": "1/2 colher de sopa cheia",
+    "grams": 8,
+    "carbs": 0,
+    "calories": 32
+  },
+  {
+    "id": 2037,
+    "name": "Sex on the beach 1 coquetel",
+    "measure": "",
+    "grams": 225,
+    "carbs": 30,
+    "calories": 326
+  },
+  {
+    "id": 2038,
+    "name": "Shimeji / Shitake",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 6,
+    "calories": 190
+  },
+  {
+    "id": 2039,
+    "name": "Shoyu light",
+    "measure": "1 colher de sopa",
+    "grams": 12,
+    "carbs": 1.4,
+    "calories": 7
+  },
+  {
+    "id": 2040,
+    "name": "Siri cozido",
+    "measure": "1 unidade pequena",
+    "grams": 16,
+    "carbs": 0,
+    "calories": 15
+  },
+  {
+    "id": 2041,
+    "name": "Siriguela",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 40,
+    "calories": 15
+  },
+  {
+    "id": 2042,
+    "name": "Snacks de soja Good Soy Believe® (sabores) 1 pacote",
+    "measure": "",
+    "grams": 25,
+    "carbs": 17,
+    "calories": 100
+  },
+  {
+    "id": 2043,
+    "name": "Soja cozida",
+    "measure": "1 colher de servir cheia",
+    "grams": 28,
+    "carbs": 4,
+    "calories": 44
+  },
+  {
+    "id": 2044,
+    "name": "Sopa caldo verde",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 8,
+    "calories": 104
+  },
+  {
+    "id": 2045,
+    "name": "Sopa canja (frango, peito, c/ cenoura, batata, tomate e aipo (salsão), arroz polido)",
+    "measure": "1 concha média 130 8 90 Sopa de cebola (caldo) 1 concha média",
+    "grams": 140,
+    "carbs": 8,
+    "calories": 38
+  },
+  {
+    "id": 2046,
+    "name": "Sopa de cogumelo (caldo)",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 2,
+    "calories": 10
+  },
+  {
+    "id": 2047,
+    "name": "Sopa de creme de ervilha industrializada",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 6,
+    "calories": 37
+  },
+  {
+    "id": 2048,
+    "name": "Sopa de ervilha",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 26,
+    "calories": 165
+  },
+  {
+    "id": 2049,
+    "name": "Sopa de espinafre (creme)",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 6,
+    "calories": 64
+  },
+  {
+    "id": 2050,
+    "name": "Sopa de feijão",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 14,
+    "calories": 71
+  },
+  {
+    "id": 2051,
+    "name": "Sopa de feijão branco (Cassoulet)",
+    "measure": "1 concha média",
+    "grams": 100,
+    "carbs": 9,
+    "calories": 171
+  },
+  {
+    "id": 2052,
+    "name": "Sopa de feijão com macarrão",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 30,
+    "calories": 211
+  },
+  {
+    "id": 2053,
+    "name": "Sopa de inhame",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 13,
+    "calories": 70
+  },
+  {
+    "id": 2054,
+    "name": "Sopa de legumes",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 12,
+    "calories": 73
+  },
+  {
+    "id": 2055,
+    "name": "Sopa de legumes com carne",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 4,
+    "calories": 103
+  },
+  {
+    "id": 2056,
+    "name": "Sopa de legumes com frango",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 5,
+    "calories": 81
+  },
+  {
+    "id": 2057,
+    "name": "Sopa de lentilha",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 16,
+    "calories": 108
+  },
+  {
+    "id": 2058,
+    "name": "Sopa de macarrão com vegetais",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 15,
+    "calories": 79
+  },
+  {
+    "id": 2059,
+    "name": "Sopa de mandioca (aipim / macaxeira)",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 18,
+    "calories": 85
+  },
+  {
+    "id": 2060,
+    "name": "Sopa de milho (fubá)",
+    "measure": "1 concha média",
+    "grams": 130,
+    "carbs": 17,
+    "calories": 90
+  },
+  {
+    "id": 2061,
+    "name": "Sopa italiana Minestrone",
+    "measure": "1 concha média",
+    "grams": 160,
+    "carbs": 14,
+    "calories": 74
+  },
+  {
+    "id": 2062,
+    "name": "Sorvete (casquinha) baunilha (Bob’s)®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 28,
+    "calories": 176
+  },
+  {
+    "id": 2063,
+    "name": "Sorvete (média)",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 19,
+    "calories": 161
+  },
+  {
+    "id": 2064,
+    "name": "Sorvete de casquinha baunilha (Mc’Donalds)®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 31,
+    "calories": 185
+  },
+  {
+    "id": 2065,
+    "name": "Sorvete de casquinha chocolate (Mc’Donalds)®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 31,
+    "calories": 192
+  },
+  {
+    "id": 2066,
+    "name": "Sorvete de casquinha mista (Mc’Donalds)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 31,
+    "calories": 182
+  },
+  {
+    "id": 2067,
+    "name": "Sorvete de creme Kibon ®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 14,
+    "calories": 102
+  },
+  {
+    "id": 2068,
+    "name": "Sorvete diet/light (média)",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 10,
+    "calories": 62
+  },
+  {
+    "id": 2069,
+    "name": "Sorvete Garoto chocolate ao leite®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 17,
+    "calories": 123
+  },
+  {
+    "id": 2070,
+    "name": "Sorvete Garoto chocolate branco e negresco®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 12,
+    "calories": 112
+  },
+  {
+    "id": 2071,
+    "name": "Sorvete Gelato Cioccolato diet Bacio di Late®",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 11,
+    "calories": 90
+  },
+  {
+    "id": 2072,
+    "name": "Sorvete Gelato Cioccolato diet Bacio di Late®",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 11,
+    "calories": 90
+  },
+  {
+    "id": 2073,
+    "name": "Sorvete Kibon Cremosíssimo Napolitano®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 16,
+    "calories": 116
+  },
+  {
+    "id": 2074,
+    "name": "Sorvete Kibon Deliciosamente Vegano® 1 pote",
+    "measure": "",
+    "grams": 800,
+    "carbs": 24,
+    "calories": 180
+  },
+  {
+    "id": 2075,
+    "name": "Sorvete light sabor baunilha La Basque®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 13,
+    "calories": 86
+  },
+  {
+    "id": 2076,
+    "name": "Sorvete light sabor chocolate La Basque®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 13,
+    "calories": 90
+  },
+  {
+    "id": 2077,
+    "name": "Sorvete linha zero Itália® sabor choco chips",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 82
+  },
+  {
+    "id": 2078,
+    "name": "Sorvete linha zero Itália® sabor choco chips",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 82
+  },
+  {
+    "id": 2079,
+    "name": "Sorvete linha zero Itália® sabor chocolate",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 15,
+    "calories": 102
+  },
+  {
+    "id": 2080,
+    "name": "Sorvete linha zero Itália® sabor chocolate",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 15,
+    "calories": 102
+  },
+  {
+    "id": 2081,
+    "name": "Sorvete linha zero Itália® sabor chocolate belga",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 4,
+    "calories": 78
+  },
+  {
+    "id": 2082,
+    "name": "Sorvete linha zero Itália® sabor chocolate belga",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 4,
+    "calories": 78
+  },
+  {
+    "id": 2083,
+    "name": "Sorvete linha zero Itália® sabor coco",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 14,
+    "calories": 108
+  },
+  {
+    "id": 2084,
+    "name": "Sorvete linha zero Itália® sabor coco",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 14,
+    "calories": 108
+  },
+  {
+    "id": 2085,
+    "name": "Sorvete linha zero Itália® sabor flocos",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 81
+  },
+  {
+    "id": 2086,
+    "name": "Sorvete linha zero Itália® sabor flocos",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 81
+  },
+  {
+    "id": 2087,
+    "name": "Sorvete linha zero Itália® sabor manga",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 12,
+    "calories": 50
+  },
+  {
+    "id": 2088,
+    "name": "Sorvete linha zero Itália® sabor manga",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 12,
+    "calories": 50
+  },
+  {
+    "id": 2089,
+    "name": "Sorvete linha zero Itália® sabor morango",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 12,
+    "calories": 88
+  },
+  {
+    "id": 2090,
+    "name": "Sorvete linha zero Itália® sabor morango",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 12,
+    "calories": 88
+  },
+  {
+    "id": 2091,
+    "name": "Sorvete linha zero Itália® sabor pistache",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 14,
+    "calories": 79
+  },
+  {
+    "id": 2092,
+    "name": "Sorvete linha zero Itália® sabor pistache",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 14,
+    "calories": 79
+  },
+  {
+    "id": 2093,
+    "name": "Sorvete linha zero Itália® sabor tapioca",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 83
+  },
+  {
+    "id": 2094,
+    "name": "Sorvete linha zero Itália® sabor tapioca",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 6,
+    "calories": 83
+  },
+  {
+    "id": 2095,
+    "name": "Sorvete linha zero Itália® sabor vanilla",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 4,
+    "calories": 63
+  },
+  {
+    "id": 2096,
+    "name": "Sorvete linha zero Itália® sabor vanilla",
+    "measure": "1 bola",
+    "grams": 60,
+    "carbs": 4,
+    "calories": 63
+  },
+  {
+    "id": 2097,
+    "name": "Sorvete Moça brigadeiro®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 19,
+    "calories": 112
+  },
+  {
+    "id": 2098,
+    "name": "Sorvete Sensação®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 17,
+    "calories": 120
+  },
+  {
+    "id": 2099,
+    "name": "Sorvete zero açúcar Chicabon Kibon®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 9,
+    "calories": 66
+  },
+  {
+    "id": 2100,
+    "name": "Sorvete zero açúcar sabor chocolate LosLos®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 16,
+    "calories": 106
+  },
+  {
+    "id": 2101,
+    "name": "Sorvete zero açúcar sabor Frutas Vermelhas Eskimó®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 13,
+    "calories": 81
+  },
+  {
+    "id": 2102,
+    "name": "Sorvete zero açúcar sabor napoliano Nestlé®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 4,
+    "calories": 71
+  },
+  {
+    "id": 2103,
+    "name": "Sorvete zero Chicabon ®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 9,
+    "calories": 66
+  },
+  {
+    "id": 2104,
+    "name": "Sorvete zero sabor napolitano Frosty®",
+    "measure": "1 bola média",
+    "grams": 60,
+    "carbs": 52,
+    "calories": 8
+  },
+  {
+    "id": 2105,
+    "name": "Stacker Duplo Bacon (Burguer King)®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 20,
+    "calories": 157
+  },
+  {
+    "id": 2106,
+    "name": "Strogonofe de pinhão com shitake",
+    "measure": "1 porção",
+    "grams": 250,
+    "carbs": 48,
+    "calories": 374
+  },
+  {
+    "id": 2107,
+    "name": "Strogonoff de carne",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 1,
+    "calories": 42
+  },
+  {
+    "id": 2108,
+    "name": "Strogonoff de frango",
+    "measure": "1 colher de sopa cheia",
+    "grams": 25,
+    "carbs": 1,
+    "calories": 38
+  },
+  {
+    "id": 2109,
+    "name": "Strudel de maçã",
+    "measure": "1 fatia pequena",
+    "grams": 50,
+    "carbs": 21,
+    "calories": 137
+  },
+  {
+    "id": 2110,
+    "name": "Strudel de queijo",
+    "measure": "1 fatia fina",
+    "grams": 76,
+    "carbs": 22,
+    "calories": 188
+  },
+  {
+    "id": 2111,
+    "name": "Suco de abacaxi com açúcar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 27,
+    "calories": 112
+  },
+  {
+    "id": 2112,
+    "name": "Suco de abacaxi sem açúcar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 10,
+    "calories": 41
+  },
+  {
+    "id": 2113,
+    "name": "Suco de açaí com xarope",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 60,
+    "calories": 365
+  },
+  {
+    "id": 2114,
+    "name": "Suco de acerola com açúcar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 15,
+    "calories": 62
+  },
+  {
+    "id": 2115,
+    "name": "Suco de acerola com laranja sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 25,
+    "calories": 113
+  },
+  {
+    "id": 2116,
+    "name": "Suco de acerola sem açúcar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 3,
+    "calories": 15
+  },
+  {
+    "id": 2117,
+    "name": "Suco de caju sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 3,
+    "calories": 11
+  },
+  {
+    "id": 2118,
+    "name": "Suco de graviola sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 7,
+    "calories": 35
+  },
+  {
+    "id": 2119,
+    "name": "Suco de laranja 100% Maratá",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 21,
+    "calories": 84
+  },
+  {
+    "id": 2120,
+    "name": "Suco de laranja diluído (meio a meio) sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 11,
+    "calories": 45
+  },
+  {
+    "id": 2121,
+    "name": "Suco de laranja e cenoura sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 15,
+    "calories": 66
+  },
+  {
+    "id": 2122,
+    "name": "Suco de laranja sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 21,
+    "calories": 90
+  },
+  {
+    "id": 2123,
+    "name": "Suco de maçã Campo Largo®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 23,
+    "calories": 93
+  },
+  {
+    "id": 2124,
+    "name": "Suco de maçã Natural One®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 24,
+    "calories": 96
+  },
+  {
+    "id": 2125,
+    "name": "Suco de maçã Yakult® (100% suco)",
+    "measure": "1 unidade",
+    "grams": 200,
+    "carbs": 20,
+    "calories": 80
+  },
+  {
+    "id": 2126,
+    "name": "Suco de mamão com laranja sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 26,
+    "calories": 110
+  },
+  {
+    "id": 2127,
+    "name": "Suco de mamão sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 11,
+    "calories": 46
+  },
+  {
+    "id": 2128,
+    "name": "Suco de manga sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 10,
+    "calories": 40
+  },
+  {
+    "id": 2129,
+    "name": "Suco de maracujá com açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 12,
+    "calories": 52
+  },
+  {
+    "id": 2130,
+    "name": "Suco de melancia sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 19,
+    "calories": 88
+  },
+  {
+    "id": 2131,
+    "name": "Suco de melão com açúcar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 19,
+    "calories": 77
+  },
+  {
+    "id": 2132,
+    "name": "Suco de morango com açúcar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 19,
+    "calories": 83
+  },
+  {
+    "id": 2133,
+    "name": "Suco de morango sem açúcar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 9,
+    "calories": 38
+  },
+  {
+    "id": 2134,
+    "name": "Suco de pessego néctar (com açúcar)",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 33,
+    "calories": 134
+  },
+  {
+    "id": 2135,
+    "name": "Suco de pêssego sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 7,
+    "calories": 32
+  },
+  {
+    "id": 2136,
+    "name": "Suco de tangerina (mexerica) sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 18,
+    "calories": 86
+  },
+  {
+    "id": 2137,
+    "name": "Suco de tomate sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 9,
+    "calories": 38
+  },
+  {
+    "id": 2138,
+    "name": "Suco de uva integral",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 35,
+    "calories": 146
+  },
+  {
+    "id": 2139,
+    "name": "Suco de uva Kapo® 1 caixinha",
+    "measure": "",
+    "grams": 200,
+    "carbs": 19,
+    "calories": 79
+  },
+  {
+    "id": 2140,
+    "name": "Suco Del Valle® (média)",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 28,
+    "calories": 112
+  },
+  {
+    "id": 2141,
+    "name": "Suco Del Valle® light (média)",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 6,
+    "calories": 24
+  },
+  {
+    "id": 2142,
+    "name": "Suco Maguary® sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 3,
+    "calories": 14
+  },
+  {
+    "id": 2143,
+    "name": "Suco natural de maracujá sem açúcar",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 2,
+    "calories": 14
+  },
+  {
+    "id": 2144,
+    "name": "Suco natural, melão s/ açúcar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 7,
+    "calories": 31
+  },
+  {
+    "id": 2145,
+    "name": "Suco Tang®",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 21,
+    "calories": 84
+  },
+  {
+    "id": 2146,
+    "name": "Sucrilhos Kelloggs® Cereal Matinal",
+    "measure": "1 xícara",
+    "grams": 30,
+    "carbs": 26,
+    "calories": 109
+  },
+  {
+    "id": 2147,
+    "name": "Suflê de alho poró com molho branco e parmesão",
+    "measure": "1 colher de servir",
+    "grams": 60,
+    "carbs": 8,
+    "calories": 123
+  },
+  {
+    "id": 2148,
+    "name": "Suflê de batata baroa com molho branco e parmesão",
+    "measure": "1 colher de servir",
+    "grams": 60,
+    "carbs": 8,
+    "calories": 83
+  },
+  {
+    "id": 2149,
+    "name": "Suflê de frango com molho branco e parnmesão",
+    "measure": "1 colher de servir",
+    "grams": 60,
+    "carbs": 5,
+    "calories": 97
+  },
+  {
+    "id": 2150,
+    "name": "Sundae caramelo (Mc’Donalds) ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 48,
+    "calories": 310
+  },
+  {
+    "id": 2151,
+    "name": "Sundae chocolate (Bob’s) ®",
+    "measure": "1 unidade",
+    "grams": 172,
+    "carbs": 80,
+    "calories": 463
+  },
+  {
+    "id": 2152,
+    "name": "Sundae Chocolate (Bob’s)®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 49,
+    "calories": 331
+  },
+  {
+    "id": 2153,
+    "name": "Sundae chocolate (Mc’Donalds) ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 44,
+    "calories": 311
+  },
+  {
+    "id": 2154,
+    "name": "Sundae Kibon®",
+    "measure": "1 unidade",
+    "grams": 145,
+    "carbs": 41,
+    "calories": 266
+  },
+  {
+    "id": 2155,
+    "name": "Sundae morango (Mc’Donalds) ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 46,
+    "calories": 290
+  },
+  {
+    "id": 2156,
+    "name": "Sundae Morango (Bob’s)®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 62,
+    "calories": 389
+  },
+  {
+    "id": 2157,
+    "name": "Super Coffee® Beijinho",
+    "measure": "1 dose",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 52
+  },
+  {
+    "id": 2158,
+    "name": "Super Coffee® Chocolate",
+    "measure": "1 dose",
+    "grams": 10,
+    "carbs": 1,
+    "calories": 50
+  },
+  {
+    "id": 2159,
+    "name": "Super Coffee® Doce de Leite",
+    "measure": "1 dose",
+    "grams": 10,
+    "carbs": 1,
+    "calories": 45
+  },
+  {
+    "id": 2160,
+    "name": "Super Coffee® Língua de Gato",
+    "measure": "1 dose",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 49
+  },
+  {
+    "id": 2161,
+    "name": "Super Coffee® Original",
+    "measure": "1 dose",
+    "grams": 10,
+    "carbs": 1,
+    "calories": 49
+  },
+  {
+    "id": 2162,
+    "name": "Super Coffee® Paçoca",
+    "measure": "1 dose",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 52
+  },
+  {
+    "id": 2163,
+    "name": "Super Coffee® Pistache",
+    "measure": "1 dose",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 54
+  },
+  {
+    "id": 2164,
+    "name": "Super Coffee® Vanilla Latte",
+    "measure": "1 dose",
+    "grams": 10,
+    "carbs": 1,
+    "calories": 50
+  },
+  {
+    "id": 2165,
+    "name": "Sushi de Atum",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 7,
+    "calories": 40
+  },
+  {
+    "id": 2166,
+    "name": "Sushi de Salmão",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 7,
+    "calories": 38
+  },
+  {
+    "id": 2167,
+    "name": "Sushi de salmão com manga e pepino",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 7,
+    "calories": 40
+  },
+  {
+    "id": 2168,
+    "name": "Sushi de salmão e cream cheese",
+    "measure": "1 unidade média",
+    "grams": 30,
+    "carbs": 7,
+    "calories": 51
+  },
+  {
+    "id": 2169,
+    "name": "Sushi Kappamaki",
+    "measure": "1 unidade média",
+    "grams": 15,
+    "carbs": 5,
+    "calories": 17
+  },
+  {
+    "id": 2170,
+    "name": "Suspiro",
+    "measure": "1 unidade média",
+    "grams": 10,
+    "carbs": 9,
+    "calories": 37
+  },
+  {
+    "id": 2171,
+    "name": "Suspiro Diet (Merenguinho®)",
+    "measure": "1 unidade",
+    "grams": 2,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 2172,
+    "name": "Suspiro zero açúcar Doce Amor®",
+    "measure": "8 unidades",
+    "grams": 10,
+    "carbs": 5,
+    "calories": 18
+  },
+  {
+    "id": 2173,
+    "name": "Suspiro zero açúcar Doce Amor®",
+    "measure": "1 unidade",
+    "grams": 1,
+    "carbs": 1,
+    "calories": 2
+  },
+  {
+    "id": 2174,
+    "name": "Suspiro zero açúcar WheyViv® 1 pacotinho",
+    "measure": "",
+    "grams": 25,
+    "carbs": 6,
+    "calories": 66
+  },
+  {
+    "id": 2175,
+    "name": "Suspiro zero açúcar WheyViv®",
+    "measure": "1 unidade",
+    "grams": 1,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 2176,
+    "name": "Sustagem® Kids (média)",
+    "measure": "1 colher de sopa",
+    "grams": 9,
+    "carbs": 8,
+    "calories": 35
+  },
+  {
+    "id": 2177,
+    "name": "Sustagen®",
+    "measure": "1 colher sopa",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 38
+  },
+  {
+    "id": 2178,
+    "name": "Tabule",
+    "measure": "1 colher de servir",
+    "grams": 50,
+    "carbs": 5.3,
+    "calories": 28
+  },
+  {
+    "id": 2179,
+    "name": "Taco de Carne Moída Soft- Taco Bell ®",
+    "measure": "1 unidade",
+    "grams": 92,
+    "carbs": 17,
+    "calories": 207
+  },
+  {
+    "id": 2180,
+    "name": "Taco de Frango Soft - Taco Bell ®",
+    "measure": "1 unidade",
+    "grams": 92,
+    "carbs": 17,
+    "calories": 167
+  },
+  {
+    "id": 2181,
+    "name": "Tainha peixe",
+    "measure": "filé cozido 1 posta pequena",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 189
+  },
+  {
+    "id": 2182,
+    "name": "Tâmara seca",
+    "measure": "1 unidade",
+    "grams": 7,
+    "carbs": 6,
+    "calories": 22
+  },
+  {
+    "id": 2183,
+    "name": "Tamarindo",
+    "measure": "1 unidade média",
+    "grams": 8,
+    "carbs": 6,
+    "calories": 22
+  },
+  {
+    "id": 2184,
+    "name": "Tambaqui recheado com castanha do pará e abricó",
+    "measure": "1 filé",
+    "grams": 156,
+    "carbs": 3,
+    "calories": 236
+  },
+  {
+    "id": 2185,
+    "name": "Tangerina ponkã",
+    "measure": "1 unidade media",
+    "grams": 135,
+    "carbs": 13,
+    "calories": 54
+  },
+  {
+    "id": 2186,
+    "name": "Tangerina, Bergamota ou Mexerica",
+    "measure": "1 unidade grande",
+    "grams": 100,
+    "carbs": 15,
+    "calories": 58
+  },
+  {
+    "id": 2187,
+    "name": "Tapioca com manteiga e sal",
+    "measure": "1 unidade pequena",
+    "grams": 80,
+    "carbs": 50,
+    "calories": 282
+  },
+  {
+    "id": 2188,
+    "name": "Tapioca, c/ leite condensado e coco",
+    "measure": "1 unidade média",
+    "grams": 110,
+    "carbs": 67,
+    "calories": 344
+  },
+  {
+    "id": 2189,
+    "name": "Tapioca, c/ queijo coalho e muçarela",
+    "measure": "1 unidade média",
+    "grams": 110,
+    "carbs": 57,
+    "calories": 327
+  },
+  {
+    "id": 2190,
+    "name": "Tatu (carne)",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 172
+  },
+  {
+    "id": 2191,
+    "name": "Temaki",
+    "measure": "1 unidade",
+    "grams": 90,
+    "carbs": 20,
+    "calories": 149
+  },
+  {
+    "id": 2192,
+    "name": "Temaki de Atum",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 18,
+    "calories": 157
+  },
+  {
+    "id": 2193,
+    "name": "Temaki de Salmão",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 18,
+    "calories": 190
+  },
+  {
+    "id": 2194,
+    "name": "Tempero Maggi fondor ®",
+    "measure": "1 colher de chá",
+    "grams": 5,
+    "carbs": 1,
+    "calories": 3
+  },
+  {
+    "id": 2195,
+    "name": "Tender de porco bola",
+    "measure": "1 fatia média",
+    "grams": 35,
+    "carbs": 0,
+    "calories": 42
+  },
+  {
+    "id": 2196,
+    "name": "Tequila",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 110
+  },
+  {
+    "id": 2197,
+    "name": "Terrine de legumes, com macaúba e major-gomes",
+    "measure": "1 porção pequena",
+    "grams": 50,
+    "carbs": 2,
+    "calories": 60
+  },
+  {
+    "id": 2198,
+    "name": "Tiramissu",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 24,
+    "calories": 283
+  },
+  {
+    "id": 2199,
+    "name": "Tiramissu gelato sem açúcar",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 13,
+    "calories": 112
+  },
+  {
+    "id": 2200,
+    "name": "Toddy original pó ®",
+    "measure": "2 colheres de sopa",
+    "grams": 20,
+    "carbs": 19,
+    "calories": 80
+  },
+  {
+    "id": 2201,
+    "name": "Toddynho ® 1 caixinha",
+    "measure": "",
+    "grams": 200,
+    "carbs": 27,
+    "calories": 167
+  },
+  {
+    "id": 2202,
+    "name": "Toddynho Levinho® 1 caixinha",
+    "measure": "",
+    "grams": 200,
+    "carbs": 15,
+    "calories": 89
+  },
+  {
+    "id": 2203,
+    "name": "Tofu",
+    "measure": "1 fatia média",
+    "grams": 40,
+    "carbs": 1,
+    "calories": 26
+  },
+  {
+    "id": 2204,
+    "name": "Tomate",
+    "measure": "1 unidade pequena",
+    "grams": 50,
+    "carbs": 2,
+    "calories": 10
+  },
+  {
+    "id": 2205,
+    "name": "Tomate, molho industrializado",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 8,
+    "calories": 38
+  },
+  {
+    "id": 2206,
+    "name": "Tomate, purê industrializado",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 1,
+    "calories": 3
+  },
+  {
+    "id": 2207,
+    "name": "Top sundae caramelo (Mc’ Donalds) ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 67,
+    "calories": 401
+  },
+  {
+    "id": 2208,
+    "name": "Top sundae chocolate (Mc’ Donalds) ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 60,
+    "calories": 396
+  },
+  {
+    "id": 2209,
+    "name": "Top sundae morango (Mc’ Donalds) ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 61,
+    "calories": 354
+  },
+  {
+    "id": 2210,
+    "name": "Toranja",
+    "measure": "1 unidade pequena",
+    "grams": 120,
+    "carbs": 11,
+    "calories": 48
+  },
+  {
+    "id": 2211,
+    "name": "Torrada de pão francês caseira",
+    "measure": "1 unidade",
+    "grams": 8,
+    "carbs": 6,
+    "calories": 29
+  },
+  {
+    "id": 2212,
+    "name": "Torrada Integral Bauducco",
+    "measure": "1 unidade",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 35
+  },
+  {
+    "id": 2213,
+    "name": "Torrada Magic Toast® cacau e cereais 6 biscoitos",
+    "measure": "",
+    "grams": 18,
+    "carbs": 14,
+    "calories": 66
+  },
+  {
+    "id": 2214,
+    "name": "Torrada Magic Toast® integral 6 biscoitos",
+    "measure": "",
+    "grams": 18,
+    "carbs": 12,
+    "calories": 64
+  },
+  {
+    "id": 2215,
+    "name": "Torrada Magic Toast® light em açúcares 6 biscoitos",
+    "measure": "",
+    "grams": 18,
+    "carbs": 14,
+    "calories": 65
+  },
+  {
+    "id": 2216,
+    "name": "Torrada Magic Toast® multicereal 6 biscoitos",
+    "measure": "",
+    "grams": 18,
+    "carbs": 12,
+    "calories": 60
+  },
+  {
+    "id": 2217,
+    "name": "Torrada Magic Toast® peito de peru 6 biscoitos",
+    "measure": "",
+    "grams": 18,
+    "carbs": 17,
+    "calories": 60
+  },
+  {
+    "id": 2218,
+    "name": "Torresmo",
+    "measure": "1 escumadeira",
+    "grams": 90,
+    "carbs": 0,
+    "calories": 541
+  },
+  {
+    "id": 2219,
+    "name": "Torresmo",
+    "measure": "1 fatia",
+    "grams": 20,
+    "carbs": 0,
+    "calories": 109
+  },
+  {
+    "id": 2220,
+    "name": "Torrone com amendoim Montevérgine ® 1/3 de barra grande",
+    "measure": "",
+    "grams": 30,
+    "carbs": 20,
+    "calories": 113
+  },
+  {
+    "id": 2221,
+    "name": "Torrone com amendoim Montevérgine ®",
+    "measure": "1 unidade pequena",
+    "grams": 10,
+    "carbs": 6,
+    "calories": 40
+  },
+  {
+    "id": 2222,
+    "name": "Torta Churros Tortamania®",
+    "measure": "1 fatia fina",
+    "grams": 60,
+    "carbs": 39,
+    "calories": 215
+  },
+  {
+    "id": 2223,
+    "name": "Torta de banana (Mc’ Donalds)®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 26,
+    "calories": 198
+  },
+  {
+    "id": 2224,
+    "name": "Torta de batata com carne",
+    "measure": "1 fatia fina",
+    "grams": 80,
+    "carbs": 8,
+    "calories": 116
+  },
+  {
+    "id": 2225,
+    "name": "Torta de batata com carne",
+    "measure": "1 fatia média",
+    "grams": 80,
+    "carbs": 8,
+    "calories": 116
+  },
+  {
+    "id": 2226,
+    "name": "Torta de frango",
+    "measure": "1 fatia média",
+    "grams": 100,
+    "carbs": 15,
+    "calories": 207
+  },
+  {
+    "id": 2227,
+    "name": "Torta de limão",
+    "measure": "1 fatia pequena",
+    "grams": 50,
+    "carbs": 25,
+    "calories": 181
+  },
+  {
+    "id": 2228,
+    "name": "Torta de maçã (Mc’ Donalds) ®",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 29,
+    "calories": 205
+  },
+  {
+    "id": 2229,
+    "name": "Torta de morango",
+    "measure": "1 fatia pequena",
+    "grams": 60,
+    "carbs": 29,
+    "calories": 150
+  },
+  {
+    "id": 2230,
+    "name": "Torta Floresta Negra Tortamania®",
+    "measure": "1 fatia pequena",
+    "grams": 60,
+    "carbs": 24,
+    "calories": 163
+  },
+  {
+    "id": 2231,
+    "name": "Torta mesclada de morango Tortamania®",
+    "measure": "1 fatia fina",
+    "grams": 60,
+    "carbs": 29,
+    "calories": 150
+  },
+  {
+    "id": 2232,
+    "name": "Torta Mousse de chocolate com raspas de chocolate Sadia®",
+    "measure": "1 Fatia fina 50 21 198 Torta Mousse de maracujá Sadia® 1 fatia fina",
+    "grams": 50,
+    "carbs": 18,
+    "calories": 96
+  },
+  {
+    "id": 2233,
+    "name": "Tortilha com farinha de milho",
+    "measure": "1 unidade média",
+    "grams": 100,
+    "carbs": 45,
+    "calories": 214
+  },
+  {
+    "id": 2234,
+    "name": "Toucinho cru",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 593
+  },
+  {
+    "id": 2235,
+    "name": "Toucinho defumado (bacon), frito, c/ alho e alecrim",
+    "measure": "1 fatia fina",
+    "grams": 15,
+    "carbs": 1,
+    "calories": 98
+  },
+  {
+    "id": 2236,
+    "name": "Tremoço cru",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 6,
+    "calories": 49
+  },
+  {
+    "id": 2237,
+    "name": "Tremoço em conserva",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 3,
+    "calories": 21
+  },
+  {
+    "id": 2238,
+    "name": "Trigo grão cru",
+    "measure": "1 colher de sopa",
+    "grams": 20,
+    "carbs": 15,
+    "calories": 67
+  },
+  {
+    "id": 2239,
+    "name": "Trigo para quibe cozido",
+    "measure": "1 colher de sopa",
+    "grams": 25,
+    "carbs": 5,
+    "calories": 19
+  },
+  {
+    "id": 2240,
+    "name": "Trigo, bolo de",
+    "measure": "1 fatia média",
+    "grams": 60,
+    "carbs": 36,
+    "calories": 203
+  },
+  {
+    "id": 2241,
+    "name": "Trigo, farelo de",
+    "measure": "1 colher de sopa rasa",
+    "grams": 10,
+    "carbs": 2,
+    "calories": 27
+  },
+  {
+    "id": 2242,
+    "name": "Trigo, gérmen de",
+    "measure": "1 colher de sopa cheia",
+    "grams": 10,
+    "carbs": 5,
+    "calories": 37
+  },
+  {
+    "id": 2243,
+    "name": "Trufa de chocolate com cereja",
+    "measure": "1 unidade grande",
+    "grams": 50,
+    "carbs": 29,
+    "calories": 246
+  },
+  {
+    "id": 2244,
+    "name": "Trufa de chocolate com cereja e licor caseiro",
+    "measure": "1 unidade grande",
+    "grams": 50,
+    "carbs": 29,
+    "calories": 243
+  },
+  {
+    "id": 2245,
+    "name": "Tucumã in natura",
+    "measure": "1 unidade",
+    "grams": 50,
+    "carbs": 13,
+    "calories": 130
+  },
+  {
+    "id": 2246,
+    "name": "Tucunaré (filé cru)",
+    "measure": "1 pedaço médio",
+    "grams": 120,
+    "carbs": 0,
+    "calories": 113
+  },
+  {
+    "id": 2247,
+    "name": "Tutu de feijão",
+    "measure": "1 colher de servir cheia",
+    "grams": 60,
+    "carbs": 9,
+    "calories": 92
+  },
+  {
+    "id": 2248,
+    "name": "Uísque",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 105
+  },
+  {
+    "id": 2249,
+    "name": "Umbu",
+    "measure": "1 unidade",
+    "grams": 30,
+    "carbs": 3,
+    "calories": 11
+  },
+  {
+    "id": 2250,
+    "name": "Umbu (Polpa)",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 8,
+    "calories": 36
+  },
+  {
+    "id": 2251,
+    "name": "Uramaki Filadelfia",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 16,
+    "calories": 81
+  },
+  {
+    "id": 2252,
+    "name": "Uramaki califórnia",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 10,
+    "calories": 47
+  },
+  {
+    "id": 2253,
+    "name": "Uramaki salmão",
+    "measure": "1 unidade",
+    "grams": 20,
+    "carbs": 4,
+    "calories": 25
+  },
+  {
+    "id": 2254,
+    "name": "Uva Rubi",
+    "measure": "1 unidade",
+    "grams": 8,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 2255,
+    "name": "Uva Vitória 1 cacho pequeno",
+    "measure": "",
+    "grams": 100,
+    "carbs": 17,
+    "calories": 67
+  },
+  {
+    "id": 2256,
+    "name": "Uva itália (uva verde)",
+    "measure": "1 unidade",
+    "grams": 8,
+    "carbs": 1,
+    "calories": 5
+  },
+  {
+    "id": 2257,
+    "name": "Uva itália (uva verde)",
+    "measure": "1 colher de sopa",
+    "grams": 30,
+    "carbs": 0.6,
+    "calories": 20
+  },
+  {
+    "id": 2258,
+    "name": "Uva Niágara - Comum 1 cacho pequeno",
+    "measure": "",
+    "grams": 100,
+    "carbs": 17,
+    "calories": 68
+  },
+  {
+    "id": 2259,
+    "name": "Uva passa Branca",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 12,
+    "calories": 45
+  },
+  {
+    "id": 2260,
+    "name": "Uva passa escura",
+    "measure": "1 colher de sopa",
+    "grams": 15,
+    "carbs": 12,
+    "calories": 44
+  },
+  {
+    "id": 2261,
+    "name": "Uva Thompson/Crinson",
+    "measure": "1 unidade",
+    "grams": 8,
+    "carbs": 1,
+    "calories": 4
+  },
+  {
+    "id": 2262,
+    "name": "Uva, geléia de",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 12,
+    "calories": 49
+  },
+  {
+    "id": 2263,
+    "name": "Uxi (polpa)",
+    "measure": "1 porção média",
+    "grams": 100,
+    "carbs": 38,
+    "calories": 252
+  },
+  {
+    "id": 2264,
+    "name": "Vaca atolada",
+    "measure": "1 concha média cheia",
+    "grams": 175,
+    "carbs": 79,
+    "calories": 639
+  },
+  {
+    "id": 2265,
+    "name": "Vagem cozida",
+    "measure": "1 colher de sopa cheia",
+    "grams": 20,
+    "carbs": 2,
+    "calories": 7
+  },
+  {
+    "id": 2266,
+    "name": "Vatapá",
+    "measure": "1 unidade",
+    "grams": 100,
+    "carbs": 10,
+    "calories": 254
+  },
+  {
+    "id": 2267,
+    "name": "Vieiras",
+    "measure": "2 unidades grandes",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 26
+  },
+  {
+    "id": 2268,
+    "name": "Vinagre",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 0,
+    "calories": 2
+  },
+  {
+    "id": 2269,
+    "name": "Vinagre Balsâmico",
+    "measure": "1 colher de sopa cheia",
+    "grams": 15,
+    "carbs": 3,
+    "calories": 14
+  },
+  {
+    "id": 2270,
+    "name": "Vinagrete",
+    "measure": "1 colher de sopa cheia",
+    "grams": 30,
+    "carbs": 1,
+    "calories": 23
+  },
+  {
+    "id": 2271,
+    "name": "Vinho branco demisec",
+    "measure": "1 taça",
+    "grams": 150,
+    "carbs": 5,
+    "calories": 21
+  },
+  {
+    "id": 2272,
+    "name": "Vinho branco seco",
+    "measure": "1 taça",
+    "grams": 150,
+    "carbs": 1,
+    "calories": 99
+  },
+  {
+    "id": 2273,
+    "name": "Vinho Espumante Brut",
+    "measure": "1 taça",
+    "grams": 150,
+    "carbs": 3,
+    "calories": 135
+  },
+  {
+    "id": 2274,
+    "name": "Vinho Espumante doce",
+    "measure": "1 taça",
+    "grams": 150,
+    "carbs": 8,
+    "calories": 147
+  },
+  {
+    "id": 2275,
+    "name": "Vinho quente",
+    "measure": "1 copo",
+    "grams": 150,
+    "carbs": 24,
+    "calories": 98
+  },
+  {
+    "id": 2276,
+    "name": "Vinho rosé",
+    "measure": "1 taça",
+    "grams": 150,
+    "carbs": 2,
+    "calories": 107
+  },
+  {
+    "id": 2277,
+    "name": "Vinho Tinto Seco",
+    "measure": "1 taça",
+    "grams": 150,
+    "carbs": 2,
+    "calories": 108
+  },
+  {
+    "id": 2278,
+    "name": "Vinho Tinto Suave",
+    "measure": "1 taça",
+    "grams": 150,
+    "carbs": 5,
+    "calories": 111
+  },
+  {
+    "id": 2279,
+    "name": "Vitamina de Frutas com leite e açúcar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 36,
+    "calories": 223
+  },
+  {
+    "id": 2280,
+    "name": "Vitamina de Frutas com leite sem açúcar",
+    "measure": "1 copo duplo cheio",
+    "grams": 240,
+    "carbs": 20,
+    "calories": 160
+  },
+  {
+    "id": 2281,
+    "name": "Vitela Assada",
+    "measure": "1 fatia grande",
+    "grams": 100,
+    "carbs": 0,
+    "calories": 160
+  },
+  {
+    "id": 2282,
+    "name": "Vodka",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 113
+  },
+  {
+    "id": 2283,
+    "name": "Waffer- média sabores",
+    "measure": "1 unidade",
+    "grams": 7,
+    "carbs": 3,
+    "calories": 21
+  },
+  {
+    "id": 2284,
+    "name": "Waffle tradicional Forno de Minas® 1",
+    "measure": "1/2 unidade",
+    "grams": 50,
+    "carbs": 19,
+    "calories": 161
+  },
+  {
+    "id": 2285,
+    "name": "Wasabi",
+    "measure": "1 colher de chá",
+    "grams": 5,
+    "carbs": 2,
+    "calories": 13
+  },
+  {
+    "id": 2286,
+    "name": "Waxy Maze D-R (Black Skull)",
+    "measure": "1 colher medida",
+    "grams": 40,
+    "carbs": 38,
+    "calories": 152
+  },
+  {
+    "id": 2287,
+    "name": "Whey protein concentrado em pó Marcas 1 dosador",
+    "measure": "",
+    "grams": 30,
+    "carbs": 3,
+    "calories": 110
+  },
+  {
+    "id": 2288,
+    "name": "Whey protein hidrolisado em pó 1 dosador",
+    "measure": "",
+    "grams": 30,
+    "carbs": 2,
+    "calories": 105
+  },
+  {
+    "id": 2289,
+    "name": "Whey protein isolado em pó 1 dosador",
+    "measure": "",
+    "grams": 30,
+    "carbs": 2,
+    "calories": 112
+  },
+  {
+    "id": 2290,
+    "name": "Whisky (30 mL) + Energetico Comum (170 ml)",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 25,
+    "calories": 160
+  },
+  {
+    "id": 2291,
+    "name": "Whisky (30 mL) + Energético Zero (170 mL)",
+    "measure": "1 copo",
+    "grams": 200,
+    "carbs": 0,
+    "calories": 70
+  },
+  {
+    "id": 2292,
+    "name": "Whisky (39%)",
+    "measure": "1 dose",
+    "grams": 50,
+    "carbs": 0,
+    "calories": 137
+  },
+  {
+    "id": 2293,
+    "name": "Whopper JR® com queijo (Burguer King)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 31,
+    "calories": 464
+  },
+  {
+    "id": 2294,
+    "name": "Whopper® com queijo (Burguer King)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 52,
+    "calories": 757
+  },
+  {
+    "id": 2295,
+    "name": "Whopper® duplo com queijo (Burguer King)",
+    "measure": "1 unidade",
+    "grams": 0,
+    "carbs": 52,
+    "calories": 978
+  },
+  {
+    "id": 2296,
+    "name": "Wrap Chia e quinoa Pullman® (Rap 10)",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 17,
+    "calories": 113
+  },
+  {
+    "id": 2297,
+    "name": "Wrap de salmão (Salad Creations)",
+    "measure": "1 unidade",
+    "grams": 300,
+    "carbs": 44,
+    "calories": 377
+  },
+  {
+    "id": 2298,
+    "name": "Wrap fit (Rap 10 Fit)",
+    "measure": "1 unidade",
+    "grams": 33,
+    "carbs": 17,
+    "calories": 83
+  },
+  {
+    "id": 2299,
+    "name": "Wrap Fit Pullman® (Rap 10)",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 21,
+    "calories": 52
+  },
+  {
+    "id": 2300,
+    "name": "Wrap integral (Rap 10 fibras)",
+    "measure": "1 unidade",
+    "grams": 33,
+    "carbs": 14,
+    "calories": 90
+  },
+  {
+    "id": 2301,
+    "name": "Wrap integral Tá Pronto Wickbold®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 17,
+    "calories": 98
+  },
+  {
+    "id": 2302,
+    "name": "Wrap original Tá Pronto Wickbold®",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 22,
+    "calories": 112
+  },
+  {
+    "id": 2303,
+    "name": "Wrap Proteina (Wickbold) 1 e",
+    "measure": "1/2 unidade",
+    "grams": 50,
+    "carbs": 22,
+    "calories": 132
+  },
+  {
+    "id": 2304,
+    "name": "Wrap sem Glúten (Casa Rigani)",
+    "measure": "1 unidade",
+    "grams": 40,
+    "carbs": 17,
+    "calories": 84
+  },
+  {
+    "id": 2305,
+    "name": "Wrap tradicional (Rap 10 original)",
+    "measure": "1 unidade",
+    "grams": 33,
+    "carbs": 15,
+    "calories": 90
+  },
+  {
+    "id": 2306,
+    "name": "Xilitol",
+    "measure": "1 colher de chá",
+    "grams": 3,
+    "carbs": 3,
+    "calories": 8
+  },
+  {
+    "id": 2307,
+    "name": "Xilitol",
+    "measure": "1 Colher de Sopa",
+    "grams": 15,
+    "carbs": 15,
+    "calories": 36
+  },
+  {
+    "id": 2308,
+    "name": "Xilitol",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 99,
+    "calories": 238
+  },
+  {
+    "id": 2309,
+    "name": "Xinxim de galinha",
+    "measure": "1 porção",
+    "grams": 150,
+    "carbs": 1,
+    "calories": 358
+  },
+  {
+    "id": 2310,
+    "name": "Yacon (batata)",
+    "measure": "1 unidade/porção",
+    "grams": 100,
+    "carbs": 12,
+    "calories": 44
+  },
+  {
+    "id": 2311,
+    "name": "Yakimeshi",
+    "measure": "1 porção",
+    "grams": 100,
+    "carbs": 21,
+    "calories": 134
+  },
+  {
+    "id": 2312,
+    "name": "Yakisoba",
+    "measure": "1 porção média",
+    "grams": 120,
+    "carbs": 22,
+    "calories": 146
+  },
+  {
+    "id": 2313,
+    "name": "Yakult",
+    "measure": "1 unidade",
+    "grams": 80,
+    "carbs": 11,
+    "calories": 51
+  },
+  {
+    "id": 2314,
+    "name": "Yakult 40",
+    "measure": "1 unidade",
+    "grams": 80,
+    "carbs": 11,
+    "calories": 51
+  },
+  {
+    "id": 2315,
+    "name": "Yakult 40 light",
+    "measure": "1 unidade",
+    "grams": 80,
+    "carbs": 3.5,
+    "calories": 30
+  },
+  {
+    "id": 2316,
+    "name": "YoPRO Bebida Láctea UHT 15g de proteínas®",
+    "measure": "1 unidade",
+    "grams": 250,
+    "carbs": 19,
+    "calories": 158
+  },
+  {
+    "id": 2317,
+    "name": "YoPRO Bebida Láctea UHT 25g de proteínas®",
+    "measure": "1 unidade",
+    "grams": 250,
+    "carbs": 13,
+    "calories": 188
+  }
+];

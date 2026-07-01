@@ -19,7 +19,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit) {
+fun LoginScreen(
+    onLoginSuccess: () -> Unit,
+    onManualLoginClick: () -> Unit
+) {
     val context = LocalContext.current
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -106,6 +109,15 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     modifier = Modifier.fillMaxWidth().height(56.dp)
                 ) {
                     Text("Entrar com Google", style = MaterialTheme.typography.titleMedium)
+                }
+
+                Spacer(Modifier.height(16.dp))
+
+                OutlinedButton(
+                    onClick = onManualLoginClick,
+                    modifier = Modifier.fillMaxWidth().height(56.dp)
+                ) {
+                    Text("Entrar com E-mail", style = MaterialTheme.typography.titleMedium)
                 }
             }
 

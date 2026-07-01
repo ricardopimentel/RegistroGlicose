@@ -31,7 +31,7 @@ interface GlucoseDao {
     @Delete
     suspend fun delete(record: GlucoseRecord)
 
-    @Query("SELECT * FROM glucose_records WHERE userId = :userId ORDER BY timestamp DESC LIMIT 1")
+    @Query("SELECT * FROM glucose_records WHERE userId = :userId AND value > 0 ORDER BY timestamp DESC LIMIT 1")
     fun getLatest(userId: String): Flow<GlucoseRecord?>
 
     // Reminders

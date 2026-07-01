@@ -8,5 +8,8 @@ data class GlucoseRecord(
     val timestamp: Long,
     val value: Float,
     val note: String,
-    val userId: String
+    val userId: String,
+    val carbs: Float? = null,
+    val calories: Float? = null,
+    val mealDetails: String? = null  // JSON array of meal items: [{"name":"...","multiplier":2.0},...]
 )

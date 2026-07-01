@@ -44,9 +44,76 @@
             </div>
         </main>
 
+        <!-- Carb Counter View -->
+        <main id="view-carb-counter" class="view" style="display: none; padding: 0 20px;">
+            <section class="glass-card animate-up" style="padding: 15px;">
+                <h3 style="margin-bottom: 12px; font-size: 1rem;">Buscar Alimento</h3>
+                <div style="position: relative; margin-bottom: 15px;">
+                    <input type="text" id="web-search-input" placeholder="Pesquisar no manual SBD (ex: arroz, pão)...">
+                    <i data-lucide="search" style="position: absolute; right: 15px; top: 12px; opacity: 0.5; width: 20px;"></i>
+                </div>
+                
+                <!-- Search Results list -->
+                <div id="web-search-results" class="scroll-container" style="max-height: 250px; overflow-y: auto; display: none; margin-top: 10px; border-radius: 12px; background: rgba(0,0,0,0.2); padding: 5px;">
+                    <!-- Results will be dynamically populated here -->
+                </div>
+            </section>
+
+            <section class="glass-card animate-up" style="padding: 15px; margin-top: 15px;">
+                <h3 style="margin-bottom: 15px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="utensils" style="width: 20px; color: var(--primary);"></i> Prato do Momento
+                </h3>
+                <div id="web-meal-list" style="margin-bottom: 15px;">
+                    <!-- Selected food items will be listed here -->
+                    <p id="web-empty-meal" style="text-align: center; color: var(--text-secondary); padding: 20px 0; font-size: 0.9rem;">
+                        Seu prato está vazio. Use a busca acima para adicionar alimentos.
+                    </p>
+                </div>
+                
+                <div id="web-meal-summary" style="display: none; border-top: 1px solid var(--glass-border); padding-top: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div>
+                            <p style="color: var(--text-secondary); font-size: 0.8rem;">Total Carboidratos</p>
+                            <h2 id="web-total-carbs" style="font-size: 1.8rem; font-weight: 800; color: var(--primary);">0 g</h2>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="color: var(--text-secondary); font-size: 0.8rem;">Total Energia</p>
+                            <h2 id="web-total-calories" style="font-size: 1.5rem; font-weight: 700; color: var(--secondary);">0 kcal</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- Insulin Advisory -->
+                    <div id="web-insulin-advisory" class="glass-card" style="display: none; padding: 10px 15px; background: rgba(139, 92, 246, 0.15); margin-bottom: 15px; margin-top: 10px; border-color: var(--primary);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-primary);">
+                                <i data-lucide="syringe" style="width: 18px; color: var(--primary);"></i> Sugestão de Insulina
+                            </div>
+                            <div id="web-suggested-insulin" style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">0.0 U</div>
+                        </div>
+                    </div>
+                    
+                    <button id="web-save-meal-btn" class="btn btn-primary" style="width: 100%;">
+                        <i data-lucide="check" style="width: 18px;"></i> Registrar Refeição
+                    </button>
+                </div>
+            </section>
+        </main>
+
         <!-- Settings View -->
         <main id="view-settings" class="view" style="display: none; padding: 0 20px;">
             <section class="glass-card animate-up">
+                <h3 style="margin-bottom: 15px;">Fator de Carboidrato (Insulina)</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;">
+                    Defina a relação de gramas de carboidrato para cada 1 unidade de insulina rápida.
+                </p>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="number" id="web-carb-ratio-input" placeholder="Ex: 15" style="max-width: 120px;" inputmode="numeric">
+                    <span style="color: var(--text-secondary);">g/U</span>
+                    <button id="web-save-ratio-btn" class="btn btn-primary" style="padding: 10px 15px; font-size: 0.9rem;">Salvar</button>
+                </div>
+            </section>
+
+            <section class="glass-card animate-up" style="margin-top: 20px;">
                 <h3 style="margin-bottom: 15px;">Lembretes</h3>
                 <div id="reminders-list">
                     <!-- Reminders will be injected here -->
@@ -82,6 +149,10 @@
                 <i data-lucide="history"></i>
                 <span>Histórico</span>
             </a>
+            <a href="#" class="nav-item" data-view="carb-counter">
+                <i data-lucide="calculator"></i>
+                <span>Contagem</span>
+            </a>
             <a href="#" class="nav-item" data-view="settings">
                 <i data-lucide="settings"></i>
                 <span>Ajustes</span>
@@ -103,6 +174,62 @@
                 <div style="display: flex; gap: 10px;">
                     <button id="cancel-entry" class="btn" style="flex: 1; background: rgba(255,255,255,0.1);">Cancelar</button>
                     <button id="save-entry" class="btn btn-primary" style="flex: 2;">Salvar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web Confirm Meal Modal -->
+        <div id="web-meal-confirm-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;">
+            <div class="glass-card" style="width: 90%; max-width: 400px; position: relative;">
+                <h2 style="margin-bottom: 15px;">Registrar Refeição</h2>
+                <div class="glass-card" style="padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05);">
+                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Resumo da Refeição</p>
+                    <p id="web-confirm-meal-summary" style="font-weight: 700; font-size: 1rem; color: var(--primary); margin-top: 4px;">0g CHO • 0 kcal</p>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Tipo de Refeição</label>
+                    <select id="web-confirm-meal-type" style="background: rgba(15, 23, 42, 0.5); border: 1px solid var(--glass-border); border-radius: 12px; color: white; padding: 12px 16px; width: 100%; font-size: 1rem; outline: none; -webkit-appearance: none;">
+                        <option value="Café da Manhã">Café da Manhã</option>
+                        <option value="Almoço" selected>Almoço</option>
+                        <option value="Lanche">Lanche</option>
+                        <option value="Jantar">Jantar</option>
+                        <option value="Ceia">Ceia</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Glicemia Atual (opcional, mg/dL)</label>
+                    <input type="number" id="web-confirm-glucose" placeholder="Ex: 110" inputmode="numeric">
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Nota adicional (opcional)</label>
+                    <input type="text" id="web-confirm-note" placeholder="Ex: Pré-treino, etc.">
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button id="web-cancel-confirm" class="btn" style="flex: 1; background: rgba(255,255,255,0.1);">Cancelar</button>
+                    <button id="web-save-confirm" class="btn btn-primary" style="flex: 2;">Confirmar</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Web Portion Edit Modal -->
+        <div id="web-portion-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;">
+            <div class="glass-card" style="width: 90%; max-width: 400px; position: relative;">
+                <h2 id="web-portion-food-name" style="margin-bottom: 15px; font-size: 1.2rem;">Editar Quantidade</h2>
+                <p id="web-portion-standard-desc" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 15px;">Medida usual: 1 fatia (90g)</p>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Quantidade de Porções</label>
+                    <input type="number" id="web-portion-multiplier" step="0.5" min="0" placeholder="1.0" autofocus>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button id="web-cancel-portion" class="btn" style="flex: 1; background: rgba(255,255,255,0.1);">Cancelar</button>
+                    <button id="web-save-portion" class="btn btn-primary" style="flex: 2;">Confirmar</button>
                 </div>
             </div>
         </div>

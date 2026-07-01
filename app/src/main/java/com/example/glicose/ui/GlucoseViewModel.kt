@@ -8,6 +8,9 @@ import android.content.Intent
 import com.example.glicose.data.GlucoseDatabase
 import com.example.glicose.data.GlucoseRecord
 import com.example.glicose.data.Reminder
+import com.example.glicose.data.FoodItem
+import com.ricardo.glicose.R
+import org.json.JSONArray
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -41,6 +44,7 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
     
     val targetMin = MutableStateFlow(prefs.getFloat("target_min", 70f))
     val targetMax = MutableStateFlow(prefs.getFloat("target_max", 140f))
+    val carbRatio = MutableStateFlow(prefs.getFloat("carb_ratio", 0f)) // 0f means disabled
     
     // Theme selection: 0 = System, 1 = Light, 2 = Dark
     val appTheme = MutableStateFlow(prefs.getInt("app_theme", 0))
@@ -56,12 +60,132 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
         targetMax.value = max
         prefs.edit().putFloat("target_min", min).putFloat("target_max", max).apply()
     }
+
+    fun updateCarbRatio(ratio: Float) {
+        carbRatio.value = ratio
+        prefs.edit().putFloat("carb_ratio", ratio).apply()
+    }
+    
+    val customFoods = MutableStateFlow<List<FoodItem>>(emptyList())
+    
+    private fun loadCustomFoods() {
+        val json = prefs.getString("custom_foods", null)
+        if (json != null) {
+            try {
+                val array = JSONArray(json)
+                val list = mutableListOf<FoodItem>()
+                for (i in 0 until array.length()) {
+                    val obj = array.getJSONObject(i)
+                    list.add(
+                        FoodItem(
+                            id = obj.getInt("id"),
+                            name = obj.getString("name"),
+                            measure = obj.getString("measure"),
+                            grams = obj.getDouble("grams").toFloat(),
+                            carbs = obj.getDouble("carbs").toFloat(),
+                            calories = obj.getDouble("calories").toFloat()
+                        )
+                    )
+                }
+                customFoods.value = list
+            } catch (e: Exception) {
+                android.util.Log.e("GlucoseViewModel", "Error loading custom foods", e)
+            }
+        }
+    }
+    
+    fun addCustomFood(food: FoodItem) {
+        val uid = auth.currentUser?.uid ?: return
+        val current = customFoods.value.toMutableList()
+        current.add(food)
+        customFoods.value = current
+        
+        try {
+            val array = JSONArray()
+            current.forEach { item ->
+                val obj = org.json.JSONObject().apply {
+                    put("id", item.id)
+                    put("name", item.name)
+                    put("measure", item.measure)
+                    put("grams", item.grams.toDouble())
+                    put("carbs", item.carbs.toDouble())
+                    put("calories", item.calories.toDouble())
+                }
+                array.put(obj)
+            }
+            prefs.edit().putString("custom_foods", array.toString()).apply()
+        } catch (e: Exception) {
+            android.util.Log.e("GlucoseViewModel", "Error saving custom foods", e)
+        }
+        
+        // Save to Firestore for sync across devices
+        val data = hashMapOf(
+            "id" to food.id,
+            "userId" to uid,
+            "name" to food.name,
+            "measure" to food.measure,
+            "grams" to food.grams.toDouble(),
+            "carbs" to food.carbs.toDouble(),
+            "calories" to food.calories.toDouble()
+        )
+        firestore.collection("custom_foods")
+            .document("${uid}_${food.id}")
+            .set(data)
+            .addOnSuccessListener { android.util.Log.d("Firestore", "Custom food synced: ${food.name}") }
+            .addOnFailureListener { android.util.Log.e("Firestore", "Error syncing custom food", it) }
+    }
+
+    // Update an existing custom food (used by edit screen)
+    fun updateCustomFood(updatedFood: FoodItem) {
+        val uid = auth.currentUser?.uid ?: return
+        val current = customFoods.value.toMutableList()
+        val index = current.indexOfFirst { it.id == updatedFood.id }
+        if (index != -1) {
+            current[index] = updatedFood
+            customFoods.value = current
+            // Persist locally
+            try {
+                val array = JSONArray()
+                current.forEach { item ->
+                    val obj = org.json.JSONObject().apply {
+                        put("id", item.id)
+                        put("name", item.name)
+                        put("measure", item.measure)
+                        put("grams", item.grams.toDouble())
+                        put("carbs", item.carbs.toDouble())
+                        put("calories", item.calories.toDouble())
+                    }
+                    array.put(obj)
+                }
+                prefs.edit().putString("custom_foods", array.toString()).apply()
+            } catch (e: Exception) {
+                android.util.Log.e("GlucoseViewModel", "Error updating custom foods", e)
+            }
+            // Sync to Firestore (replace existing document)
+            val data = hashMapOf(
+                "id" to updatedFood.id,
+                "userId" to uid,
+                "name" to updatedFood.name,
+                "measure" to updatedFood.measure,
+                "grams" to updatedFood.grams.toDouble(),
+                "carbs" to updatedFood.carbs.toDouble(),
+                "calories" to updatedFood.calories.toDouble()
+            )
+            firestore.collection("custom_foods")
+                .document("${uid}_${updatedFood.id}")
+                .set(data)
+                .addOnSuccessListener { android.util.Log.d("Firestore", "Custom food updated: ${updatedFood.name}") }
+                .addOnFailureListener { android.util.Log.e("Firestore", "Error updating custom food", it) }
+        }
+    }
     
     init {
+        loadCustomFoods()
         // Create user profile on Firestore and start sync for whoever is logged in
         auth.currentUser?.let { user ->
             updateUserProfile(user)
             startCloudToLocalSync(user.uid)
+            startCustomFoodsSync(user.uid)
             migrateFollowersData(user.uid)
         }
     }
@@ -86,11 +210,13 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             if (uid == user.uid) {
                 updateUserProfile(user)
                 startCloudToLocalSync(user.uid)
+                startCustomFoodsSync(user.uid)
             }
         }
     }
 
     private var syncListener: com.google.firebase.firestore.ListenerRegistration? = null
+    private var customFoodsSyncListener: com.google.firebase.firestore.ListenerRegistration? = null
 
     private fun startCloudToLocalSync(uid: String) {
         syncListener?.remove()
@@ -107,9 +233,63 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
                             val value = doc.getDouble("value")?.toFloat() ?: return@forEach
                             val note = doc.getString("note") ?: ""
                             val timestamp = doc.getLong("timestamp") ?: 0L
-                            val record = GlucoseRecord(value = value, note = note, timestamp = timestamp, userId = uid)
+                            val carbs = doc.getDouble("carbs")?.toFloat()
+                            val calories = doc.getDouble("calories")?.toFloat()
+                            val mealDetails = doc.getString("mealDetails")
+                            val record = GlucoseRecord(
+                                value = value,
+                                note = note,
+                                timestamp = timestamp,
+                                userId = uid,
+                                carbs = carbs,
+                                calories = calories,
+                                mealDetails = mealDetails
+                            )
                             dao.insertIgnore(record)
                         }
+                    }
+                }
+            }
+    }
+
+    private fun startCustomFoodsSync(uid: String) {
+        customFoodsSyncListener?.remove()
+        customFoodsSyncListener = firestore.collection("custom_foods")
+            .whereEqualTo("userId", uid)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    android.util.Log.e("Firestore", "Custom foods sync error for $uid", error)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null) {
+                    val list = snapshot.documents.mapNotNull { doc ->
+                        val id = doc.getLong("id")?.toInt() ?: return@mapNotNull null
+                        val name = doc.getString("name") ?: ""
+                        val measure = doc.getString("measure") ?: ""
+                        val grams = doc.getDouble("grams")?.toFloat() ?: 0f
+                        val carbs = doc.getDouble("carbs")?.toFloat() ?: 0f
+                        val calories = doc.getDouble("calories")?.toFloat() ?: 0f
+                        FoodItem(id = id, name = name, measure = measure, grams = grams, carbs = carbs, calories = calories)
+                    }
+                    customFoods.value = list
+                    
+                    // Save to SharedPreferences for offline cache
+                    try {
+                        val array = JSONArray()
+                        list.forEach { item ->
+                            val obj = org.json.JSONObject().apply {
+                                put("id", item.id)
+                                put("name", item.name)
+                                put("measure", item.measure)
+                                put("grams", item.grams.toDouble())
+                                put("carbs", item.carbs.toDouble())
+                                put("calories", item.calories.toDouble())
+                            }
+                            array.put(obj)
+                        }
+                        prefs.edit().putString("custom_foods", array.toString()).apply()
+                    } catch (e: Exception) {
+                        android.util.Log.e("GlucoseViewModel", "Error saving cached custom foods", e)
                     }
                 }
             }
@@ -154,7 +334,9 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
                                 val value = doc.getDouble("value")?.toFloat() ?: return@mapNotNull null
                                 val note = doc.getString("note") ?: ""
                                 val timestamp = doc.getLong("timestamp") ?: 0L
-                                GlucoseRecord(value = value, note = note, timestamp = timestamp, userId = uid)
+                                val carbs = doc.getDouble("carbs")?.toFloat()
+                                val calories = doc.getDouble("calories")?.toFloat()
+                                GlucoseRecord(value = value, note = note, timestamp = timestamp, userId = uid, carbs = carbs, calories = calories)
                             }.sortedByDescending { it.timestamp }
                             
                             android.util.Log.d("Firestore", "Received ${records.size} records for $uid")
@@ -182,9 +364,12 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
                         if (snapshot != null) {
                             val records = snapshot.documents.mapNotNull { doc ->
                                 val value = doc.getDouble("value")?.toFloat() ?: return@mapNotNull null
+                                if (value <= 0f) return@mapNotNull null
                                 val note = doc.getString("note") ?: ""
                                 val timestamp = doc.getLong("timestamp") ?: 0L
-                                GlucoseRecord(value = value, note = note, timestamp = timestamp, userId = uid)
+                                val carbs = doc.getDouble("carbs")?.toFloat()
+                                val calories = doc.getDouble("calories")?.toFloat()
+                                GlucoseRecord(value = value, note = note, timestamp = timestamp, userId = uid, carbs = carbs, calories = calories)
                             }.sortedByDescending { it.timestamp }
                             
                             trySend(records.firstOrNull())
@@ -321,18 +506,42 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
         batch.commit()
     }
 
-    fun addRecord(value: Float, note: String, timestamp: Long = System.currentTimeMillis()) {
+    fun addRecord(
+        value: Float,
+        note: String,
+        timestamp: Long = System.currentTimeMillis(),
+        carbs: Float? = null,
+        calories: Float? = null,
+        mealDetails: String? = null
+    ) {
         val uid = auth.currentUser?.uid ?: return
-        val record = GlucoseRecord(value = value, note = note, timestamp = timestamp, userId = uid)
+        val record = GlucoseRecord(
+            value = value,
+            note = note,
+            timestamp = timestamp,
+            userId = uid,
+            carbs = carbs,
+            calories = calories,
+            mealDetails = mealDetails
+        )
         viewModelScope.launch {
             try {
                 dao.insert(record)
             } catch (e: Exception) {
                 android.util.Log.e("Room", "Collision or error inserting record", e)
             }
+            val data = hashMapOf(
+                "value" to value.toDouble(),
+                "note" to note,
+                "timestamp" to timestamp,
+                "userId" to uid,
+                "carbs" to carbs?.toDouble(),
+                "calories" to calories?.toDouble(),
+                "mealDetails" to mealDetails
+            )
             firestore.collection("glucose_records")
                 .document("${uid}_${record.timestamp}")
-                .set(record)
+                .set(data)
             triggerWidgetUpdate()
         }
     }
@@ -347,7 +556,15 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun updateRecord(record: GlucoseRecord, value: Float, note: String, newTimestamp: Long) {
+    fun updateRecord(
+        record: GlucoseRecord,
+        value: Float,
+        note: String,
+        newTimestamp: Long,
+        carbs: Float? = record.carbs,
+        calories: Float? = record.calories,
+        mealDetails: String? = record.mealDetails
+    ) {
         viewModelScope.launch {
             val myUid = auth.currentUser?.uid ?: return@launch
             
@@ -357,11 +574,30 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             }
             
             dao.delete(record)
-            val newRecord = GlucoseRecord(value = value, note = note, timestamp = newTimestamp, userId = record.userId)
+            val newRecord = GlucoseRecord(
+                value = value,
+                note = note,
+                timestamp = newTimestamp,
+                userId = record.userId,
+                carbs = carbs,
+                calories = calories,
+                mealDetails = mealDetails
+            )
             dao.insert(newRecord)
             
             if (newRecord.userId == myUid) {
-                firestore.collection("glucose_records").document("${newRecord.userId}_${newRecord.timestamp}").set(newRecord)
+                val data = hashMapOf(
+                    "value" to value.toDouble(),
+                    "note" to note,
+                    "timestamp" to newTimestamp,
+                    "userId" to record.userId,
+                    "carbs" to carbs?.toDouble(),
+                    "calories" to calories?.toDouble(),
+                    "mealDetails" to mealDetails
+                )
+                firestore.collection("glucose_records")
+                    .document("${newRecord.userId}_${newRecord.timestamp}")
+                    .set(data)
             }
             triggerWidgetUpdate()
         }
@@ -466,12 +702,14 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
         val uid = auth.currentUser?.uid ?: return
         android.util.Log.d("GlucoseApp", "Starting clearAllData for user: $uid")
         viewModelScope.launch {
-            // 1. Clear local (explicitly ONLY records)
+            // 1. Clear local (explicitly ONLY records and custom foods)
             dao.deleteAllGlucoseRecordsForUser(uid)
-            android.util.Log.d("GlucoseApp", "Local glucose records deleted for $uid")
+            customFoods.value = emptyList()
+            prefs.edit().remove("custom_foods").apply()
+            android.util.Log.d("GlucoseApp", "Local glucose records and custom foods deleted for $uid")
             triggerWidgetUpdate()
             
-            // 2. Clear Cloud (Firestore)
+            // 2. Clear Cloud (Firestore) glucose_records
             firestore.collection("glucose_records")
                 .whereEqualTo("userId", uid)
                 .get()
@@ -485,6 +723,21 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
                         android.util.Log.d("GlucoseApp", "Firestore clear committed")
                     }
                 }
+
+            // 3. Clear Cloud (Firestore) custom_foods
+            firestore.collection("custom_foods")
+                .whereEqualTo("userId", uid)
+                .get()
+                .addOnSuccessListener { snapshot ->
+                    android.util.Log.d("GlucoseApp", "Firestore found ${snapshot.size()} custom foods to delete")
+                    val batch = firestore.batch()
+                    snapshot.documents.forEach { doc ->
+                        batch.delete(doc.reference)
+                    }
+                    batch.commit().addOnSuccessListener {
+                        android.util.Log.d("GlucoseApp", "Firestore custom foods clear committed")
+                    }
+                }
         }
     }
 
@@ -494,6 +747,7 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             if (uid.isNotEmpty()) {
                 auth.currentUser?.let { updateUserProfile(it) }
                 startCloudToLocalSync(uid)
+                startCustomFoodsSync(uid)
             }
             
             // Re-trigger the current userId to restart flatMapLatest flows
@@ -504,5 +758,29 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             
             onComplete()
         }
+    }
+
+    fun loadFoodsList(context: Context): List<FoodItem> {
+        val foods = mutableListOf<FoodItem>()
+        try {
+            val jsonString = context.resources.openRawResource(R.raw.foods).bufferedReader().use { it.readText() }
+            val jsonArray = JSONArray(jsonString)
+            for (i in 0 until jsonArray.length()) {
+                val obj = jsonArray.getJSONObject(i)
+                foods.add(
+                    FoodItem(
+                        id = obj.getInt("id"),
+                        name = obj.getString("name"),
+                        measure = obj.getString("measure"),
+                        grams = obj.getDouble("grams").toFloat(),
+                        carbs = obj.getDouble("carbs").toFloat(),
+                        calories = obj.getDouble("calories").toFloat()
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("GlucoseApp", "Error reading foods.json", e)
+        }
+        return foods
     }
 }

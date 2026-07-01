@@ -28,6 +28,7 @@ id widget_range
 layout glucose_widget
 mipmap ic_launcher
 mipmap ic_launcher_round
+raw foods
 string app_name
 string default_web_client_id
 string gcm_defaultSenderId

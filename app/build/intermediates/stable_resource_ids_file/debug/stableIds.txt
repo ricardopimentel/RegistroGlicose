@@ -1517,6 +1517,7 @@ com.ricardo.glicose:id/container = 0x7f080078
 com.ricardo.glicose:id/consume_window_insets_tag = 0x7f080077
 com.ricardo.glicose:id/accessibility_custom_action_0 = 0x7f080010
 com.ricardo.glicose:id/compose_view_saveable_id_tag = 0x7f080074
+com.ricardo.glicose:raw/foods = 0x7f0f0001
 com.ricardo.glicose:id/collapseActionView = 0x7f080072
 com.ricardo.glicose:id/clockwise = 0x7f080070
 com.ricardo.glicose:id/clear_text = 0x7f08006d

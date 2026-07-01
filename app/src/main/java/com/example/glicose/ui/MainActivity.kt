@@ -48,6 +48,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.graphics.toArgb
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
+import androidx.navigation.NavType
 import coil.compose.AsyncImage
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
@@ -169,6 +171,12 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
                         onClick = { navController.navigate("reports") { popUpTo(0) } }
                     )
                     NavigationBarItem(
+                        icon = { Icon(Icons.Default.RestaurantMenu, null) },
+                        label = { Text("Carbs") },
+                        selected = currentRoute == "carb_counter",
+                        onClick = { navController.navigate("carb_counter") { popUpTo(0) } }
+                    )
+                    NavigationBarItem(
                         icon = { Icon(Icons.Default.Notifications, null) },
                         label = { Text("Lembretes") },
                         selected = currentRoute == "reminders",
@@ -196,6 +204,13 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
                     ) {
                         Icon(Icons.Default.Add, "Adicionar Medição")
                     }
+                    "carb_counter" -> FloatingActionButton(
+                        onClick = { navController.navigate("add_meal") },
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = Color.White
+                    ) {
+                        Icon(Icons.Default.Add, "Adicionar Refeição")
+                    }
                     "reminders" -> FloatingActionButton(
                         onClick = {
                             android.app.TimePickerDialog(
@@ -218,15 +233,55 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
         val startDestination = if (auth.currentUser != null) "dashboard" else "login"
         NavHost(navController, startDestination = startDestination, Modifier.padding(innerPadding)) {
             composable("login") { 
-                LoginScreen(onLoginSuccess = { 
-                    viewModel.setCurrentUserId(auth.currentUser?.uid ?: "")
-                    navController.navigate("dashboard") { 
-                        popUpTo("login") { inclusive = true } 
-                    } 
-                }) 
+                LoginScreen(
+                    onLoginSuccess = { 
+                        viewModel.setCurrentUserId(auth.currentUser?.uid ?: "")
+                        navController.navigate("dashboard") { 
+                            popUpTo("login") { inclusive = true } 
+                        } 
+                    },
+                    onManualLoginClick = {
+                        navController.navigate("manual_login")
+                    }
+                ) 
+            }
+            composable("manual_login") {
+                ManualLoginScreen(
+                    onLoginSuccess = {
+                        viewModel.setCurrentUserId(auth.currentUser?.uid ?: "")
+                        navController.navigate("dashboard") {
+                            popUpTo("login") { inclusive = true }
+                        }
+                    },
+                    onBack = {
+                        navController.popBackStack()
+                    }
+                )
             }
             composable("dashboard") { DashboardScreen(viewModel) }
             composable("reports") { ReportsScreen(viewModel) }
+            composable("carb_counter") {
+                CarbCounterScreen(
+                    viewModel = viewModel,
+                    onNavigateToEditMeal = { timestamp ->
+                        navController.navigate("add_meal?editTimestamp=$timestamp")
+                    }
+                )
+            }
+            composable(
+                route = "add_meal?editTimestamp={editTimestamp}",
+                arguments = listOf(navArgument("editTimestamp") { 
+                    type = NavType.LongType
+                    defaultValue = -1L
+                })
+            ) { backStackEntry ->
+                val editTimestamp = backStackEntry.arguments?.getLong("editTimestamp") ?: -1L
+                AddMealScreen(
+                    viewModel = viewModel,
+                    editTimestamp = if (editTimestamp != -1L) editTimestamp else null,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
             composable("reminders") { RemindersScreen(viewModel) }
             composable("settings") { 
                 SettingsScreen(viewModel, navController) {
@@ -249,6 +304,12 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
             }
             composable("manage_following") { ManageFollowingScreen(viewModel, navController) }
             composable("manage_followers") { ManageFollowersScreen(viewModel, navController) }
+            composable("custom_foods") {
+                CustomFoodListScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
         }
 
         if (showAddDialogFromNotification && auth.currentUser != null) {
@@ -275,8 +336,9 @@ fun DashboardScreen(viewModel: GlucoseViewModel) {
     var selectedDate by remember { mutableStateOf(Calendar.getInstance()) }
     val context = androidx.compose.ui.platform.LocalContext.current
 
-    // Filter records for the selected date
+    // Filter records for the selected date (only glucose records)
     val dayRecords = allRecords.filter { record ->
+        if (record.value <= 0f) return@filter false
         val recordCal = Calendar.getInstance().apply { timeInMillis = record.timestamp }
         recordCal.get(Calendar.YEAR) == selectedDate.get(Calendar.YEAR) &&
         recordCal.get(Calendar.DAY_OF_YEAR) == selectedDate.get(Calendar.DAY_OF_YEAR)
@@ -424,9 +486,34 @@ fun DashboardScreen(viewModel: GlucoseViewModel) {
             Text("Medições do dia", style = MaterialTheme.typography.titleMedium)
             
             dayRecords.forEach { record ->
+                val hasNutrition = record.carbs != null || record.calories != null
+                val nutritionText = if (hasNutrition) {
+                    "🥖 ${record.carbs?.toInt() ?: 0}g CHO • 🔥 ${record.calories?.toInt() ?: 0} kcal"
+                } else ""
+                
+                val timeText = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(record.timestamp))
+                val supportText = if (nutritionText.isNotEmpty()) {
+                    if (record.note.isNotEmpty()) "$timeText • $nutritionText\n${record.note}" else "$timeText • $nutritionText"
+                } else {
+                    if (record.note.isNotEmpty()) "$timeText • ${record.note}" else timeText
+                }
+                
                 ListItem(
-                    headlineContent = { Text("${record.value.toInt()} mg/dL") },
-                    supportingContent = { Text(SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(record.timestamp))) }
+                    headlineContent = { 
+                        if (record.value > 0f) {
+                            Text("${record.value.toInt()} mg/dL", fontWeight = FontWeight.Bold) 
+                        } else {
+                            Text("🥖 Refeição Registrada", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                        }
+                    },
+                    supportingContent = { Text(supportText) },
+                    leadingContent = {
+                        Icon(
+                            imageVector = if (record.value > 0f) Icons.Default.WaterDrop else Icons.Default.Restaurant,
+                            contentDescription = null,
+                            tint = if (record.value > 0f) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
+                        )
+                    }
                 )
             }
         }
@@ -596,11 +683,12 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
     val dateRangePickerState = rememberDateRangePickerState()
 
     val filteredRecords = remember(allRecords, selectedDays, customDateRange) {
+        val glucoseOnly = allRecords.filter { it.value > 0f }
         when {
             selectedDays == -1 && customDateRange != null -> {
-                allRecords.filter { it.timestamp in customDateRange!!.first..customDateRange!!.second }
+                glucoseOnly.filter { it.timestamp in customDateRange!!.first..customDateRange!!.second }
             }
-            selectedDays == 999 -> allRecords
+            selectedDays == 999 -> glucoseOnly
             else -> {
                 val cutoff = Calendar.getInstance().apply {
                     add(Calendar.DATE, -selectedDays)
@@ -608,20 +696,25 @@ fun ReportsScreen(viewModel: GlucoseViewModel) {
                     set(Calendar.MINUTE, 0)
                     set(Calendar.SECOND, 0)
                 }.timeInMillis
-                allRecords.filter { it.timestamp >= cutoff }
+                glucoseOnly.filter { it.timestamp >= cutoff }
             }
         }
     }
 
-    val avg = if (filteredRecords.isNotEmpty()) filteredRecords.map { it.value }.average() else 0.0
+    val glucoseRecords = remember(filteredRecords) {
+        filteredRecords.filter { it.value > 0f }
+    }
+    
+    val avg = if (glucoseRecords.isNotEmpty()) glucoseRecords.map { it.value }.average() else 0.0
     val eA1c = if (avg > 0) (avg + 46.7) / 28.7 else 0.0
-    val maxVal = filteredRecords.maxOfOrNull { it.value } ?: 0f
-    val minVal = filteredRecords.minOfOrNull { it.value } ?: 0f
+    val maxVal = glucoseRecords.maxOfOrNull { it.value } ?: 0f
+    val minVal = glucoseRecords.minOfOrNull { it.value } ?: 0f
 
-    val inRange = filteredRecords.count { it.value in targetMin..targetMax }
-    val high = filteredRecords.count { it.value > targetMax }
-    val low = filteredRecords.count { it.value < targetMin }
-    val total = filteredRecords.size.coerceAtLeast(1)
+    val inRange = glucoseRecords.count { it.value in targetMin..targetMax }
+    val high = glucoseRecords.count { it.value > targetMax }
+    val low = glucoseRecords.count { it.value < targetMin }
+    val total = glucoseRecords.size.coerceAtLeast(1)
+
 
     // Export FAB state
     var fabExpanded by remember { mutableStateOf(false) }
@@ -937,12 +1030,42 @@ fun HistoryCard(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(Modifier.weight(1f)) {
-                    Text(
-                        text = "${record.value.toInt()} mg/dL",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        if (record.value > 0f) {
+                            Text(
+                                text = "${record.value.toInt()} mg/dL",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        } else {
+                            Text(
+                                text = "🥖 Refeição",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                        
+                        if (record.carbs != null) {
+                            Surface(
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text(
+                                    text = "${record.carbs.toInt()}g CHO",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                    }
+                    Spacer(Modifier.height(4.dp))
                     Text(
                         text = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date(record.timestamp)),
                         style = MaterialTheme.typography.labelSmall,
@@ -1458,7 +1581,17 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
 
                 Spacer(Modifier.height(12.dp))
 
-                // ── Seção: Metas ──────────────────────────────────────────────
+                // ── Seção: Alimentos Personalizados ───────────────────────────
+                SettingsSection(title = "Alimentos Personalizados", icon = Icons.Default.Restaurant) {
+                    SettingsNavItem(
+                        icon = Icons.Default.Edit,
+                        label = "Minha Lista de Alimentos",
+                        description = "Pesquisar, editar ou excluir alimentos que você cadastrou"
+                    ) { navController.navigate("custom_foods") }
+                }
+
+                Spacer(Modifier.height(12.dp))
+
                 val targetMinFlow by viewModel.targetMin.collectAsState()
                 val targetMaxFlow by viewModel.targetMax.collectAsState()
                 var tempMin by remember(targetMinFlow) { mutableStateOf(targetMinFlow.toInt().toString()) }
@@ -1505,6 +1638,48 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
                             keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
                                 keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                             )
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(12.dp))
+
+                // ── Seção: Fator de Carboidratos ──────────────────────────────
+                val carbRatioFlow by viewModel.carbRatio.collectAsState()
+                var tempRatio by remember(carbRatioFlow) { 
+                    mutableStateOf(if (carbRatioFlow > 0f) carbRatioFlow.toInt().toString() else "") 
+                }
+
+                SettingsSection(title = "Contagem de Carboidratos", icon = Icons.Default.Restaurant) {
+                    Text(
+                        "Configure a quantidade de carboidratos (em gramas) equivalente a 1 unidade de insulina rápida.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(16.dp))
+                    OutlinedTextField(
+                        value = tempRatio,
+                        onValueChange = { 
+                            if (it.all { char -> char.isDigit() }) {
+                                tempRatio = it
+                                val ratio = it.toFloatOrNull() ?: 0f
+                                viewModel.updateCarbRatio(ratio)
+                            }
+                        },
+                        label = { Text("Fator de Carboidrato (g/U)") },
+                        placeholder = { Text("Ex: 15 (1U a cada 15g)") },
+                        suffix = { Text("g/U") },
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                            keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                        )
+                    )
+                    if (carbRatioFlow <= 0f) {
+                        Text(
+                            "Calculadora de dose de insulina desativada (digite um valor maior que 0 para ativar).",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.Gray,
+                            modifier = Modifier.padding(top = 8.dp)
                         )
                     }
                 }

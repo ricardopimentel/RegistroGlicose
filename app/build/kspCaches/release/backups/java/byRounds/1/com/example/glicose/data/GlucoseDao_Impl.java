@@ -15,6 +15,7 @@ import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Class;
 import java.lang.Exception;
+import java.lang.Float;
 import java.lang.Long;
 import java.lang.Object;
 import java.lang.Override;
@@ -60,7 +61,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `glucose_records` (`timestamp`,`value`,`note`,`userId`) VALUES (?,?,?,?)";
+        return "INSERT OR ABORT INTO `glucose_records` (`timestamp`,`value`,`note`,`userId`,`carbs`,`calories`,`mealDetails`) VALUES (?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -70,13 +71,28 @@ public final class GlucoseDao_Impl implements GlucoseDao {
         statement.bindDouble(2, entity.getValue());
         statement.bindString(3, entity.getNote());
         statement.bindString(4, entity.getUserId());
+        if (entity.getCarbs() == null) {
+          statement.bindNull(5);
+        } else {
+          statement.bindDouble(5, entity.getCarbs());
+        }
+        if (entity.getCalories() == null) {
+          statement.bindNull(6);
+        } else {
+          statement.bindDouble(6, entity.getCalories());
+        }
+        if (entity.getMealDetails() == null) {
+          statement.bindNull(7);
+        } else {
+          statement.bindString(7, entity.getMealDetails());
+        }
       }
     };
     this.__insertionAdapterOfGlucoseRecord_1 = new EntityInsertionAdapter<GlucoseRecord>(__db) {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR REPLACE INTO `glucose_records` (`timestamp`,`value`,`note`,`userId`) VALUES (?,?,?,?)";
+        return "INSERT OR REPLACE INTO `glucose_records` (`timestamp`,`value`,`note`,`userId`,`carbs`,`calories`,`mealDetails`) VALUES (?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -86,13 +102,28 @@ public final class GlucoseDao_Impl implements GlucoseDao {
         statement.bindDouble(2, entity.getValue());
         statement.bindString(3, entity.getNote());
         statement.bindString(4, entity.getUserId());
+        if (entity.getCarbs() == null) {
+          statement.bindNull(5);
+        } else {
+          statement.bindDouble(5, entity.getCarbs());
+        }
+        if (entity.getCalories() == null) {
+          statement.bindNull(6);
+        } else {
+          statement.bindDouble(6, entity.getCalories());
+        }
+        if (entity.getMealDetails() == null) {
+          statement.bindNull(7);
+        } else {
+          statement.bindString(7, entity.getMealDetails());
+        }
       }
     };
     this.__insertionAdapterOfGlucoseRecord_2 = new EntityInsertionAdapter<GlucoseRecord>(__db) {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR IGNORE INTO `glucose_records` (`timestamp`,`value`,`note`,`userId`) VALUES (?,?,?,?)";
+        return "INSERT OR IGNORE INTO `glucose_records` (`timestamp`,`value`,`note`,`userId`,`carbs`,`calories`,`mealDetails`) VALUES (?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -102,6 +133,21 @@ public final class GlucoseDao_Impl implements GlucoseDao {
         statement.bindDouble(2, entity.getValue());
         statement.bindString(3, entity.getNote());
         statement.bindString(4, entity.getUserId());
+        if (entity.getCarbs() == null) {
+          statement.bindNull(5);
+        } else {
+          statement.bindDouble(5, entity.getCarbs());
+        }
+        if (entity.getCalories() == null) {
+          statement.bindNull(6);
+        } else {
+          statement.bindDouble(6, entity.getCalories());
+        }
+        if (entity.getMealDetails() == null) {
+          statement.bindNull(7);
+        } else {
+          statement.bindString(7, entity.getMealDetails());
+        }
       }
     };
     this.__insertionAdapterOfReminder = new EntityInsertionAdapter<Reminder>(__db) {
@@ -445,6 +491,9 @@ public final class GlucoseDao_Impl implements GlucoseDao {
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "value");
           final int _cursorIndexOfNote = CursorUtil.getColumnIndexOrThrow(_cursor, "note");
           final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
+          final int _cursorIndexOfCarbs = CursorUtil.getColumnIndexOrThrow(_cursor, "carbs");
+          final int _cursorIndexOfCalories = CursorUtil.getColumnIndexOrThrow(_cursor, "calories");
+          final int _cursorIndexOfMealDetails = CursorUtil.getColumnIndexOrThrow(_cursor, "mealDetails");
           final List<GlucoseRecord> _result = new ArrayList<GlucoseRecord>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final GlucoseRecord _item;
@@ -456,7 +505,25 @@ public final class GlucoseDao_Impl implements GlucoseDao {
             _tmpNote = _cursor.getString(_cursorIndexOfNote);
             final String _tmpUserId;
             _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
-            _item = new GlucoseRecord(_tmpTimestamp,_tmpValue,_tmpNote,_tmpUserId);
+            final Float _tmpCarbs;
+            if (_cursor.isNull(_cursorIndexOfCarbs)) {
+              _tmpCarbs = null;
+            } else {
+              _tmpCarbs = _cursor.getFloat(_cursorIndexOfCarbs);
+            }
+            final Float _tmpCalories;
+            if (_cursor.isNull(_cursorIndexOfCalories)) {
+              _tmpCalories = null;
+            } else {
+              _tmpCalories = _cursor.getFloat(_cursorIndexOfCalories);
+            }
+            final String _tmpMealDetails;
+            if (_cursor.isNull(_cursorIndexOfMealDetails)) {
+              _tmpMealDetails = null;
+            } else {
+              _tmpMealDetails = _cursor.getString(_cursorIndexOfMealDetails);
+            }
+            _item = new GlucoseRecord(_tmpTimestamp,_tmpValue,_tmpNote,_tmpUserId,_tmpCarbs,_tmpCalories,_tmpMealDetails);
             _result.add(_item);
           }
           return _result;
@@ -490,6 +557,9 @@ public final class GlucoseDao_Impl implements GlucoseDao {
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "value");
           final int _cursorIndexOfNote = CursorUtil.getColumnIndexOrThrow(_cursor, "note");
           final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
+          final int _cursorIndexOfCarbs = CursorUtil.getColumnIndexOrThrow(_cursor, "carbs");
+          final int _cursorIndexOfCalories = CursorUtil.getColumnIndexOrThrow(_cursor, "calories");
+          final int _cursorIndexOfMealDetails = CursorUtil.getColumnIndexOrThrow(_cursor, "mealDetails");
           final List<GlucoseRecord> _result = new ArrayList<GlucoseRecord>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final GlucoseRecord _item;
@@ -501,7 +571,25 @@ public final class GlucoseDao_Impl implements GlucoseDao {
             _tmpNote = _cursor.getString(_cursorIndexOfNote);
             final String _tmpUserId;
             _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
-            _item = new GlucoseRecord(_tmpTimestamp,_tmpValue,_tmpNote,_tmpUserId);
+            final Float _tmpCarbs;
+            if (_cursor.isNull(_cursorIndexOfCarbs)) {
+              _tmpCarbs = null;
+            } else {
+              _tmpCarbs = _cursor.getFloat(_cursorIndexOfCarbs);
+            }
+            final Float _tmpCalories;
+            if (_cursor.isNull(_cursorIndexOfCalories)) {
+              _tmpCalories = null;
+            } else {
+              _tmpCalories = _cursor.getFloat(_cursorIndexOfCalories);
+            }
+            final String _tmpMealDetails;
+            if (_cursor.isNull(_cursorIndexOfMealDetails)) {
+              _tmpMealDetails = null;
+            } else {
+              _tmpMealDetails = _cursor.getString(_cursorIndexOfMealDetails);
+            }
+            _item = new GlucoseRecord(_tmpTimestamp,_tmpValue,_tmpNote,_tmpUserId,_tmpCarbs,_tmpCalories,_tmpMealDetails);
             _result.add(_item);
           }
           return _result;
@@ -515,7 +603,7 @@ public final class GlucoseDao_Impl implements GlucoseDao {
 
   @Override
   public Flow<GlucoseRecord> getLatest(final String userId) {
-    final String _sql = "SELECT * FROM glucose_records WHERE userId = ? ORDER BY timestamp DESC LIMIT 1";
+    final String _sql = "SELECT * FROM glucose_records WHERE userId = ? AND value > 0 ORDER BY timestamp DESC LIMIT 1";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
     _statement.bindString(_argIndex, userId);
@@ -529,6 +617,9 @@ public final class GlucoseDao_Impl implements GlucoseDao {
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "value");
           final int _cursorIndexOfNote = CursorUtil.getColumnIndexOrThrow(_cursor, "note");
           final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
+          final int _cursorIndexOfCarbs = CursorUtil.getColumnIndexOrThrow(_cursor, "carbs");
+          final int _cursorIndexOfCalories = CursorUtil.getColumnIndexOrThrow(_cursor, "calories");
+          final int _cursorIndexOfMealDetails = CursorUtil.getColumnIndexOrThrow(_cursor, "mealDetails");
           final GlucoseRecord _result;
           if (_cursor.moveToFirst()) {
             final long _tmpTimestamp;
@@ -539,7 +630,25 @@ public final class GlucoseDao_Impl implements GlucoseDao {
             _tmpNote = _cursor.getString(_cursorIndexOfNote);
             final String _tmpUserId;
             _tmpUserId = _cursor.getString(_cursorIndexOfUserId);
-            _result = new GlucoseRecord(_tmpTimestamp,_tmpValue,_tmpNote,_tmpUserId);
+            final Float _tmpCarbs;
+            if (_cursor.isNull(_cursorIndexOfCarbs)) {
+              _tmpCarbs = null;
+            } else {
+              _tmpCarbs = _cursor.getFloat(_cursorIndexOfCarbs);
+            }
+            final Float _tmpCalories;
+            if (_cursor.isNull(_cursorIndexOfCalories)) {
+              _tmpCalories = null;
+            } else {
+              _tmpCalories = _cursor.getFloat(_cursorIndexOfCalories);
+            }
+            final String _tmpMealDetails;
+            if (_cursor.isNull(_cursorIndexOfMealDetails)) {
+              _tmpMealDetails = null;
+            } else {
+              _tmpMealDetails = _cursor.getString(_cursorIndexOfMealDetails);
+            }
+            _result = new GlucoseRecord(_tmpTimestamp,_tmpValue,_tmpNote,_tmpUserId,_tmpCarbs,_tmpCalories,_tmpMealDetails);
           } else {
             _result = null;
           }

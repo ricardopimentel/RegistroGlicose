@@ -31,13 +31,13 @@ public final class GlucoseDatabase_Impl extends GlucoseDatabase {
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(7) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(9) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS `glucose_records` (`timestamp` INTEGER NOT NULL, `value` REAL NOT NULL, `note` TEXT NOT NULL, `userId` TEXT NOT NULL, PRIMARY KEY(`timestamp`, `userId`))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `glucose_records` (`timestamp` INTEGER NOT NULL, `value` REAL NOT NULL, `note` TEXT NOT NULL, `userId` TEXT NOT NULL, `carbs` REAL, `calories` REAL, `mealDetails` TEXT, PRIMARY KEY(`timestamp`, `userId`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS `reminders` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `hour` INTEGER NOT NULL, `minute` INTEGER NOT NULL, `enabled` INTEGER NOT NULL, `userId` TEXT NOT NULL, `frequency` TEXT NOT NULL, `daysOfWeek` TEXT NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0637a65df3bfc2aa26e58a44de98c2a8')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e7b701804b206ab5b037e01c63dd1a62')");
       }
 
       @Override
@@ -87,11 +87,14 @@ public final class GlucoseDatabase_Impl extends GlucoseDatabase {
       @NonNull
       public RoomOpenHelper.ValidationResult onValidateSchema(
           @NonNull final SupportSQLiteDatabase db) {
-        final HashMap<String, TableInfo.Column> _columnsGlucoseRecords = new HashMap<String, TableInfo.Column>(4);
+        final HashMap<String, TableInfo.Column> _columnsGlucoseRecords = new HashMap<String, TableInfo.Column>(7);
         _columnsGlucoseRecords.put("timestamp", new TableInfo.Column("timestamp", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsGlucoseRecords.put("value", new TableInfo.Column("value", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsGlucoseRecords.put("note", new TableInfo.Column("note", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsGlucoseRecords.put("userId", new TableInfo.Column("userId", "TEXT", true, 2, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsGlucoseRecords.put("carbs", new TableInfo.Column("carbs", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsGlucoseRecords.put("calories", new TableInfo.Column("calories", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsGlucoseRecords.put("mealDetails", new TableInfo.Column("mealDetails", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysGlucoseRecords = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesGlucoseRecords = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoGlucoseRecords = new TableInfo("glucose_records", _columnsGlucoseRecords, _foreignKeysGlucoseRecords, _indicesGlucoseRecords);
@@ -120,7 +123,7 @@ public final class GlucoseDatabase_Impl extends GlucoseDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "0637a65df3bfc2aa26e58a44de98c2a8", "9d3774afffbd4289bfac2c128f792fff");
+    }, "e7b701804b206ab5b037e01c63dd1a62", "01ccfba403881768f64b96364e050dea");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;

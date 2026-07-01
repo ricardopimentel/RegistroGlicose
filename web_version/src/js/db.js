@@ -6,12 +6,14 @@ export const db = {
         return data ? JSON.parse(data) : [];
     },
 
-    saveReading(value, note = '') {
+    saveReading(value, note = '', carbs = null, calories = null) {
         const readings = this.getReadings();
         const newReading = {
             id: Date.now(),
             value: parseFloat(value),
             note: note,
+            carbs: carbs !== null ? parseFloat(carbs) : null,
+            calories: calories !== null ? parseFloat(calories) : null,
             timestamp: new Date().toISOString()
         };
         readings.push(newReading);
@@ -27,9 +29,8 @@ export const db = {
 
     getSettings() {
         const data = localStorage.getItem(`${DB_NAME}_settings`);
-        return data ? JSON.parse(data) : {
-            notifications: [] // Array of { id, time, enabled }
-        };
+        const defaults = { notifications: [], carbRatio: 0 };
+        return data ? { ...defaults, ...JSON.parse(data) } : defaults;
     },
 
     saveSettings(settings) {
