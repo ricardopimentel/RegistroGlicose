@@ -59,19 +59,28 @@ fun AddMealScreen(
 ) {
     val context = LocalContext.current
     val carbRatio by viewModel.carbRatio.collectAsState()
-    
+    val mealCarbRatios by viewModel.mealCarbRatios.collectAsState()
+
+    val mealTypes = listOf("Café da Manhã", "Almoço", "Lanche", "Jantar", "Ceia")
+
     val customFoods by viewModel.customFoods.collectAsState()
     // Load foods once and merge with custom foods
     val allFoods = remember(customFoods) { viewModel.loadFoodsList(context) + customFoods }
-    
+
     var searchQuery by remember { mutableStateOf("") }
     val selectedMealItems = remember { mutableStateListOf<MealItem>() }
-    
+
     val allRecords by viewModel.allRecords.collectAsState()
     val originalMeal = remember(allRecords, editTimestamp) {
         if (editTimestamp != null) allRecords.find { it.timestamp == editTimestamp } else null
     }
-    
+
+    // Pre-select meal type from edit record, or default to Almoço
+    var selectedMealType by remember(originalMeal) {
+        val type = originalMeal?.note?.substringBefore(": ")?.trim()
+        mutableStateOf(if (type != null && mealTypes.contains(type)) type else "Almoço")
+    }
+
     val associatedGlucose = remember(allRecords, originalMeal) {
         if (originalMeal != null) {
             allRecords.find { it.timestamp == originalMeal.timestamp + 1 && it.value > 0f }
@@ -92,7 +101,7 @@ fun AddMealScreen(
             isInitialized = true
         }
     }
-    
+
     // Filtered search results (limit to 50 for performance)
     val filteredFoods = remember(searchQuery) {
         if (searchQuery.length < 2) emptyList()
@@ -108,14 +117,19 @@ fun AddMealScreen(
             }
         }
     }
-    
+
     // Sum calculations
     val totalCarbs = selectedMealItems.sumOf { it.totalCarbs.toDouble() }.toFloat()
     val totalCalories = selectedMealItems.sumOf { it.totalCalories.toDouble() }.toFloat()
-    
-    // Insulin suggestion
-    val suggestedInsulin = remember(totalCarbs, carbRatio) {
-        if (carbRatio > 0) totalCarbs / carbRatio else 0f
+
+    // Effective carb ratio: use per-meal-type if configured, else global
+    val effectiveCarbRatio = remember(selectedMealType, mealCarbRatios, carbRatio) {
+        viewModel.getCarbRatioForMealType(selectedMealType)
+    }
+
+    // Insulin suggestion using the effective ratio for the selected meal type
+    val suggestedInsulin = remember(totalCarbs, effectiveCarbRatio) {
+        if (effectiveCarbRatio > 0) totalCarbs / effectiveCarbRatio else 0f
     }
     
     var showSaveDialog by remember { mutableStateOf(false) }
@@ -133,7 +147,8 @@ fun AddMealScreen(
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
-                )
+                ),
+                windowInsets = WindowInsets(0)
             )
         }
     ) { paddingValues ->
@@ -162,8 +177,28 @@ fun AddMealScreen(
                 singleLine = true,
                 shape = RoundedCornerShape(16.dp)
             )
-            
-            // Search results list overlay or tray
+
+            // Meal type chips — hidden while searching
+            if (searchQuery.isEmpty()) {
+                androidx.compose.foundation.lazy.LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 4.dp)
+                ) {
+                    items(mealTypes) { type ->
+                        FilterChip(
+                            selected = selectedMealType == type,
+                            onClick = { selectedMealType = type },
+                            label = { Text(type, style = MaterialTheme.typography.labelMedium) },
+                            leadingIcon = if (selectedMealType == type) {
+                                { Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(16.dp)) }
+                            } else null
+                        )
+                    }
+                }
+            }
+
             if (searchQuery.isNotEmpty()) {
                 Text(
                     text = "Resultados da Busca (${filteredFoods.size})",
@@ -399,91 +434,104 @@ fun AddMealScreen(
             
             // Bottom Summary Panel
             if (selectedMealItems.isNotEmpty()) {
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(8.dp))
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer
                     ),
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(20.dp)
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
+                    Column(modifier = Modifier.padding(12.dp)) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Column {
-                                Text("Total Carboidratos", style = MaterialTheme.typography.bodyMedium)
+                                Text("Total Carboidratos", style = MaterialTheme.typography.bodySmall)
                                 Text(
                                     text = "${totalCarbs.toInt()} g",
-                                    style = MaterialTheme.typography.headlineLarge,
+                                    style = MaterialTheme.typography.titleLarge,
                                     fontWeight = FontWeight.Black,
                                     color = MaterialTheme.colorScheme.onPrimaryContainer
                                 )
                             }
                             Column(horizontalAlignment = Alignment.End) {
-                                Text("Total Energia", style = MaterialTheme.typography.bodyMedium)
+                                Text("Total Energia", style = MaterialTheme.typography.bodySmall)
                                 Text(
                                     text = "${totalCalories.toInt()} kcal",
-                                    style = MaterialTheme.typography.titleLarge,
+                                    style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onPrimaryContainer
                                 )
                             }
                         }
                         
-                        // Insulin Dose Suggestion
-                        if (carbRatio > 0f) {
-                            HorizontalDivider(
-                                modifier = Modifier.padding(vertical = 12.dp),
-                                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.2f)
-                            )
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Icon(Icons.Default.Vaccines, null, tint = MaterialTheme.colorScheme.primary)
-                                    Spacer(Modifier.width(8.dp))
-                                    Text("Sugestão de Insulina Bolus", fontWeight = FontWeight.Medium)
-                                }
-                                Text(
-                                    text = String.format(Locale.getDefault(), "%.1f U", suggestedInsulin),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.ExtraBold,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
-                        }
-                        
-                        Spacer(Modifier.height(16.dp))
-                        
-                        Button(
-                            onClick = { showSaveDialog = true },
+                        // Insulin Dose Suggestion + Register Button
+                        HorizontalDivider(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.2f)
+                        )
+                        Row(
                             modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = Color.White
-                            )
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(Icons.Default.Check, null)
-                            Spacer(Modifier.width(8.dp))
-                            Text("Registrar Refeição", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Icon(Icons.Default.Vaccines, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
+                                Spacer(Modifier.width(6.dp))
+                                Column {
+                                    Text(
+                                        "Sugestão Insulina Bolus",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                    if (effectiveCarbRatio > 0f) {
+                                        Text(
+                                            text = String.format(Locale.getDefault(), "%.1f U", suggestedInsulin),
+                                            style = MaterialTheme.typography.titleSmall,
+                                            fontWeight = FontWeight.ExtraBold,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                        Text(
+                                            text = "(1U a cada ${effectiveCarbRatio.let { if (it % 1 == 0f) it.toInt().toString() else it.toString() }}g)",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
+                                        )
+                                    } else {
+                                        Text(
+                                            text = "Configure a relação carb/insulina",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
+                                        )
+                                    }
+                                }
+                            }
+                            FilledIconButton(
+                                onClick = { showSaveDialog = true },
+                                shape = CircleShape,
+                                colors = IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = Color.White
+                                ),
+                                modifier = Modifier.size(48.dp)
+                            ) {
+                                Icon(Icons.Default.Check, contentDescription = "Registrar Refeição", modifier = Modifier.size(24.dp))
+                            }
                         }
                     }
                 }
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(8.dp))
             }
         }
     }
     
     // Save Unified Meal Dialog
     if (showSaveDialog) {
-        val initialMealType = remember(originalMeal) {
-            originalMeal?.note?.substringBefore(": ")?.trim() ?: "Almoço"
-        }
+        val initialMealType = selectedMealType
         
         val initialNotes = remember(originalMeal, selectedMealItems) {
             if (originalMeal != null) {
@@ -971,7 +1019,8 @@ fun CarbCounterScreen(
                 title = { Text("Histórico de Refeições", fontWeight = FontWeight.Bold) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
-                )
+                ),
+                windowInsets = WindowInsets(0)
             )
         }
     ) { paddingValues ->

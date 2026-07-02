@@ -2,15 +2,19 @@ package com.example.glicose.ui
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import android.content.Intent
 import com.example.glicose.data.GlucoseDatabase
 import com.example.glicose.data.GlucoseRecord
 import com.example.glicose.data.Reminder
 import com.example.glicose.data.FoodItem
+import com.example.glicose.utils.JsonBackupManager
 import com.ricardo.glicose.R
 import org.json.JSONArray
+import org.json.JSONObject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -45,7 +49,39 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
     val targetMin = MutableStateFlow(prefs.getFloat("target_min", 70f))
     val targetMax = MutableStateFlow(prefs.getFloat("target_max", 140f))
     val carbRatio = MutableStateFlow(prefs.getFloat("carb_ratio", 0f)) // 0f means disabled
-    
+
+    // Per-meal-type carb ratios: map of mealType -> g/U (0f means use global fallback)
+    val mealCarbRatios = MutableStateFlow(loadMealCarbRatiosFromPrefs())
+
+    private fun loadMealCarbRatiosFromPrefs(): Map<String, Float> {
+        val json = prefs.getString("meal_carb_ratios", null) ?: return emptyMap()
+        return try {
+            val obj = JSONObject(json)
+            val result = mutableMapOf<String, Float>()
+            obj.keys().forEach { key -> result[key] = obj.getDouble(key).toFloat() }
+            result
+        } catch (e: Exception) {
+            emptyMap()
+        }
+    }
+
+    fun updateMealCarbRatios(ratios: Map<String, Float>) {
+        mealCarbRatios.value = ratios
+        val obj = JSONObject()
+        ratios.forEach { (k, v) -> obj.put(k, v.toDouble()) }
+        prefs.edit().putString("meal_carb_ratios", obj.toString()).apply()
+    }
+
+    /**
+     * Returns the carb ratio (g/U) for the given meal type.
+     * If a specific ratio is configured (> 0) for that meal type, returns it.
+     * Otherwise falls back to the global carbRatio.
+     */
+    fun getCarbRatioForMealType(mealType: String): Float {
+        val specific = mealCarbRatios.value[mealType] ?: 0f
+        return if (specific > 0f) specific else carbRatio.value
+    }
+
     // Theme selection: 0 = System, 1 = Light, 2 = Dark
     val appTheme = MutableStateFlow(prefs.getInt("app_theme", 0))
 
@@ -757,6 +793,65 @@ class GlucoseViewModel(application: Application) : AndroidViewModel(application)
             currentUserId.value = current
             
             onComplete()
+        }
+    }
+
+    fun exportFullBackup(context: Context) {
+        val uid = auth.currentUser?.uid ?: ""
+        if (uid.isNotEmpty()) {
+            viewModelScope.launch {
+                JsonBackupManager.exportCompleteBackup(context, uid)
+            }
+        } else {
+            Toast.makeText(context, "Faça login para realizar o backup", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun importFullBackup(
+        context: Context,
+        uri: Uri,
+        onProgress: (String) -> Unit,
+        onComplete: (Boolean) -> Unit
+    ) {
+        val uid = auth.currentUser?.uid ?: ""
+        if (uid.isEmpty()) {
+            Toast.makeText(context, "Faça login para restaurar o backup", Toast.LENGTH_LONG).show()
+            onComplete(false)
+            return
+        }
+        viewModelScope.launch {
+            val success = JsonBackupManager.importCompleteBackup(context, uid, uri, onProgress)
+            if (success) {
+                // 1. Refresh local LiveData/StateFlow settings and custom foods in memory
+                targetMin.value = prefs.getFloat("target_min", 70f)
+                targetMax.value = prefs.getFloat("target_max", 140f)
+                carbRatio.value = prefs.getFloat("carb_ratio", 0f)
+                mealCarbRatios.value = loadMealCarbRatiosFromPrefs()
+                loadCustomFoods()
+                triggerWidgetUpdate()
+
+                // 2. Synchronize all local records and custom foods to Cloud (Firestore)
+                syncLocalDataToCloud {
+                    viewModelScope.launch {
+                        val current = customFoods.value
+                        current.forEach { food ->
+                            val data = hashMapOf(
+                                "id" to food.id,
+                                "userId" to uid,
+                                "name" to food.name,
+                                "measure" to food.measure,
+                                "grams" to food.grams.toDouble(),
+                                "carbs" to food.carbs.toDouble(),
+                                "calories" to food.calories.toDouble()
+                            )
+                            firestore.collection("custom_foods")
+                                .document("${uid}_${food.id}")
+                                .set(data)
+                        }
+                    }
+                }
+            }
+            onComplete(success)
         }
     }
 

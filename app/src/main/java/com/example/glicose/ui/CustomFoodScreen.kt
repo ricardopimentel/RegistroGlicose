@@ -1,5 +1,8 @@
 package com.example.glicose.ui
 
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,21 +16,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.glicose.data.FoodItem
+import com.example.glicose.utils.CsvExporter
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomFoodListScreen(
     viewModel: GlucoseViewModel,
     onNavigateBack: () -> Unit
 ) {
+    val context = LocalContext.current
     val customFoods by viewModel.customFoods.collectAsState()
     var searchQuery by remember { mutableStateOf("") }
     var foodToEdit by remember { mutableStateOf<FoodItem?>(null) }
+    var showImportDialog by remember { mutableStateOf(false) }
+    var importResult by remember { mutableStateOf<CsvExporter.CustomFoodCsvResult?>(null) }
 
-    // Keyword‑based search (same logic as in AddMealScreen)
+    // Keyword-based search (same logic as in AddMealScreen)
     val filteredFoods = remember(searchQuery, customFoods) {
         if (searchQuery.length < 2) customFoods
         else {
@@ -41,12 +50,48 @@ fun CustomFoodListScreen(
         }
     }
 
+    // File picker launcher for CSV import
+    val importLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (uri != null) {
+            val result = CsvExporter.parseCustomFoodsCsv(context, uri)
+            if (result.foods.isEmpty()) {
+                Toast.makeText(
+                    context,
+                    "Nenhum alimento válido encontrado no arquivo (${result.invalidLines} linhas inválidas).",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                importResult = result
+                showImportDialog = true
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Alimentos Personalizados", fontWeight = FontWeight.Bold) },
-                navigationIcon = { IconButton(onClick = onNavigateBack) { Icon(Icons.Default.ArrowBack, "Voltar") } },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) { Icon(Icons.Default.ArrowBack, "Voltar") }
+                },
+                actions = {
+                    // Export button
+                    IconButton(onClick = {
+                        CsvExporter.exportCustomFoods(context, customFoods)
+                    }) {
+                        Icon(Icons.Default.Upload, contentDescription = "Exportar CSV")
+                    }
+                    // Import button
+                    IconButton(onClick = {
+                        importLauncher.launch("text/*")
+                    }) {
+                        Icon(Icons.Default.Download, contentDescription = "Importar CSV")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
+                windowInsets = WindowInsets(0)
             )
         }
     ) { paddingValues ->
@@ -101,6 +146,55 @@ fun CustomFoodListScreen(
             onConfirm = { updatedFood ->
                 viewModel.updateCustomFood(updatedFood)
                 foodToEdit = null
+            }
+        )
+    }
+
+    // Import confirmation dialog
+    if (showImportDialog && importResult != null) {
+        val result = importResult!!
+        AlertDialog(
+            onDismissRequest = { showImportDialog = false },
+            icon = { Icon(Icons.Default.Download, contentDescription = null) },
+            title = { Text("Importar Alimentos", fontWeight = FontWeight.Bold) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Foram encontrados ${result.foods.size} alimento(s) válido(s) no arquivo.")
+                    if (result.invalidLines > 0) {
+                        Text(
+                            "${result.invalidLines} linha(s) inválida(s) foram ignoradas.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                    Text(
+                        "Deseja adicionar esses alimentos à sua lista? Duplicatas não serão removidas automaticamente.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            },
+            confirmButton = {
+                Button(onClick = {
+                    result.foods.forEach { viewModel.addCustomFood(it) }
+                    Toast.makeText(
+                        context,
+                        "${result.foods.size} alimento(s) importado(s) com sucesso!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    showImportDialog = false
+                    importResult = null
+                }) {
+                    Icon(Icons.Default.Check, null)
+                    Spacer(Modifier.width(6.dp))
+                    Text("Importar ${result.foods.size} alimento(s)")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    showImportDialog = false
+                    importResult = null
+                }) { Text("Cancelar") }
             }
         )
     }

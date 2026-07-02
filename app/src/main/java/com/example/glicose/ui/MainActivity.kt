@@ -211,20 +211,43 @@ fun GlucoseApp(viewModel: GlucoseViewModel = viewModel()) {
                     ) {
                         Icon(Icons.Default.Add, "Adicionar Refeição")
                     }
-                    "reminders" -> FloatingActionButton(
-                        onClick = {
-                            android.app.TimePickerDialog(
-                                context,
-                                { _, hour, minute ->
-                                    viewModel.addReminder(hour, minute)
-                                },
-                                8, 0, android.text.format.DateFormat.is24HourFormat(context)
-                            ).show()
-                        },
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = Color.White
-                    ) {
-                        Icon(Icons.Default.Notifications, "Adicionar Lembrete")
+                    "reminders" -> {
+                        var showAddReminderDialog by remember { mutableStateOf(false) }
+
+                        FloatingActionButton(
+                            onClick = { showAddReminderDialog = true },
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = Color.White
+                        ) {
+                            Icon(Icons.Default.Notifications, "Adicionar Lembrete")
+                        }
+
+                        if (showAddReminderDialog) {
+                            AddReminderDialog(
+                                onDismiss = { showAddReminderDialog = false },
+                                onConfirm = { hour, minute, days ->
+                                    val daysStr = days.sorted().joinToString(",")
+                                    viewModel.addReminder(
+                                        hour = hour,
+                                        minute = minute,
+                                        daysOfWeek = daysStr,
+                                        onIdGenerated = { generatedId ->
+                                            val reminder = com.example.glicose.data.Reminder(
+                                                id = generatedId.toInt(),
+                                                hour = hour,
+                                                minute = minute,
+                                                enabled = true,
+                                                userId = "",
+                                                daysOfWeek = daysStr
+                                            )
+                                            ReminderScheduler.scheduleNotification(context, reminder)
+                                        }
+                                    )
+                                    showAddReminderDialog = false
+                                    Toast.makeText(context, "Lembrete criado!", Toast.LENGTH_SHORT).show()
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -1163,10 +1186,14 @@ fun RemindersScreen(viewModel: GlucoseViewModel) {
                 items(reminders, key = { it.id }) { reminder ->
                     ReminderCard(
                         reminder = reminder,
-                        onToggle = { enabled ->
+                        onToggle = { newEnabled ->
                             viewModel.toggleReminder(reminder)
-                            if (enabled) {
-                                ReminderScheduler.scheduleNotification(context, reminder)
+                            if (newEnabled) {
+                                // Schedule with updated enabled=true state
+                                ReminderScheduler.scheduleNotification(
+                                    context,
+                                    reminder.copy(enabled = true)
+                                )
                                 Toast.makeText(context, "Lembrete ativado!", Toast.LENGTH_SHORT).show()
                             } else {
                                 ReminderScheduler.cancelNotification(context, reminder.id)
@@ -1367,7 +1394,6 @@ fun Switch(
 @Composable
 fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigation.NavController, onLogout: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val records by viewModel.allRecords.collectAsState()
     val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
     val user = auth.currentUser
 
@@ -1383,20 +1409,45 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
         else Toast.makeText(context, "Permissão de câmera negada", Toast.LENGTH_SHORT).show()
     }
 
-    // Import state: null = nenhum arquivo selecionado, non-null = resultado da validação
-    var importPreviewState by remember { mutableStateOf<Pair<android.net.Uri, com.example.glicose.utils.CsvExporter.CsvParseResult>?>(null) }
+    var isImportingJson by remember { mutableStateOf(false) }
+    var importJsonStatus by remember { mutableStateOf("") }
 
-    val importCsvLauncher = rememberLauncherForActivityResult(
+    val importJsonBackupLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
         if (uri != null) {
-            try {
-                val result = CsvExporter.parseAndValidateBackupCsv(context, uri)
-                importPreviewState = uri to result
-            } catch (e: Exception) {
-                Toast.makeText(context, "Erro ao ler arquivo: ${e.message}", Toast.LENGTH_LONG).show()
-            }
+            isImportingJson = true
+            viewModel.importFullBackup(
+                context = context,
+                uri = uri,
+                onProgress = { status -> importJsonStatus = status },
+                onComplete = { success ->
+                    isImportingJson = false
+                    if (success) {
+                        Toast.makeText(context, "Backup completo restaurado!", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(context, "Falha ao restaurar o backup.", Toast.LENGTH_LONG).show()
+                    }
+                }
+            )
         }
+    }
+
+    if (isImportingJson) {
+        AlertDialog(
+            onDismissRequest = {},
+            title = { Text("Restaurando Backup", fontWeight = FontWeight.Bold) },
+            text = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    CircularProgressIndicator()
+                    Text(importJsonStatus)
+                }
+            },
+            confirmButton = {}
+        )
     }
 
     // Dialogs
@@ -1429,19 +1480,6 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
         QrCodeDialog(code = user.uid.take(6).uppercase(), onDismiss = { showQrCodeDialog = false })
     }
 
-    // Dialog de preview e confirmação de importação
-    importPreviewState?.let { (uri, result) ->
-        ImportPreviewDialog(
-            result = result,
-            onConfirm = {
-                viewModel.importRecords(result.validRecords) { count ->
-                    importPreviewState = null
-                    Toast.makeText(context, "$count registros importados!", Toast.LENGTH_SHORT).show()
-                }
-            },
-            onDismiss = { importPreviewState = null }
-        )
-    }
 
     Column(
         modifier = Modifier
@@ -1646,8 +1684,20 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
 
                 // ── Seção: Fator de Carboidratos ──────────────────────────────
                 val carbRatioFlow by viewModel.carbRatio.collectAsState()
+                val mealCarbRatiosFlow by viewModel.mealCarbRatios.collectAsState()
                 var tempRatio by remember(carbRatioFlow) { 
-                    mutableStateOf(if (carbRatioFlow > 0f) carbRatioFlow.toInt().toString() else "") 
+                    mutableStateOf(if (carbRatioFlow > 0f) carbRatioFlow.toString() else "") 
+                }
+
+                // Per-meal-type temp states
+                val mealTypes = listOf("Café da Manhã", "Almoço", "Lanche", "Jantar", "Ceia")
+                val tempMealRatios = remember(mealCarbRatiosFlow) {
+                    mutableStateMapOf<String, String>().also { map ->
+                        mealTypes.forEach { type ->
+                            val v = mealCarbRatiosFlow[type] ?: 0f
+                            map[type] = if (v > 0f) v.toString() else ""
+                        }
+                    }
                 }
 
                 SettingsSection(title = "Contagem de Carboidratos", icon = Icons.Default.Restaurant) {
@@ -1656,31 +1706,115 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Spacer(Modifier.height(16.dp))
+                    Spacer(Modifier.height(12.dp))
+
+                    // Global fallback field
                     OutlinedTextField(
                         value = tempRatio,
-                        onValueChange = { 
-                            if (it.all { char -> char.isDigit() }) {
-                                tempRatio = it
-                                val ratio = it.toFloatOrNull() ?: 0f
+                        onValueChange = { input ->
+                            if (input.isEmpty() || input.toFloatOrNull() != null) {
+                                tempRatio = input
+                                val ratio = input.toFloatOrNull() ?: 0f
                                 viewModel.updateCarbRatio(ratio)
                             }
                         },
-                        label = { Text("Fator de Carboidrato (g/U)") },
-                        placeholder = { Text("Ex: 15 (1U a cada 15g)") },
+                        label = { Text("Fator Global (g/U)") },
+                        placeholder = { Text("Ex: 15") },
                         suffix = { Text("g/U") },
                         modifier = Modifier.fillMaxWidth(),
+                        supportingText = { Text("Usado como padrão para tipos sem fator específico.") },
                         keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                            keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                            keyboardType = androidx.compose.ui.text.input.KeyboardType.Decimal
                         )
                     )
+
                     if (carbRatioFlow <= 0f) {
                         Text(
-                            "Calculadora de dose de insulina desativada (digite um valor maior que 0 para ativar).",
+                            "Calculadora de dose desativada. Digite um valor global ou por refeição.",
                             style = MaterialTheme.typography.labelSmall,
                             color = Color.Gray,
-                            modifier = Modifier.padding(top = 8.dp)
+                            modifier = Modifier.padding(top = 4.dp)
                         )
+                    }
+
+                    Spacer(Modifier.height(16.dp))
+
+                    var isMealRatiosExpanded by remember { mutableStateOf(false) }
+
+                    // Per-meal-type fields header (Clickable)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { isMealRatiosExpanded = !isMealRatiosExpanded }
+                            .padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                Icons.Default.Vaccines,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(Modifier.width(6.dp))
+                            Text(
+                                "Fatores por Tipo de Refeição (opcional)",
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                        Icon(
+                            imageVector = if (isMealRatiosExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                            contentDescription = if (isMealRatiosExpanded) "Recolher" else "Expandir",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+
+                    if (isMealRatiosExpanded) {
+                        Text(
+                            "Deixe em branco para usar o fator global.",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.Gray,
+                            modifier = Modifier.padding(top = 2.dp, bottom = 8.dp)
+                        )
+
+                        // 2-column grid of per-meal fields
+                        val rows = mealTypes.chunked(2)
+                        rows.forEach { rowTypes ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                rowTypes.forEach { mealType ->
+                                    OutlinedTextField(
+                                        value = tempMealRatios[mealType] ?: "",
+                                        onValueChange = { input ->
+                                            if (input.isEmpty() || input.toFloatOrNull() != null) {
+                                                tempMealRatios[mealType] = input
+                                                val updated = mealTypes.associate { t ->
+                                                    t to (tempMealRatios[t]?.toFloatOrNull() ?: 0f)
+                                                }
+                                                viewModel.updateMealCarbRatios(updated)
+                                            }
+                                        },
+                                        label = { Text(mealType, maxLines = 1, style = MaterialTheme.typography.labelSmall) },
+                                        suffix = { Text("g/U", style = MaterialTheme.typography.labelSmall) },
+                                        modifier = Modifier.weight(1f),
+                                        singleLine = true,
+                                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                                            keyboardType = androidx.compose.ui.text.input.KeyboardType.Decimal
+                                        )
+                                    )
+                                }
+                            }
+                            // If odd row, fill the second slot with a spacer
+                            if (rowTypes.size == 1) {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                        }
                     }
                 }
 
@@ -1741,16 +1875,16 @@ fun SettingsScreen(viewModel: GlucoseViewModel, navController: androidx.navigati
                 }
                 Divider(Modifier.padding(vertical = 4.dp))
                 SettingsNavItem(
-                    icon = Icons.Default.FileDownload,
-                    label = "Exportar CSV",
-                    description = "Compartilhar registros como planilha"
-                ) { CsvExporter.exportBackup(context, records) }
+                    icon = Icons.Default.Backup,
+                    label = "Exportar Backup Completo (JSON)",
+                    description = "Glicemias, refeições, metas, fatores, lembretes e alimentos"
+                ) { viewModel.exportFullBackup(context) }
                 Divider(Modifier.padding(vertical = 4.dp))
                 SettingsNavItem(
-                    icon = Icons.Default.FileUpload,
-                    label = "Importar CSV",
-                    description = "Restaurar registros de um arquivo CSV"
-                ) { importCsvLauncher.launch("text/*") }
+                    icon = Icons.Default.Restore,
+                    label = "Restaurar Backup Completo (JSON)",
+                    description = "Importar arquivo completo JSON e sincronizar"
+                ) { importJsonBackupLauncher.launch("application/json") }
             }
 
             Spacer(Modifier.height(12.dp))
@@ -1855,112 +1989,6 @@ fun SettingsNavItem(
         }
         Icon(Icons.Default.ChevronRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
     }
-}
-
-@Composable
-fun ImportPreviewDialog(
-    result: com.example.glicose.utils.CsvExporter.CsvParseResult,
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        icon = { Icon(Icons.Default.FileUpload, null) },
-        title = { Text("Importar Registros") },
-        text = {
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-
-                // Formato esperado
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-                ) {
-                    Column(Modifier.padding(12.dp)) {
-                        Text("Formato esperado do arquivo:", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-                        Spacer(Modifier.height(6.dp))
-                        Text(
-                            "valor_mgdl,nota,timestamp_ms,data_hora_legivel",
-                            style = MaterialTheme.typography.bodySmall,
-                            fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Text(
-                            "Exemplo: 120,Em jejum,1714320000000,28/04/2025 08:00",
-                            style = MaterialTheme.typography.bodySmall,
-                            fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Text(
-                            "• Colunas obrigatórias: valor_mgdl e timestamp_ms\n• A coluna nota pode estar vazia\n• data_hora_legivel é ignorada",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-
-                Spacer(Modifier.height(16.dp))
-
-                // Resultado da validação
-                val hasValid = result.validRecords.isNotEmpty()
-                val hasInvalid = result.invalidLines > 0
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        if (hasValid) Icons.Default.CheckCircle else Icons.Default.Cancel,
-                        null,
-                        tint = if (hasValid) Color(0xFF4CAF50) else MaterialTheme.colorScheme.error,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    Text(
-                        "${result.validRecords.size} registro(s) válido(s) encontrado(s)",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Medium,
-                        color = if (hasValid) Color(0xFF4CAF50) else MaterialTheme.colorScheme.error
-                    )
-                }
-
-                if (hasInvalid) {
-                    Spacer(Modifier.height(6.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            Icons.Default.Warning,
-                            null,
-                            tint = Color(0xFFFFA000),
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(Modifier.width(8.dp))
-                        Text(
-                            "${result.invalidLines} linha(s) inválida(s) serão ignoradas",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color(0xFFFFA000)
-                        )
-                    }
-                }
-
-                if (!hasValid) {
-                    Spacer(Modifier.height(8.dp))
-                    Text(
-                        "Nenhum registro válido encontrado. Verifique se o arquivo está no formato correto.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-            }
-        },
-        confirmButton = {
-            Button(
-                onClick = onConfirm,
-                enabled = result.validRecords.isNotEmpty()
-            ) {
-                Text("Importar ${result.validRecords.size} registro(s)")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancelar") }
-        }
-    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -2300,6 +2328,141 @@ fun AddRecordDialog(
     )
 }
 
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddReminderDialog(
+    onDismiss: () -> Unit,
+    onConfirm: (hour: Int, minute: Int, days: Set<Int>) -> Unit
+) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val is24h = remember { android.text.format.DateFormat.is24HourFormat(context) }
+
+    var hour by remember { mutableStateOf(8) }
+    var minute by remember { mutableStateOf(0) }
+    // Default: all days selected
+    var selectedDays by remember { mutableStateOf(setOf(0, 1, 2, 3, 4, 5, 6)) }
+
+    val timeText = remember(hour, minute, is24h) {
+        val cal = java.util.Calendar.getInstance().apply {
+            set(java.util.Calendar.HOUR_OF_DAY, hour)
+            set(java.util.Calendar.MINUTE, minute)
+        }
+        android.text.format.DateFormat.getTimeFormat(context).format(cal.time)
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = { Icon(Icons.Default.Notifications, null) },
+        title = { Text("Novo Lembrete", fontWeight = FontWeight.Bold) },
+        text = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                // Time selector button
+                OutlinedCard(
+                    onClick = {
+                        android.app.TimePickerDialog(
+                            context,
+                            { _, h, m -> hour = h; minute = m },
+                            hour, minute, is24h
+                        ).show()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp, vertical = 14.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = timeText,
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Light
+                        )
+                        Icon(
+                            Icons.Default.Schedule,
+                            contentDescription = "Alterar horário",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+
+                // Day-of-week selector
+                Column(horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Repetir nos dias",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        val dayLabels = listOf("D", "S", "T", "Q", "Q", "S", "S")
+                        dayLabels.forEachIndexed { index, label ->
+                            val isSelected = selectedDays.contains(index)
+                            Box(
+                                modifier = Modifier
+                                    .size(38.dp)
+                                    .clip(CircleShape)
+                                    .background(
+                                        if (isSelected) MaterialTheme.colorScheme.primary
+                                        else Color.Transparent
+                                    )
+                                    .border(
+                                        width = if (isSelected) 0.dp else 1.dp,
+                                        color = MaterialTheme.colorScheme.outline,
+                                        shape = CircleShape
+                                    )
+                                    .clickable {
+                                        selectedDays = if (isSelected) selectedDays - index
+                                                    else selectedDays + index
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = label,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                    color = if (isSelected) MaterialTheme.colorScheme.onPrimary
+                                            else MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
+                    }
+                    if (selectedDays.isEmpty()) {
+                        Text(
+                            "Selecione pelo menos um dia",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = { onConfirm(hour, minute, selectedDays) },
+                enabled = selectedDays.isNotEmpty()
+            ) {
+                Icon(Icons.Default.Check, null)
+                Spacer(Modifier.width(6.dp))
+                Text("Criar Lembrete")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancelar") }
+        }
+    )
+}
 
 @Composable
 fun PermissionHandler(context: Context) {
